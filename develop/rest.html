@@ -1,0 +1,468 @@
+<!DOCTYPE html><!--[if lt IE 8]><html lang="en" class="ie"><![endif]--><!--[if gt IE 8]><!--><html lang="en"><!--<![endif]--><head><meta charset="utf-8"><title>REST &ndash; MOLGENIS, the scientific data platform</title><meta name="description" content="REST/json web services we use to retrieve and modify data"><meta name="author" content="MOLGENIS community"><meta name="handheldfriendly" content="true"><meta name="mobileoptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="cleartype" content="on"><link rel="stylesheet" href="/res/css/application.css" type="text/css"><link rel="shortcut icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" title="MOLGENIS"></head><body><div class="wrapper"><nav class="header navbar navbar-default navbar-fixed-top"><div class="container"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand"><img src="/res/images/wordmark.svg" alt="MOLGENIS" class="wordmark"/></a></div><div id="navbar" class="collapse navbar-collapse"><ul class="nav navbar-nav navbar-left"><li><a href="/start">Start</a></li><li><a href="/learn">Learn</a></li><li class="active"><a href="/develop">Develop</a></li><li><a href="/community">Get involved</a></li><li><a href="/about">About</a></li></ul><ul class="nav navbar-nav navbar-right"><li><a href="http://github.com/molgenis/molgenis">Github</a></li><li><a href="blog">Blog</a></li></ul></div></div></nav><div class="titlebar active"><div class="container"> <h1>REST</h1><p>REST/json web services we use to retrieve and modify data</p></div></div><div class="container website-content"><div class="row"><div role="complementary" class="col-md-3"><script src="/res/js/jquery-1.11.3.min.js"> </script><script src="/res/js/bootstrap.min.js"></script><nav id="sidebar" class="sidenav"><ul id="sidenav" class="nav hidden-xs hidden-sm"></ul></nav><script>$(function() {
+    var sideNav = $("#sidenav");
+    
+    $(".row h1").each(function() {
+        
+        //create id for h1
+        var id = $(this).text().replace(/\s/gi,"-").toLowerCase();
+        $(this).prepend("<a name=\""+id+"\"></a>");
+        
+        //add h1 to list
+        var li = $("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>")
+        sideNav.append(li);
+        
+        //wrap h1 into section
+        var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+        //wrap parts of h1 into one section
+        $(this).parent().nextUntil("h1").each(function(){            
+            section.append($(this));
+        });
+        
+        //repeat for h2
+        if($("h2",$(this).parent()).length > 0) {
+            var ul = $("<ul class=\"nav\"></ul>");
+            li.append(ul);
+            
+            $("h2",$(this).parent()).each(function(){
+            
+                //create id for h2
+                var id = $(this).text().replace(/\s/gi,"-").toLowerCase();
+                $(this).prepend("<a name=\""+id+"\"></a>");
+        
+                //wrap h2 into section
+                var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+                ul.append($("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>"));
+        
+                //wrap parts of h2 into one section
+                $(this).parent().nextUntil("h2").each(function(){            
+                    section.append($(this));
+                });
+            
+
+            });
+        }
+    });    
+    
+    //add "back to top"
+    sideNav.append("<li><a href=\"#top\">Back to top</a></li>");
+    
+    var $body   = $(document.body);
+    var navHeight = $('.navbar-static-top').outerHeight(true) + 10;
+    
+    //enable the 'active' highlighting using scrollspy plugin
+    $('body').scrollspy({
+        target: '.sidenav',
+        offset: 60
+    });
+    
+    //add the positioning using 'affix' plugin
+    var $sideBar = $('#sidebar')
+    $sideBar.affix({
+        offset: {
+            top: function () {
+                var offsetTop      = $sideBar.offset().top
+                var sideBarMargin  = parseInt($sideBar.children(0).css('margin-top'), 10)
+                var navOuterHeight = $('.navbar-fixed-top').height()
+                return (this.top = offsetTop - navOuterHeight - sideBarMargin)
+            },
+            bottom: ($('.footer').outerHeight(true) + 40)
+        }
+    });
+    $('#sidebar').width($('#sidebar').parent().width());
+    
+    //resize affix box when window resizes
+    $(window).resize(function () {
+            $('#sidebar').width($('#sidebar').parent().width());
+        });
+    
+    $("table").addClass("table table-bordered");
+});</script></div><div role="main" class="col-md-9 contents"><p>The MOLGENIS REST API allows you to retrieve and modify your data model entities and entity collections. The API supports all CRUD (create, read, update and delete) methods as well as resource collections paging &amp; filtering and resource field expansion. At the moment of writing JSON and form data are supported as request content types and JSON is the only supported response content type.</p>
+<h1>Set operations</h1><p>Your MOLGENIS data model defines the resources and resource collections that can be accessed and modified. Lets assume that your data model contains the entities DataSet, Protocol and Feature. The REST API will consist of the following endpoints:</p>
+<p><em>Endpoints</em></p>
+<ul>
+<li><a href="http://your.molgenis.url/api/v1/dataset">http://your.molgenis.url/api/v1/dataset</a></li>
+<li><a href="http://your.molgenis.url/api/v1/protocol">http://your.molgenis.url/api/v1/protocol</a></li>
+<li><a href="http://your.molgenis.url/api/v1/feature">http://your.molgenis.url/api/v1/feature</a></li>
+</ul>
+<h2>Retrieve set</h2><p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/dataset&quot;,
+    &quot;start&quot;: 0,
+    &quot;num&quot;: 100,
+    &quot;total&quot;: 2,
+    &quot;items&quot;: [{
+        &quot;href&quot;: &quot;/api/v1/dataset/1&quot;,
+        &quot;name&quot;: &quot;my first data set&quot;,
+        &quot;protocol&quot;: {
+            &quot;href&quot;: &quot;/api/v1/dataset/1/protocol&quot;
+        },{
+        &quot;href&quot;: &quot;/api/v1/dataset/2&quot;,
+        &quot;name&quot;: &quot;my second data set&quot;,
+        &quot;protocol&quot;: {
+            &quot;href&quot;: &quot;/api/v1/dataset/2/protocol&quot;
+        }
+    }]
+}
+</code></pre>
+<h2>Search set</h2><p>Parameters:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>start</em></td>
+<td>int</td>
+<td>Offset in resource collection</td>
+</tr>
+<tr>
+<td><em>num</em></td>
+<td>int</td>
+<td>Number of resources to retrieve starting at <em>start</em></td>
+</tr>
+<tr>
+<td><em>q</em></td>
+<td>list of molgenis query rule objects</td>
+<td>Query to filter the resource collection list</td>
+</tr>
+</tbody>
+</table>
+<h3>start and num</h3><p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset?start=1&amp;num=1
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/dataset&quot;,
+    &quot;start&quot;: 1,
+    &quot;num&quot;: 1,
+    &quot;total&quot;: 3,
+    &quot;prevHref&quot;:&quot;/api/v1/dataset?start=0&amp;num=1&quot;
+    &quot;nextHref&quot;:&quot;/api/v1/dataset?start=2&amp;num=1&quot;
+    &quot;items&quot;: [{
+        &quot;href&quot;: &quot;/api/v1/dataset/2&quot;,
+        &quot;name&quot;: &quot;my second data set&quot;,
+        &quot;protocol&quot;: {
+            &quot;href&quot;: &quot;/api/v1/dataset/2/protocol&quot;
+        }
+    }]
+}
+</code></pre>
+<p><em>prevHref</em> is the location of the previous page of resources, <em>nextHref</em> is the location of the next page of resources.</p>
+<h3>q</h3><p><em>Request</em></p>
+<pre><code>POST http://your.molgenis.url/api/v1/dataset?_method=GET
+Content-Type: application/json
+
+{
+    &quot;q&quot;: [{
+       &quot;field&quot;: &quot;name&quot;,
+       &quot;operator&quot;: &quot;EQUALS&quot;,
+       &quot;value&quot;: &quot;my first data set&quot;
+    }]
+}
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/dataset&quot;,
+    &quot;start&quot;: 0,
+    &quot;num&quot;: 100,
+    &quot;total&quot;: 1,
+    &quot;items&quot;: [{
+        &quot;href&quot;: &quot;/api/v1/dataset/1&quot;,
+        &quot;name&quot;: &quot;my first data set&quot;,
+        &quot;protocol&quot;: {
+            &quot;href&quot;: &quot;/api/v1/dataset/1/protocol&quot;
+        }
+    }]
+}
+</code></pre>
+<h2>Delete set</h2><p><em>Request</em></p>
+<pre><code>DELETE http://your.molgenis.url/api/v1/dataset
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">204 No Content
+</code></pre>
+<h1>Instance operations</h1><h2>Create instance</h2><p><em>Request</em></p>
+<pre><code>POST http://your.molgenis.url/api/v1/dataset
+Content-Type: application/json
+
+{
+    &quot;name&quot;: &quot;my third data set&quot;,
+    &quot;protocol&quot;: 10
+}
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/dataset/3&quot;,
+    &quot;name&quot;: &quot;my third data set&quot;,
+    &quot;protocol&quot;: {
+        &quot;href&quot;: &quot;/api/v1/dataset/3/protocol&quot;
+    }
+}
+</code></pre>
+<h2>Retrieve instance</h2><p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset/1
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/dataset/1&quot;,
+    &quot;name&quot;: &quot;my first data set&quot;,
+    &quot;protocol&quot;: {
+        &quot;href&quot;: &quot;/api/v1/dataset/1/protocol&quot;
+    }
+}
+</code></pre>
+<p><em>href</em> is the location of this resource, <em>name</em> is a string value and <em>protocol</em> is the location of the entity that this dataset refers to.</p>
+<h2>Update instance</h2><p><em>Request</em></p>
+<pre><code>PUT http://your.molgenis.url/api/v1/dataset/3
+Content-Type: application/json
+
+{
+    &quot;name&quot;: &quot;renamed data set&quot;
+}
+</code></pre><p><em>Response</em></p>
+<pre><code>204 No Content
+</code></pre><h4>Update only one attribute value of entity instance</h4><p>Context: if you only want to change one attribute without needing to provide all other attributes:</p>
+<p><em>Request</em></p>
+<pre><code>PUT http://your.molgenis.url/api/v1/dataset/3/name
+Content-Type: application/json
+
+{
+    &quot;name&quot;: &quot;renamed data set&quot;
+}
+</code></pre><p><em>Response</em></p>
+<pre><code>204 No Content
+</code></pre><h2>Delete instance</h2><p><em>Request</em></p>
+<pre><code>DELETE http://your.molgenis.url/api/v1/dataset/3
+</code></pre><p><em>Response</em></p>
+<pre><code>204 No Content
+</code></pre><h1>Meta data</h1><p>Assuming that you have entities &#39;datasets&#39;, &#39;protocol&#39; and &#39;features&#39; then you can retrieve the metadata as follows:</p>
+<p><em>Endpoints</em></p>
+<ul>
+<li><a href="http://your.molgenis.url/api/v1/dataset/meta">http://your.molgenis.url/api/v1/dataset/meta</a></li>
+<li><a href="http://your.molgenis.url/api/v1/protocol/meta">http://your.molgenis.url/api/v1/protocol/meta</a></li>
+<li><a href="http://your.molgenis.url/api/v1/feature/meta">http://your.molgenis.url/api/v1/feature/meta</a></li>
+</ul>
+<h2>Create meta data</h2><p>TODO</p>
+<h2>Retrieve meta data</h2><p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset/meta
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/DataSet/meta&quot;,
+    &quot;name&quot;: &quot;DataSet&quot;,
+    &quot;label&quot;: &quot;&quot;,
+    &quot;attributes&quot;: {
+        &quot;Identifier&quot;: {
+            &quot;href&quot;: &quot;/api/v1/DataSet/meta/Identifier&quot;
+        },
+        &quot;Name&quot;: {
+            &quot;href&quot;: &quot;/api/v1/DataSet/meta/Name&quot;
+        },
+        &quot;description&quot;: {
+            &quot;href&quot;: &quot;/api/v1/DataSet/meta/description&quot;
+        },
+        &quot;ProtocolUsed&quot;: {
+            &quot;href&quot;: &quot;/api/v1/DataSet/meta/ProtocolUsed&quot;
+        },
+        &quot;startTime&quot;: {
+            &quot;href&quot;: &quot;/api/v1/DataSet/meta/startTime&quot;
+        },
+        &quot;endTime&quot;: {
+            &quot;href&quot;: &quot;/api/v1/DataSet/meta/endTime&quot;
+        }
+    },
+    &quot;labelAttribute&quot;: &quot;Identifier&quot;
+}
+</code></pre>
+<h2>Update meta data</h2><p>TODO</p>
+<h2>Delete entity meta data</h2><p>Deletes resource meta data and all data associated with this resource.</p>
+<p><em>Request</em></p>
+<pre><code>DELETE http://your.molgenis.url/api/v1/dataset/meta
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">204 No Content
+</code></pre>
+<h1>Authentication</h1><h2>Login</h2><p><em>Request</em></p>
+<pre><code>POST http://your.molgenis.url/api/v1/login
+Content-Type: application/json
+
+{
+    &quot;username&quot;: &quot;your username&quot;,
+    &quot;password&quot;: &quot;your password&quot;
+}
+</code></pre><p><em>Response</em></p>
+<pre><code>200 OK
+{
+    &quot;token&quot;: &quot;4296ef4fd9324360aa5c-bf8a849003da&quot;,
+    &quot;username&quot;: &quot;admin&quot;,
+    &quot;firstname&quot;: &quot;John&quot;,
+    &quot;lastname&quot;: &quot;Doe&quot;
+}
+
+OR
+401 Unauthorized
+</code></pre><h2>Token-based authentication</h2><p>The token can be used as authentication token in subsequent api calls. The token must be added to the http header:</p>
+<pre><code>x-molgenis-token: 4296ef4fd9324360aa5c-bf8a849003da
+</code></pre><h2>Logout</h2><p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/logout
+
+header:
+x-molgenis-token: 4296ef4fd9324360aa5c-bf8a849003da
+</code></pre><p><em>Response</em></p>
+<pre><code>200 OK
+</code></pre><h1>Response codes</h1><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Request ok, returned content in body</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Resource succesfully created</td>
+</tr>
+<tr>
+<td>204</td>
+<td>Request ok</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Your request was not valid</td>
+</tr>
+<tr>
+<td>401</td>
+<td>You are not authorized to perform this operation, did you authenticate?</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Resource does not exist</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Request ok but something went wrong on the server</td>
+</tr>
+</tbody>
+</table>
+<h1>Advanced API usage</h1><h2>Options</h2><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>attributes</em></td>
+<td>Comma-separated string</td>
+<td>Defines which fields in the API response to select</td>
+</tr>
+<tr>
+<td><em>expand</em></td>
+<td>Comma-separated string</td>
+<td>Defines which fields in the API response to (partially) expand</td>
+</tr>
+<tr>
+<td><em>_method</em></td>
+<td>HTTP method</td>
+<td>Tunnel request through defined method over default API operation</td>
+</tr>
+<tr>
+<td><em>callback</em></td>
+<td>string</td>
+<td>Callback function name used as JSON padding to allow cross domain requests</td>
+</tr>
+</tbody>
+</table>
+<h2>attributes</h2><p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset/1?attributes=identifier,name
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/DataSet/1&quot;,
+    &quot;Identifier&quot;: &quot;celiacsprue&quot;,
+    &quot;Name&quot;: &quot;Celiac Sprue&quot;
+}
+</code></pre>
+<h2>expand</h2><p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset/1?expand=protocol
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/dataset/1&quot;,
+    &quot;name&quot;: &quot;my first data set&quot;,
+    &quot;protocol&quot;: {
+        &quot;href&quot;: &quot;/api/v1/protocol/10&quot;,
+        &quot;name&quot;: &quot;protocol for dataset #1&quot;,
+        &quot;features&quot;: {
+            &quot;href&quot;:&quot;/api/v1/protocol/37265/features&quot;
+        }
+    }
+}
+</code></pre>
+<h2>partial expand</h2><p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset/1?expand=protocol[name]
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/dataset/1&quot;,
+    &quot;name&quot;: &quot;my first data set&quot;,
+    &quot;protocol&quot;: {
+        &quot;href&quot;: &quot;/api/v1/protocol/10&quot;,
+        &quot;name&quot;: &quot;protocol for dataset #1&quot;
+    }
+}
+</code></pre>
+<h2>_method</h2><p>Some browsers do not support operations such as PUT and DELETE. The <em>_method</em> parameter can be used to tunnel the request over a POST operation.</p>
+<p><em>Request</em></p>
+<pre><code>POST http://your.molgenis.url/api/v1/dataset/3?_method=PUT
+Content-Type: application/json
+
+{
+    &quot;name&quot;: &quot;renamed data set&quot;
+}
+</code></pre><p><em>Response</em></p>
+<pre><code>204 No Content
+</code></pre><h2>callback</h2><p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset/1?callback=myfunction
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+myfunction(
+{
+    &quot;href&quot;: &quot;/api/v1/dataset/1&quot;,
+    &quot;name&quot;: &quot;my first data set&quot;,
+    &quot;protocol&quot;: {
+        &quot;href&quot;: &quot;/api/v1/dataset/1/protocol&quot;
+    }
+}
+)
+</code></pre>
+<h2>FAQ</h2><blockquote>
+<p>How to resolve a 400 Bad Request error?</p>
+</blockquote>
+<p>Did you specify the Content-Type header if your body contains content?</p>
+<blockquote>
+<p>What options exist to define query rules for resource collection requests?</p>
+</blockquote>
+<p>The query rules are serialized Java QueryRule objects, take a look at the source code of the QueryRule class to see what options are available.</p><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/develop/rest.md">Edit this page at Github</a>            </i></div></div></div><div class="footer"><nav class="navbar navbar-default sitemap"><div class="container"><div class="col-md-2"> <a href="/start">Start</a><br/><br/><u>Getting started </u><br/><a href="/start/demo">Online demo </a><br/><a href="/start/download">Download stable </a><br/><a href="/start/source">Get the source </a><br/><br/><u>Showcases </u><br/><a href="/start/biobanking">Biobanking </a><br/><a href="/start/research">Research </a><br/><a href="/start/rd">Rare disease </a><br/><a href="/start/lorem">Lorem ipsum </a><br/></div><div class="col-md-2"> <a href="/learn">Learn</a><br/><br/><u>Basics </u><br/><a href="/learn/login">Login </a><br/><a href="/learn/upload">Upload </a><br/><a href="/learn/explorer">Explorer </a><br/><br/><u>Admin </u><br/><a href="/learn/users">Users &amp; Groups </a><br/><a href="/learn/permissions">Permissions </a><br/><a href="/learn/menu">Menu manager </a><br/></div><div class="col-md-2"> <a href="/develop">Develop</a><br/><br/><u>Data APIs </u><br/><a href="/develop/java">Java </a><br/><a href="/develop/rest">REST </a><br/><a href="/develop/r">R-project </a><br/><br/><u>Create </u><br/><a href="/develop/frontend">Frontend </a><br/><a href="/develop/backends">Backend </a><br/></div><div class="col-md-2"> <a href="/community">Get involved</a><br/><br/><u>Join </u><br/><a href="/community/mailinglist">Join mailinglist </a><br/><a href="/community/conferences">Join conferences </a><br/><a href="/community/bugs">Report a bug </a><br/></div><div class="col-md-2"> <a href="/about">About</a><br/><a href="/about/team">Team </a><br/><a href="/about/history">History </a><br/><a href="/about/publications">Publications </a><br/><a href="/about/license">License </a><br/></div></div></nav><p>MOLGENIS and these docs are maintained by the <a href="about/team">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="LICENCE-MIT">MIT License</a>, documentation under <a href="LICENSE-CC">CC BY 3.0</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></div><p>develop,rest</p></div></body></html>

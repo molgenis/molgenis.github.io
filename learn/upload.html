@@ -1,0 +1,555 @@
+<!DOCTYPE html><!--[if lt IE 8]><html lang="en" class="ie"><![endif]--><!--[if gt IE 8]><!--><html lang="en"><!--<![endif]--><head><meta charset="utf-8"><title>Upload &ndash; MOLGENIS, the scientific data platform</title><meta name="description" content="Batch import of Excel, CSV and other files"><meta name="author" content="MOLGENIS community"><meta name="handheldfriendly" content="true"><meta name="mobileoptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="cleartype" content="on"><link rel="stylesheet" href="/res/css/application.css" type="text/css"><link rel="shortcut icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" title="MOLGENIS"></head><body><div class="wrapper"><nav class="header navbar navbar-default navbar-fixed-top"><div class="container"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand"><img src="/res/images/wordmark.svg" alt="MOLGENIS" class="wordmark"/></a></div><div id="navbar" class="collapse navbar-collapse"><ul class="nav navbar-nav navbar-left"><li><a href="/start">Start</a></li><li class="active"><a href="/learn">Learn</a></li><li><a href="/develop">Develop</a></li><li><a href="/community">Get involved</a></li><li><a href="/about">About</a></li></ul><ul class="nav navbar-nav navbar-right"><li><a href="http://github.com/molgenis/molgenis">Github</a></li><li><a href="blog">Blog</a></li></ul></div></div></nav><div class="titlebar active"><div class="container"> <h1>Upload</h1><p>Batch import of Excel, CSV and other files</p></div></div><div class="container website-content"><div class="row"><div role="complementary" class="col-md-3"><script src="/res/js/jquery-1.11.3.min.js"> </script><script src="/res/js/bootstrap.min.js"></script><nav id="sidebar" class="sidenav"><ul id="sidenav" class="nav hidden-xs hidden-sm"></ul></nav><script>$(function() {
+    var sideNav = $("#sidenav");
+    
+    $(".row h1").each(function() {
+        
+        //create id for h1
+        var id = $(this).text().replace(/\s/gi,"-").toLowerCase();
+        $(this).prepend("<a name=\""+id+"\"></a>");
+        
+        //add h1 to list
+        var li = $("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>")
+        sideNav.append(li);
+        
+        //wrap h1 into section
+        var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+        //wrap parts of h1 into one section
+        $(this).parent().nextUntil("h1").each(function(){            
+            section.append($(this));
+        });
+        
+        //repeat for h2
+        if($("h2",$(this).parent()).length > 0) {
+            var ul = $("<ul class=\"nav\"></ul>");
+            li.append(ul);
+            
+            $("h2",$(this).parent()).each(function(){
+            
+                //create id for h2
+                var id = $(this).text().replace(/\s/gi,"-").toLowerCase();
+                $(this).prepend("<a name=\""+id+"\"></a>");
+        
+                //wrap h2 into section
+                var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+                ul.append($("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>"));
+        
+                //wrap parts of h2 into one section
+                $(this).parent().nextUntil("h2").each(function(){            
+                    section.append($(this));
+                });
+            
+
+            });
+        }
+    });    
+    
+    //add "back to top"
+    sideNav.append("<li><a href=\"#top\">Back to top</a></li>");
+    
+    var $body   = $(document.body);
+    var navHeight = $('.navbar-static-top').outerHeight(true) + 10;
+    
+    //enable the 'active' highlighting using scrollspy plugin
+    $('body').scrollspy({
+        target: '.sidenav',
+        offset: 60
+    });
+    
+    //add the positioning using 'affix' plugin
+    var $sideBar = $('#sidebar')
+    $sideBar.affix({
+        offset: {
+            top: function () {
+                var offsetTop      = $sideBar.offset().top
+                var sideBarMargin  = parseInt($sideBar.children(0).css('margin-top'), 10)
+                var navOuterHeight = $('.navbar-fixed-top').height()
+                return (this.top = offsetTop - navOuterHeight - sideBarMargin)
+            },
+            bottom: ($('.footer').outerHeight(true) + 40)
+        }
+    });
+    $('#sidebar').width($('#sidebar').parent().width());
+    
+    //resize affix box when window resizes
+    $(window).resize(function () {
+            $('#sidebar').width($('#sidebar').parent().width());
+        });
+    
+    $("table").addClass("table table-bordered");
+});</script></div><div role="main" class="col-md-9 contents"><h1>EMX format</h1><p>EMX (entity model extensible) is a flexible spreadsheet format to easily upload any tabular data using Excel or a zipfile of tab-delimited *.txt files. This works because you can tell MOLGENIS the &#39;model&#39; of your data via a special sheet named &#39;attributes&#39;.</p>
+<h2>Minimal example</h2><p><a href="example1.xlsx">download</a></p>
+<p>For example, if you want to upload an Excel with sheet &#39;patients&#39;:</p>
+<table>
+<thead>
+<tr>
+<th>displayName</th>
+<th>firstName</th>
+<th>lastName</th>
+<th>birthdate</th>
+<th>birthplace</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>john doe</td>
+<td>john</td>
+<td>doe</td>
+<td>1976-03-13</td>
+<td>new york</td>
+</tr>
+<tr>
+<td>jane doe</td>
+<td>jane</td>
+<td>doe</td>
+<td></td>
+<td>metropolis</td>
+</tr>
+<tr>
+<td>papa doe</td>
+<td>papa</td>
+<td>doe</td>
+<td></td>
+<td>new york</td>
+</tr>
+</tbody>
+</table>
+<p>Then you must provide a model of your &#39;patients&#39; via Excel with sheet named &#39;attributes&#39;:</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>entity</th>
+<th>dataType</th>
+<th>idAttribute</th>
+<th>nillable</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>displayName</td>
+<td>patients</td>
+<td></td>
+<td>TRUE</td>
+<td>FALSE</td>
+<td>name</td>
+</tr>
+<tr>
+<td>firstName</td>
+<td>patients</td>
+<td></td>
+<td></td>
+<td>FALSE</td>
+<td>first name</td>
+</tr>
+<tr>
+<td>lastName</td>
+<td>patients</td>
+<td></td>
+<td></td>
+<td>FALSE</td>
+<td>family name</td>
+</tr>
+<tr>
+<td>birthdate</td>
+<td>patients</td>
+<td>date</td>
+<td></td>
+<td>FALSE</td>
+<td>day of birth</td>
+</tr>
+<tr>
+<td>birthplace</td>
+<td>patients</td>
+<td></td>
+<td></td>
+<td>FALSE</td>
+<td>place of birth</td>
+</tr>
+</tbody>
+</table>
+<p>&#39;entity&#39; should show the name of your data sheet. Each attribute the column headers in your data. Default dataType is &#39;string&#39; so you only need to provide non-string values (int, date, decimal, etc). And you must always provide one idAttribute that has &#39;nillable&#39; = &#39;FALSE&#39;.</p>
+<p>You can first upload the &#39;model&#39; and then the &#39;data&#39;. Or you can put the both into one file and upload in one go. What you prefer :-) [todo: provide example files for download]</p>
+<h2>Advanced data example</h2><p><a href="example2.xlsx">download</a></p>
+<p>Lets assume we want to upload multiple data sheets, with relations between them:</p>
+<p>Cities:</p>
+<table>
+<thead>
+<tr>
+<th>cityName</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>new york</td>
+</tr>
+<tr>
+<td>metropolis</td>
+</tr>
+</tbody>
+</table>
+<p>Patients:</p>
+<table>
+<thead>
+<tr>
+<th>displayName</th>
+<th>firstName</th>
+<th>lastName</th>
+<th>birthdate</th>
+<th>birthplace</th>
+<th>children</th>
+<th>disease</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>john doe</td>
+<td>john</td>
+<td>doe</td>
+<td>1976-13-03</td>
+<td>new york</td>
+<td></td>
+<td>none</td>
+</tr>
+<tr>
+<td>jane doe</td>
+<td>jane</td>
+<td>doe</td>
+<td></td>
+<td>metropolis</td>
+<td></td>
+<td>none</td>
+</tr>
+<tr>
+<td>pape doe</td>
+<td>papa</td>
+<td>doe</td>
+<td></td>
+<td>new york</td>
+<td>john doe, jane doe</td>
+<td>cardio</td>
+</tr>
+</tbody>
+</table>
+<p>Notes: birthplace refers to elements in the cityName values in the cities table. children contains comma separated values referring to another patient via displayName (trailing spaces will be removed).</p>
+<p>Users:</p>
+<table>
+<thead>
+<tr>
+<th>userName</th>
+<th>active</th>
+<th>displayName</th>
+<th>firstName</th>
+<th>lastName</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jdoe</td>
+<td>TRUE</td>
+<td>john doe</td>
+<td>john</td>
+<td>doe</td>
+</tr>
+<tr>
+<td>jdoe2</td>
+<td></td>
+<td>jane doe</td>
+<td>jane</td>
+<td>doe</td>
+</tr>
+<tr>
+<td>pdoe</td>
+<td></td>
+<td>papa doe</td>
+<td>papa</td>
+<td>doe</td>
+</tr>
+</tbody>
+</table>
+<p>Note: users looks similar patients, i.e. they are also persons having &#39;displayName&#39;, &#39;firstName&#39;, and &#39;lastName&#39;. We will use this in the model below. </p>
+<h2>Advanced metadata example</h2><p>To model the data advanced data example, again you need to provide the &#39;attributes&#39; (i.e., columns, properties). Optionally, you can also describe entities (i.e., classes, tables), and packages (i.e, models and submodels) which gives you some advanced options.</p>
+<h3>&#39;Attributes&#39; sheet (required)</h3><p>The example below defines the model for entities &#39;city&#39;, &#39;patient&#39; and &#39;user&#39;. Note that &#39;users&#39; had some attributes shared with &#39;patients&#39; so we will use &#39;object orientation&#39; to say that both &#39;user&#39; and &#39;patient&#39; are both a special kind of &#39;persons&#39;. This will be defined using the &#39;extends&#39; relation defined in the &#39;entities&#39; sheet below.</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>entity</th>
+<th>dataType</th>
+<th>nillable</th>
+<th>refEntity</th>
+<th>idAttribute</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cityName</td>
+<td>cities</td>
+<td></td>
+<td>FALSE</td>
+<td></td>
+<td>TRUE</td>
+<td>unique city name</td>
+</tr>
+<tr>
+<td>displayName</td>
+<td>persons</td>
+<td></td>
+<td>FALSE</td>
+<td></td>
+<td>TRUE</td>
+<td>unique name</td>
+</tr>
+<tr>
+<td>firstName</td>
+<td>persons</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>first name</td>
+</tr>
+<tr>
+<td>lastName</td>
+<td>persons</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>family name</td>
+</tr>
+<tr>
+<td>birthdate</td>
+<td>patients</td>
+<td>date</td>
+<td></td>
+<td></td>
+<td></td>
+<td>day of birth</td>
+</tr>
+<tr>
+<td>birthplace</td>
+<td>patients</td>
+<td>xref</td>
+<td></td>
+<td>cities</td>
+<td></td>
+<td>place of birth</td>
+</tr>
+<tr>
+<td>disease</td>
+<td>patients</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>disese description</td>
+</tr>
+<tr>
+<td>userName</td>
+<td>users</td>
+<td></td>
+<td>FALSE</td>
+<td></td>
+<td>TRUE</td>
+<td>unique login name</td>
+</tr>
+<tr>
+<td>active</td>
+<td>users</td>
+<td>bool</td>
+<td></td>
+<td></td>
+<td></td>
+<td>whether user is active</td>
+</tr>
+</tbody>
+</table>
+<h3>&#39;Entities&#39; sheet (optional)</h3><p>In most cases the &#39;attributes&#39; sheet is all you need. However, in some cases you may want to add more details on the &#39;entity&#39;. Here we wanted to show use of &#39;abstract&#39; (i.e., interfaces) to create model class &#39;persons&#39; and &#39;extends&#39; (i.e., subclass, inheritance) to define that &#39;user&#39; and &#39;patient&#39; have the same attributes as &#39;persons&#39;. When data model become larger, or when many data sheets are loaded then the &#39;package&#39; construct enables you to group your (meta)data. </p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>package</th>
+<th>extends</th>
+<th>abstract</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cities</td>
+<td>hospital</td>
+<td></td>
+<td></td>
+<td>list of cities</td>
+</tr>
+<tr>
+<td>persons</td>
+<td>hospital</td>
+<td></td>
+<td>true</td>
+<td>person defines general attributes like firstName, lastName</td>
+</tr>
+<tr>
+<td>users</td>
+<td>hospital</td>
+<td>persons</td>
+<td></td>
+<td>users extends persons, meaning it &#39;inherits&#39; attribute definition</td>
+</tr>
+<tr>
+<td>patients</td>
+<td>hospital</td>
+<td>persons</td>
+<td></td>
+<td>patient extends person, adding patientNumber</td>
+</tr>
+</tbody>
+</table>
+<h3>&#39;Packages&#39; sheet (optional)</h3><p>Package allow you to create several models in your system, describe the and next them using the &#39;parent&#39; relationship. For example:</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>description</th>
+<th>parent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>root</td>
+<td>my main package</td>
+<td></td>
+</tr>
+<tr>
+<td>hospital</td>
+<td>sub package holding entities to describe all kinds of persons</td>
+<td>root</td>
+</tr>
+</tbody>
+</table>
+<h1>EMX model reference documentation</h1><p>Minimally, you need to provide the &#39;attributes&#39; of your model (i.e., columns, properties). Optionally, you can also add metadata on entities (i.e., classes, tables), and packages (i.e, models and submodels)</p>
+<h2>Attributes</h2><p>Required columns:</p>
+<ul>
+<li>entity : name of the entity this attribute is part of</li>
+<li>attribute : name of attribute, unique per entity</li>
+</ul>
+<p>Optional columns (can be omitted):</p>
+<ul>
+<li>dataType: defines the data type (default: string)<ul>
+<li>string : character string of &lt;255 characters</li>
+<li>text : character string of unlimited length (usually &lt;2Gb)</li>
+<li>int : natural numbers like -1, 0, 3. Optionally use rangeMin and rangeMax</li>
+<li>long : non-decimal number of type long</li>
+<li>decimal : decimal numbers like -1.3, 0.5, 3.75 (float precision)</li>
+<li>bool : yes/no choice</li>
+<li>date : date in yyyy-mm-dd format</li>
+<li>datetime : date in yyyy-mm-dd hh:mm:ss</li>
+<li>xref : cross reference to another entity; requires refEntity to be provided</li>
+<li>mref : many-to-many relation to another entity; requires refEntity to be provided</li>
+<li>compound : way to assemble complex entities from building blocks (will be shown as tree in user interface); requires refEntity to be provided</li>
+</ul>
+</li>
+<li>refEntity : used in combination with xref, mref or compound. Should refer to an entity.</li>
+<li>nillable : whether the column may be left empty. Default: false</li>
+<li>idAttribute : whether this field is the unique key for the entity. Default: false. Use &#39;AUTO&#39; for auto generated (string) identifiers.</li>
+<li>description : free text documentation describing the attribute</li>
+<li>rangeMin : used to set range in case of int attributes</li>
+<li>rangeMax : used to set range in case of int attributes</li>
+<li>lookupAttribute : true/false to indicate that the attribute should appear in the xref/mref search dropdown in the dataexplorer</li>
+<li>label : optional human readable name of the attribute</li>
+<li>aggregateable : true/false to indicate if the user can use this atrribute in an aggregate query</li>
+<li>labelAttribute : true/false to indicate that the value of this attribute should be used as label for the entity (in the dataexplorer when used in xref/mref). Default: false</li>
+<li>readOnly true/false to indicate a readOnly attribute</li>
+<li>tags : ability to tag the data referring to the tags sections, described below</li>
+<li>validationExpression : javascript validation expression that must return a bool. Must return true if valid and false if invalid. See for a syntax description the section [[Javascript Expressions]]</li>
+</ul>
+<h2>Entities</h2><p>Required columns:</p>
+<ul>
+<li>entity : unique name of the entity. If packages are provided, name must be unique within a package.</li>
+</ul>
+<p>Optional columns:</p>
+<ul>
+<li>extends : reference to another entity that is extended</li>
+<li>package : name of the group this entity is part of</li>
+<li>abstract : indicate if data can be provided for this entity (abstract entities are only used for data modeling purposes but cannot accept data)</li>
+<li>description : free text description of the entity</li>
+<li>tags : ability to tag the data referring to the tags sections, described below</li>
+</ul>
+<h2>Packages</h2><p>Required columns:</p>
+<ul>
+<li>name : unique name of the package. If parent package is provided the name is unique within the parent.</li>
+</ul>
+<p>Optional columns:</p>
+<ul>
+<li>description : free text description of the package</li>
+<li>parent : use when packages is a sub-package of another package</li>
+<li>tags : mechanism to add flexible meta data such as ontology references, hyperlinks</li>
+</ul>
+<h2>BETA feature: tags</h2><h3>&#39;Tags&#39; sheet (optional, BETA)</h3><p>Optionally, additional information can be provided beyond the standard meta data described above. Therefore all meta-data elements can be tagged in simple or advanced ways (equivalent to using RDF triples). For example, above in the packages example there is a &#39;homepage&#39; tag provided. For example:</p>
+<table>
+<thead>
+<tr>
+<th>identifier</th>
+<th>label</th>
+<th>objectIRI</th>
+<th>relationLabel</th>
+<th>codeSystem</th>
+<th>relationIRI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>like</td>
+<td>like</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>homepage</td>
+<td><a href="http://www.molgenis.org">http://www.molgenis.org</a></td>
+<td><a href="http://www.molgenis.org">http://www.molgenis.org</a></td>
+<td>homepage</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>docs</td>
+<td><a href="http://some.url">http://some.url</a></td>
+<td><a href="http://www.molgenis.org">http://www.molgenis.org</a></td>
+<td>Documentation and Help</td>
+<td>EDAM</td>
+<td><a href="http://edamontology.org/topic_3061">http://edamontology.org/topic_3061</a></td>
+</tr>
+</tbody>
+</table>
+<h3>&#39;Tags&#39; options</h3><p>Required columns:</p>
+<ul>
+<li>identifier : unique name of this tag, such that it can be referenced</li>
+<li>label : the human readable label of the tag (e.g. the &#39;like&#39; tag as shown above).</li>
+</ul>
+<p>Optional columns:</p>
+<ul>
+<li>objectIRI: url to the value object (will become an hyperlink in the user interface)</li>
+<li>relationLabel: human readible label of the relation, e.g. &#39;Documentation and Help&#39;</li>
+<li>relationIRI: url to the relation definition, e.g. <a href="http://edamontology.org/topic_3061">http://edamontology.org/topic_3061</a></li>
+<li>codeSystem: name of the code system used, e.g. EDAM</li>
+</ul>
+<p>Change or change documentation:</p>
+<ul>
+<li>&#39;required&#39; and &#39;unique&#39; (and xref_entity?) property for attribute?</li>
+<li>create separate &#39;unit&#39; list?</li>
+<li>can we hload dataset without entity / attributes (auto load?)</li>
+<li>create &#39;category&#39;<ul>
+<li>code, label, ismissing, description, ontology</li>
+<li>use decorator to automatically produce identifier (optional)</li>
+</ul>
+</li>
+<li>validation rules</li>
+</ul><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/learn/upload.md">Edit this page at Github</a>            </i></div></div></div><div class="footer"><nav class="navbar navbar-default sitemap"><div class="container"><div class="col-md-2"> <a href="/start">Start</a><br/><br/><u>Getting started </u><br/><a href="/start/demo">Online demo </a><br/><a href="/start/download">Download stable </a><br/><a href="/start/source">Get the source </a><br/><br/><u>Showcases </u><br/><a href="/start/biobanking">Biobanking </a><br/><a href="/start/research">Research </a><br/><a href="/start/rd">Rare disease </a><br/><a href="/start/lorem">Lorem ipsum </a><br/></div><div class="col-md-2"> <a href="/learn">Learn</a><br/><br/><u>Basics </u><br/><a href="/learn/login">Login </a><br/><a href="/learn/upload">Upload </a><br/><a href="/learn/explorer">Explorer </a><br/><br/><u>Admin </u><br/><a href="/learn/users">Users &amp; Groups </a><br/><a href="/learn/permissions">Permissions </a><br/><a href="/learn/menu">Menu manager </a><br/></div><div class="col-md-2"> <a href="/develop">Develop</a><br/><br/><u>Data APIs </u><br/><a href="/develop/java">Java </a><br/><a href="/develop/rest">REST </a><br/><a href="/develop/r">R-project </a><br/><br/><u>Create </u><br/><a href="/develop/frontend">Frontend </a><br/><a href="/develop/backends">Backend </a><br/></div><div class="col-md-2"> <a href="/community">Get involved</a><br/><br/><u>Join </u><br/><a href="/community/mailinglist">Join mailinglist </a><br/><a href="/community/conferences">Join conferences </a><br/><a href="/community/bugs">Report a bug </a><br/></div><div class="col-md-2"> <a href="/about">About</a><br/><a href="/about/team">Team </a><br/><a href="/about/history">History </a><br/><a href="/about/publications">Publications </a><br/><a href="/about/license">License </a><br/></div></div></nav><p>MOLGENIS and these docs are maintained by the <a href="about/team">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="LICENCE-MIT">MIT License</a>, documentation under <a href="LICENSE-CC">CC BY 3.0</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></div><p>learn,upload</p></div></body></html>
