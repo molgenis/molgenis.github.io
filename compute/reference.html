@@ -1,0 +1,197 @@
+<!DOCTYPE html><!--[if lt IE 8]><html lang="en" class="ie"><![endif]--><!--[if gt IE 8]><!--><html lang="en"><!--<![endif]--><head><meta charset="utf-8"><title>MOLGENIS - Reference</title><meta name="description" content="Reference documentation"><meta name="author" content="MOLGENIS community"><meta name="handheldfriendly" content="true"><meta name="mobileoptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="cleartype" content="on"><link rel="stylesheet" href="/res/css/application.css" type="text/css"><link rel="shortcut icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" title="undefined"></head><body><div class="wrapper"><nav class="header navbar navbar-default navbar-fixed-top"><div class="container"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand"><img src="/res/images/wordmark.png" alt="undefined" class="wordmark"/></a></div><div id="navbar" class="collapse navbar-collapse"><ul class="nav navbar-nav navbar-left"><li><a href="/start">Start</a></li><li><a href="/learn">Data</a></li><li class="active"><a href="/compute">Analysis</a></li><li><a href="/develop">Develop</a></li><li><a href="/about">About</a></li></ul><ul class="nav navbar-nav navbar-right"><li><a href="/sitemap">Sitemap</a></li><li><a href="http://github.com/molgenis/molgenis">Github</a></li></ul></div></div></nav><!--!-                li(class="#{ current.path[0] === 'blog' ? 'active' : '' }")--><!--!-                    a(href="blog") Blog--><div class="titlebar active"><div class="container"> <h1>Analysis > Reference</h1><p>Reference documentation</p></div></div><div class="container website-content"><div class="row"><div role="complementary" class="col-md-3"><script src="/res/js/jquery-1.11.3.min.js"> </script><script src="/res/js/bootstrap.min.js"></script><nav id="sidebar" class="sidenav"><ul id="sidenav" class="nav hidden-xs hidden-sm"></ul></nav><script>$(function() {
+    var sideNav = $("#sidenav");
+    
+    $(".row h1").each(function() {
+        
+        //create id for h1
+        var id = $(this).text().replace(/\s/gi,"-").toLowerCase();
+        $(this).prepend("<a name=\""+id+"\"></a>");
+        
+        //add h1 to list
+        var li = $("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>")
+        sideNav.append(li);
+        
+        //wrap h1 into section
+        var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+        //wrap parts of h1 into one section
+        $(this).parent().nextUntil("h1").each(function(){            
+            section.append($(this));
+        });
+        
+        //repeat for h2
+        if($("h2",$(this).parent()).length > 0) {
+            var ul = $("<ul class=\"nav\"></ul>");
+            li.append(ul);
+            
+            $("h2",$(this).parent()).each(function(){
+            
+                //create id for h2
+                var id = $(this).text().replace(/\s/gi,"-").toLowerCase();
+                $(this).prepend("<a name=\""+id+"\"></a>");
+        
+                //wrap h2 into section
+                var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+                ul.append($("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>"));
+        
+                //wrap parts of h2 into one section
+                $(this).parent().nextUntil("h2").each(function(){            
+                    section.append($(this));
+                });
+            
+
+            });
+        }
+    });    
+    
+    //add "back to top"
+    sideNav.append("<li><a href=\"#top\" style=\"font-size:smaller\">Back to top</a></li>");
+    
+    var $body   = $(document.body);
+    var navHeight = $('.navbar-static-top').outerHeight(true) + 10;
+    
+    //enable the 'active' highlighting using scrollspy plugin
+    $('body').scrollspy({
+        target: '.sidenav',
+        offset: 60
+    });
+    
+    //add the positioning using 'affix' plugin
+    var $sideBar = $('#sidebar')
+    $sideBar.affix({
+        offset: {
+            top: function () {
+                var offsetTop      = $sideBar.offset().top
+                var sideBarMargin  = parseInt($sideBar.children(0).css('margin-top'), 10)
+                var navOuterHeight = $('.navbar-fixed-top').height()
+                return (this.top = offsetTop - navOuterHeight - sideBarMargin)
+            },
+            bottom: ($('.footer').outerHeight(true) + 40)
+        }
+    });
+    $('#sidebar').width($('#sidebar').parent().width());
+    
+    //resize affix box when window resizes
+    $(window).resize(function () {
+            $('#sidebar').width($('#sidebar').parent().width());
+        });
+    
+    $("table").addClass("table table-bordered");
+});</script></div><div role="main" class="col-md-9 contents"><h1>Command-line options</h1><p>Molgenis Compute has the following command-line options:</p>
+<pre><code>  Version: development
+  usage: sh molgenis-compute.sh -p parameters.csv
+  -b,--backend &lt;arg&gt;                 Backend for which you generate.
+                                     Default: localhost
+  -bp,--backendpassword &lt;arg&gt;        Supply user pass to login to execution
+                                     backend. Default is not saved.
+  -bu,--backenduser &lt;arg&gt;            Supply user name to login to execution
+                                     backend. Default is your own user
+                                     name.
+  -clear,--clear                     Clear properties file
+  -create &lt;arg&gt;                      Creates empty workflow. Default name:
+                                     myworkflow
+  -d,--database &lt;arg&gt;                Host, location of database. Default:
+                                     none
+  -dbe,--database-end                End the database
+  -dbs,--database-start              Starts the database
+  -defaults,--defaults &lt;arg&gt;         Path to your workflow-defaults file.
+                                     Default: defaults.csv
+  -footer &lt;arg&gt;                      Adds a custom footer. Default:
+                                     footer.ftl
+  -g,--generate                      Generate jobs
+  -h,--help                          Shows this help.
+  -header &lt;arg&gt;                      Adds a custom header. Default:
+                                     header.ftl
+  -l,--list                          List jobs, generated, queued, running,
+                                     completed, failed
+  -mpass,--molgenispassword &lt;arg&gt;    Supply user pass to login to molgenis.
+                                     Default is not saved.
+  -mu,--molgenisuser &lt;arg&gt;           Supply user name to login to molgenis
+                                     database. Default is your own user
+                                     name.
+  -o,--overwrite &lt;arg&gt;               Parameters and values, which will
+                                     overwritten in the parameters file.
+                                     Parameters should be placed into
+                                     brackets and listed using equality
+                                     sign, e.g. &quot;mem=6GB;queue=long&quot;
+  -p,--parameters &lt;parameters.csv&gt;   Path to parameter.csv file(s).
+                                     Default: parameters.csv
+  -path,--path                       Path to directory this generates to.
+                                     Default: &lt;current dir&gt;.
+  -port,--port &lt;arg&gt;                 Port used to connect to databasae.
+                                     Default: 8080
+  -r,--run                           Run jobs from current directory on
+                                     current backend. When using --database
+                                     this will return a &#39;id&#39; for --pilot.
+  -rundir &lt;arg&gt;                      Directory where jobs are stored
+  -runid,--runid &lt;arg&gt;               Id of the task set which you generate.
+                                     Default: null
+  -submit &lt;arg&gt;                      Set a custom submit.sh template.
+                                     Default: submit.sh.ftl
+  -w,--workflow &lt;workflow.csv&gt;       Path to your workflow file. Default:
+                                     workflow.csv
+  -weave,--weave                     Weave parameters to the actual script
+  -web,--web &lt;arg&gt;                   Location of the workflow in the public
+                                     github repository. The other
+                                     parameters should be specified
+                                     relatively to specified github root.
+</code></pre><h1>Reserved words</h1><p>Molgenis Compute has a list of reserved words, which cannot be used in compute to name 
+parameters, workflow steps, etc. These words are listed below:</p>
+<p>  port            interval
+  workflow        path
+  defaults        parameters
+  rundir        runid
+  backend        database
+  walltime        nodes
+  ppn            queue
+  mem            _NA
+  password        molgenisuser
+  backenduser        header
+  footer        submit
+  autoid</p>
+<p>The reserved words are used in the compute.properties file. This file is created to save the latest compute configuration and discuss further.</p>
+<h2>Script generation for PBS cluster and other back-ends</h2><p>To generate for pbs, the next options should be added to the command line</p>
+<p>--backend pbs</p>
+<p>When generating script for computational clusters or grid, some additional parameters, such as execution wall-time, memory requirement, etc. should be 
+specified.</p>
+<p>This can be done in the parameters file</p>
+<p>  workflowName,creationDate,queue,mem,walltime,nodes,ppn
+  myFirstWorkflow,today,short_queue,4GB,05:59:00,1,1</p>
+<p>  queue - cluster/grid queue
+  mem - memory required
+  walltime - execution wall time
+  nodes - number of nodes needed
+  ppn - number of cores needed</p>
+<p>Or also it can be specified in the molgenis header in protocols</p>
+<p>+step1.ftl with molgenis header+</p>
+<h1>MOLGENIS queue=short_queue mem=4gb walltime=05:59:00 nodes=1 ppn=1</h1><h1>string in</h1><h1>output out</h1><h1>Let&#39;s do something with string &#39;in&#39;</h1><p>  out=${in}_hasBeenInStep1</p>
+<p>The specification in protocols has priority over specification in parameter files.</p>
+<p>In the command-line distribution, users can add a new back-end by adding a new directory, that contains header/footer and submit templates for that backend.</p>
+<h2>Switching to a different workflow</h2><p>It is very advisable to start working with a new workflow with running </p>
+<p>sh molgenis_compute.sh --clear</p>
+<p>This command clears the +.compute.properties+ file, which contains previous generation and running options.</p>
+<h2>Commenting in workflow specification</h2><p>User can want to run only one or several steps of the workflow, when the rest of workflow can be commented out using &#39;#&#39; sign. In this example
+&#39;step2&#39; is commented out.</p>
+<p>  step,protocol,dependencies
+  step1,protocols/step1.sh,</p>
+<h1>step2,protocols/step2.sh,step1</h1><h2>Database usage</h2><p>The detailed user gid for [[X12]]<a href="https://github.com/molgenis/molgenis-compute/tree/master/molgenis-app-compute-db[molgenis-compute">https://github.com/molgenis/molgenis-compute/tree/master/molgenis-app-compute-db[molgenis-compute</a> database version] will be added soon.
+The application can be build as a maven project. During the first start of compute-db, the &#39;admin&#39; with password &#39;admin&#39; will be created. 
+So, the users can login into the system for the first time. </p>
+<p>To insert new compute runs into database, use the command-line like</p>
+<p>  sh molgenis_compute.sh \
+  --generate \
+  --workflow myfirst_workflow/workflow.csv \
+  --defaults myfirst_workflow/workflow.defaults.csv \
+  --parameters myfirst_workflow/parameters.csv \
+  --rundir run \
+  --runid demo1 \
+  --database <db-ip-address> \
+  -mu <db-username> -mpass <db-password> \
+  -b <back-end> \
+  -bu <back-end-username> -bp <back-end-password></back-end-password></back-end-username></back-end></db-password></db-username></db-ip-address></p>
+<p>After this your compute run will appear at the &#39;Jobs Dashboard&#39;. It will look like in the image below: 
+User can submit jobs entering the user name and password for computational backend.</p>
+<p>The jobs details can be expected in Tasks/History generated forms
+Jobs also can be submitted and monitored from the command-line using &#39;--run&#39; flag. 
+However, this functionality is not fully tested yet and submission via web-user interface is more stable.</p><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/compute/reference.md">Edit this page at Github</a></i><br></center></div></div></div></div><div class="footer"><nav class="navbar navbar-default sitemap"><div class="container"><div class="col-md-2"> <a href="/start">Start</a><br/><br/><u>Getting started </u><br/><a href="/start/demo">Online demo </a><br/><a href="/start/download">Download </a><br/><a href="/start/source">Get the source </a><br/><br/><u>Basics </u><br/><a href="/start/login">Login </a><br/><a href="/start/upload">Upload </a><br/><a href="/start/explorer">Explorer </a><br/><br/><u>Admin </u><br/><a href="/start/users">Users &amp; Groups </a><br/><a href="/start/permissions">Permissions </a><br/><a href="/start/menu">Menu manager </a><br/></div><div class="col-md-2"> <a href="/learn">Data</a><br/><br/><u>Showcases </u><br/><a href="/learn/biobanking">Biobanking </a><br/><a href="/learn/research">Research </a><br/><a href="/learn/rd">Rare disease </a><br/><a href="/learn/lorem">Lorem ipsum </a><br/></div><div class="col-md-2"> <a href="/compute">Analysis</a><br/><br/><u>Compute </u><br/><a href="/compute/start">Quickstart </a><br/><a href="/compute/parameters">Parameters </a><br/><a href="/compute/reference">Reference </a><br/><a href="/compute/publications">Read more </a><br/><br/><u>Pipelines </u><br/></div><div class="col-md-2"> <a href="/develop">Develop</a><br/><br/><u>Data APIs </u><br/><a href="/develop/java">Java </a><br/><a href="/develop/rest">REST </a><br/><a href="/develop/r">R-project </a><br/><br/><u>Create </u><br/><a href="/develop/frontend">Frontend </a><br/><a href="/develop/backends">Backend </a><br/></div><div class="col-md-2"> <a href="/about">About</a><br/><a href="/about/team">Team </a><br/><a href="/about/history">History </a><br/><a href="/about/publications">Publications </a><br/><a href="/about/license">License </a><br/></div></div></nav><p>MOLGENIS and these docs are maintained by the <a href="about/team">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="LICENSE-MIT">MIT License</a>, documentation under <a href="LICENSE-CC">CC BY 3.0</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></div><p>compute,reference</p></body></html>
