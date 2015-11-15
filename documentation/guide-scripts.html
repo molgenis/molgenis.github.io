@@ -1,0 +1,178 @@
+<!DOCTYPE html><!--[if lt IE 8]><html lang="en" class="ie"><![endif]--><!--[if gt IE 8]><!--><html lang="en"><!--<![endif]--><head><meta charset="utf-8"><title>MOLGENIS - Scripts</title><meta name="description" content="Make your scripts/visualization available in the UI"><meta name="author" content="MOLGENIS community"><meta name="handheldfriendly" content="true"><meta name="mobileoptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="cleartype" content="on"><script src="/res/js/jquery-1.11.3.min.js"> </script><script src="/res/js/bootstrap.min.js"></script><link rel="stylesheet" href="/res/css/prism.css"><link rel="stylesheet" href="/res/css/application.css" type="text/css"><link rel="shortcut icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" title="undefined"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)
+[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-2273328-11', 'auto');
+ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header"><div role="navigation" class="navbar navbar-static-top"><div class="container container-fluid"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand"><img src="/res/images/wordmark-blue.png" alt="undefined" class="wordmark"/></a></div><div id="navbar" class="collapse navbar-collapse">              <ul class="nav navbar-nav navbar-right"><li><a href="/start">Start</a></li><li class="active"><a href="/documentation">Documentation</a></li><li><a href="/compute">Compute</a></li><li><a href="/develop">Develop</a></li><li><a href="/download">Download</a></li><li><a href="/about">About</a></li><li><a href="#searchbox" data-toggle="collapse"><i class="glyphicon glyphicon-search"></i></a></li></ul></div></div></div><div id="searchbox" class="collapse"><form role="search" action="/search-results"><input placeholder="Search" name="q" class="form-control"/></form></div><div class="molgenis-docs-titlebar active"><div class="container"> <h1>Scripts</h1><p>Make your scripts/visualization available in the UI   </p></div></div><a href="blaat" #{public._data[1].title}="#{public._data[1].title}"></a></header><div class="molgenis-docs-body"><div class="container"><div class="row"><div role="complementary" class="col-md-3"><nav id="molgenis-docs-sidebar" class="molgenis-docs-sidebar hidden-print hidden-xs hidden-sm"><ul id="molgenis-docs-sidenav" class="nav molgenis-docs-sidenav"></ul></nav><script>$(function() {
+    var sideNav = $("#molgenis-docs-sidenav");
+    var index = 0;
+    $(".row h1").each(function() {
+        
+        //create id for h1
+        var id = (index++) + $(this).text().replace(/\s/gi,"-").replace(/\W/g,"").toLowerCase();
+        $(this).prepend("<a name=\""+id+"\"></a>");
+        
+        //add h1 to list
+        var li = $("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>")
+        sideNav.append(li);
+        
+        //wrap h1 into section
+        var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+        //wrap parts of h1 into one section
+        $(this).parent().nextUntil("h1").each(function(){            
+            section.append($(this));
+        });
+        
+        //repeat for h2
+        if($("h2",$(this).parent()).length > 0) {
+            var ul = $("<ul class=\"nav\"></ul>");
+            li.append(ul);
+            
+            $("h2",$(this).parent()).each(function(){
+            
+                //create id for h2
+                var id = (index++) + $(this).text().replace(/\s/gi,"-").replace(/\W/g,"").toLowerCase();
+                $(this).prepend("<a name=\""+id+"\"></a>");
+        
+                //wrap h2 into section
+                var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+                ul.append($("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>"));
+        
+                //wrap parts of h2 into one section
+                $(this).parent().nextUntil("h2").each(function(){            
+                    section.append($(this));
+                });
+            
+
+            });
+        }
+    });    
+    
+    //add "back to top"
+    sideNav.append("<li><a href=\"#top\" style=\"font-size:smaller\">Back to top</a></li>");
+    var $body   = $(document.body);
+    
+    //enable the 'active' highlighting using scrollspy plugin
+    $('body').scrollspy({
+        target: '#molgenis-docs-sidebar'
+    });
+    $('#molgenis-docs-sidebar').width($('#molgenis-docs-sidebar').parent().width());
+    
+    //enable affix
+    $('#molgenis-docs-sidebar').affix({
+        offset: {
+            top: $('#molgenis-docs-sidebar').offset().top,
+            bottom: $('.molgenis-docs-footer').outerHeight(true) + 10
+        }
+    });
+    
+    //resize affix box when window resizes
+    $(window).resize(function () {
+            $('.molgenis-docs-sidebar').width($('#molgenis-docs-sidebar').parent().width());
+        });
+    
+    $("table").addClass("table table-bordered");
+});</script></div><div role="main" class="col-md-9 contents"><p><strong>
+Scripts are defined in the Scripts plugin and can be reused, e.g. as part of reports. By default you can find it in the menu under Plugins, Scripts.
+The Scripts plugin allows you to create, edit and delete the available scripts.
+</strong></p>
+<h1>Create a script</h1><p>You open the script editor by clicking the add button <img src="../res/images/new.png" alt="image">.</p>
+<ul>
+<li>Name: The name uniquely identifies the script</li>
+<li>Type: The script type determines how the script is executed.<ul>
+<li>R scripts are executed in R</li>
+<li>Python scripts are executed in Python</li>
+<li>Magma JavaScript and JavaScript scripts are executed in a JavaScript context</li>
+</ul>
+</li>
+<li>Content: The actual script content goes here.</li>
+<li>Result file extension: Allows you to render output in your script. For instance, if you set this to <code>png</code>, the script will be provided with a parameter <code>outputFile</code>. You can write your png image to this file. When the script is done, the contents of the file will be served as a result of the script invocation request.</li>
+<li>Parameters Your script may define parameters that it needs in order to run. <strong>All parameters are of type String</strong>. Multiple scripts can share the same parameter, here you just specify the parameter names.</li>
+</ul>
+<h1>Passing parameters</h1><p>If your Type is R, JavaScript or Python, the Script Content is interpreted as a <a href="http://freemarker.apache.org">Freemarker</a> template. The parameters are provided as Freemarker variables. You can render them in the script by typing <code>${parameter}</code>, but the full Freemarker syntax is at your disposal, so for instance <code>&lt;#if&gt;&lt;#else&gt;&lt;#/if&gt;</code> constructs are also available.</p>
+<p>This means that if you want to initialize an R or Python string variable with the value of a parameter string, you&#39;ll need to explicitly encapsulate it with quotes.</p>
+<p>So in R:</p>
+<pre><code># Assign string parameter
+name &lt;- &quot;${name}&quot;
+# Assign numeric parameter
+amount &lt;- ${amount}
+</code></pre><p>And in Python:</p>
+<pre><code># Assign string parameter
+name = &quot;${name}&quot;
+# Assign numeric parameter
+amount = ${amount}
+</code></pre><p>And in JavaScript:</p>
+<pre><code>// Assign string parameter
+var name = &quot;${name}&quot;
+// Assign numeric parameter
+var amount = ${amount}
+</code></pre><p>The script template will be rendered to a file in the File Store and this file will be interpreted using the R or Python interpreter.</p>
+<h5><a name="passing-script-parameters-magma"></a> Passing parameters to Magma JavaScript</h5><p>If your Type is <a href="http://wiki.obiba.org/display/OPALDOC/Magma+Javascript+API">Magma JavaScript</a>, the parameters are available through Magma&#39;s <a href="http://wiki.obiba.org/display/OPALDOC/value+selector+method">$ selector</a> method.
+JavaScript will have to do the type conversions for you. Or if you want to be sure, you should cast the values explicitly</p>
+<pre><code>// Assign string parameter
+var name = $(&quot;name&quot;)
+// Assign numeric parameter
+var amount = int($(&quot;amount&quot;))
+</code></pre><h1>Security token</h1><p>Your script can access data inside a MOLGENIS repository through the APIs.
+If the data is private data, you can set Generate Security Token to Yes.
+Then a molgenis security token will be generated for the user running the script and added as a parameter named <code>molgenisToken</code>.
+You can pass the token on to the REST API.</p>
+<h2>Use security token in R script</h2><p>Pass the token as a parameter when you request the molgenis.R api script:</p>
+<pre><code>library(&#39;RCurl&#39;)
+eval(expr = parse(text = getURL(&quot;https://molgenis01.target.rug.nl/molgenis.R?molgenis-token=${molgenisToken}&quot;)))
+molgenis.get(&quot;MolgenisUser&quot;)
+</code></pre><h1>Running a script</h1><p>You can run your script by pressing the <img src="../res/images/execute.png" alt="image"> execute button.
+If the script has parameters, you&#39;ll be presented with a popup form to specify them.</p>
+<p>You can also run the script through an HTTP request.
+For instance, to run the <code>bmi</code> script with parameters <code>weight=50</code> and <code>height=1.60</code> on server <code>http://molgenis09.target.rug.nl</code> you can surf to <a href="https://molgenis09.target.rug.nl/scripts/bmi/run?weight=50&amp;height=1.60">https://molgenis09.target.rug.nl/scripts/bmi/run?weight=50&amp;height=1.60</a></p>
+<p><strong>Beware that you need to URL-encode parameter values if they contain special characters</strong></p>
+<h1>Permissions</h1><p>Note that in order to execute scripts, users need</p>
+<ul>
+<li>to be authenticated (i.e. anonymous users cannot execute your scripts)</li>
+<li>View permissions on the Scripts entity</li>
+<li>View permissions on the ScriptParameter entity</li>
+<li>View permissions on the ScriptType entity</li>
+</ul>
+<h1>Example</h1><p>Let&#39;s take the R script from <a href="#example-rest-R">the previous example</a> and add it to the Script plugin. The script will fetch the public ASE data from <a href="https://molgenis56.target.rug.nl/">https://molgenis56.target.rug.nl/</a></p>
+<p>You&#39;ll need a running instance of MOLGENIS.
+So either run this example locally on your own MOLGENIS instance or Sign Up on our demo server <a href="https://molgenis09.target.rug.nl/">https://molgenis09.target.rug.nl/</a></p>
+<h2>Create the script</h2><p>Go to the Script plugin and create a new script.</p>
+<ul>
+<li>Name: Any name will do, as long as it&#39;s unique. Since the result will be a plot of Allele-Specific Expression for a SNP, we suggest the name <code>plot-ase</code>.</li>
+<li>Type: We&#39;re creating an R script, so pick <code>R</code>.</li>
+<li>Generate security token: No, since the data is publicly available and lives on a different server anyways.</li>
+<li>Result file extension: R can plot postscript, pdf, png and jpeg. Let&#39;s pick <code>png</code>.</li>
+<li><p>Parameters: In the example we plotted one specific ASE, let&#39;s make the snp ID a parameter. Select <code>snp_id</code>. If it&#39;s not yet available you can add it by pushing the <strong>+</strong> button to the right of the select box.</p>
+</li>
+<li><p>Content:</p>
+</li>
+</ul>
+<pre><code>library(&#39;RCurl&#39;)
+eval(expr = parse(text = getURL(&quot;https://molgenis56.target.rug.nl/molgenis.R&quot;)))
+
+samples &lt;- molgenis.get(&quot;SampleAse&quot;, q=&quot;SNP_ID==${snp_id}&quot;)
+jpeg(&#39;${outputFile}&#39;)
+
+max &lt;- max(samples$Ref_Counts, samples$Alt_Counts)
+
+plot(samples$Ref_Counts, samples$Alt_Counts, xlim = c(0, max), ylim = c(0, max), xlab=&#39;Reference Allele&#39;, ylab=&#39;Alternative Allele&#39;, main = &#39;Allele-Specific Expression for ${snp_id}&#39;)
+lines(c(0,max), c(0, max))
+</code></pre><p>Let&#39;s take a closer look at what happens here.</p>
+<p>First we fetch and source the MOLGENIS R API from molgenis56.
+This means it&#39;ll be set up to retrieve its data from molgenis56.</p>
+<p>Then we retrieve the samples using <code>molgenis.get</code>.</p>
+<p>The <code>snp_id</code> parameter gets filled in into the rsql query q.
+So if for instance <code>snp_id</code> equals <code>rs2287988</code>, Freemarker will fill the parameter in where it says <code>${snp_id}</code> so the query becomes <code>q=&quot;SNP_ID==rs2287988&quot;</code>.</p>
+<p>The outputFile parameter gets filled in into <code>jpeg(&#39;${outputFile}&#39;)</code> so that R plots to the correct output file.</p>
+<p>In <a href="#example-rest-R">the previous example</a> we manually set the axes to <code>c(0, 5000)</code>, but here the amount of reads depends on the chosen SNP. So we compute the maximum amount of reads in both the <code>Ref_Counts</code> and <code>Alt_Counts</code> attributes of the <code>samples</code> dataframe.</p>
+<p>Next we create the scatter plot and the reference line, like we did before.
+Note how we use the <code>snp_id</code> parameter a second time, to render the plot title.</p>
+<p>Save the script.</p>
+<h2>Call the script</h2><p>Push the <img src="../res/images/execute.png" alt="image"> execute button.</p>
+<p>In the popup, specify the value for <code>snp_id</code>, for example <code>rs2287988</code>.</p>
+<p>Push Run.</p>
+<p><img src="../res/images/rs2287988.png" alt="image"></p><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/documentation/guide-scripts.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="about/team">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation contents under <a href="/LICENSE-CC">CC BY 3.0</a>, and MOLGENIS software code under the <a href="/LICENSE-LGPLv3">LGPLv3 License</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">MOLGENIS Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">MOLGENIS Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer><script src="/res/js/prism.js"></script></body></html>

@@ -1,17 +1,17 @@
-<!DOCTYPE html><!--[if lt IE 8]><html lang="en" class="ie"><![endif]--><!--[if gt IE 8]><!--><html lang="en"><!--<![endif]--><head><meta charset="utf-8"><title>MOLGENIS - Start</title><meta name="description" content="Quick start for installing and using MOLGENIS."><meta name="author" content="MOLGENIS community"><meta name="handheldfriendly" content="true"><meta name="mobileoptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="cleartype" content="on"><script src="/res/js/jquery-1.11.3.min.js"> </script><script src="/res/js/bootstrap.min.js"></script><link rel="stylesheet" href="/res/css/application.css" type="text/css"><link rel="shortcut icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" title="undefined"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+<!DOCTYPE html><!--[if lt IE 8]><html lang="en" class="ie"><![endif]--><!--[if gt IE 8]><!--><html lang="en"><!--<![endif]--><head><meta charset="utf-8"><title>MOLGENIS - Start</title><meta name="description" content="Quick start for using MOLGENIS."><meta name="author" content="MOLGENIS community"><meta name="handheldfriendly" content="true"><meta name="mobileoptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="cleartype" content="on"><script src="/res/js/jquery-1.11.3.min.js"> </script><script src="/res/js/bootstrap.min.js"></script><link rel="stylesheet" href="/res/css/prism.css"><link rel="stylesheet" href="/res/css/application.css" type="text/css"><link rel="shortcut icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" title="undefined"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)
 [0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'UA-2273328-11', 'auto');
-ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header"><div role="navigation" class="navbar navbar-static-top"><div class="container container-fluid"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand"><img src="/res/images/wordmark-blue.png" alt="undefined" class="wordmark"/></a></div><div id="navbar" class="collapse navbar-collapse">              <ul class="nav navbar-nav navbar-right"><li class="active"><a href="/start">Start</a></li><li><a href="/learn">Data</a></li><li><a href="/compute">Compute</a></li><li><a href="/develop">Develop</a></li><li><a href="/about">About</a></li><li><a href="/sitemap">Sitemap</a></li><li><a href="#searchbox" data-toggle="collapse"><i class="glyphicon glyphicon-search"></i></a></li></ul></div></div></div><div id="searchbox" class="collapse"><form role="search" action="/search-results"><input placeholder="Search" name="q" class="form-control"/></form></div><div class="molgenis-docs-titlebar active"><div class="container"> <h1>Start</h1><p>Quick start for installing and using MOLGENIS.</p></div></div></header><div class="molgenis-docs-body"><div class="container"><div class="row"><div role="complementary" class="col-md-3"><nav id="molgenis-docs-sidebar" class="molgenis-docs-sidebar hidden-print hidden-xs hidden-sm"><ul id="molgenis-docs-sidenav" class="nav molgenis-docs-sidenav"></ul></nav><script>$(function() {
+ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header"><div role="navigation" class="navbar navbar-static-top"><div class="container container-fluid"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand"><img src="/res/images/wordmark-blue.png" alt="undefined" class="wordmark"/></a></div><div id="navbar" class="collapse navbar-collapse">              <ul class="nav navbar-nav navbar-right"><li class="active"><a href="/start">Start</a></li><li><a href="/documentation">Documentation</a></li><li><a href="/compute">Compute</a></li><li><a href="/develop">Develop</a></li><li><a href="/download">Download</a></li><li><a href="/about">About</a></li><li><a href="#searchbox" data-toggle="collapse"><i class="glyphicon glyphicon-search"></i></a></li></ul></div></div></div><div id="searchbox" class="collapse"><form role="search" action="/search-results"><input placeholder="Search" name="q" class="form-control"/></form></div><div class="molgenis-docs-titlebar active"><div class="container"> <h1>Start</h1><p>Quick start for using MOLGENIS.</p></div></div></header><div class="molgenis-docs-body"><div class="container"><div class="row"><div role="complementary" class="col-md-3"><nav id="molgenis-docs-sidebar" class="molgenis-docs-sidebar hidden-print hidden-xs hidden-sm"><ul id="molgenis-docs-sidenav" class="nav molgenis-docs-sidenav"></ul></nav><script>$(function() {
     var sideNav = $("#molgenis-docs-sidenav");
     var index = 0;
     $(".row h1").each(function() {
         
         //create id for h1
-        var id = (index++) + $(this).text().replace(/\s/gi,"-").toLowerCase();
+        var id = (index++) + $(this).text().replace(/\s/gi,"-").replace(/\W/g,"").toLowerCase();
         $(this).prepend("<a name=\""+id+"\"></a>");
         
         //add h1 to list
@@ -34,7 +34,7 @@ ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header
             $("h2",$(this).parent()).each(function(){
             
                 //create id for h2
-                var id = (index++) + $(this).text().replace(/\s/gi,"-").toLowerCase();
+                var id = (index++) + $(this).text().replace(/\s/gi,"-").replace(/\W/g,"").toLowerCase();
                 $(this).prepend("<a name=\""+id+"\"></a>");
         
                 //wrap h2 into section
@@ -76,111 +76,164 @@ ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header
         });
     
     $("table").addClass("table table-bordered");
-});</script></div><div role="main" class="col-md-9 contents"><h1>Online demo</h1><p>For a quick view on MOLGENIS we recommend to use the online demo.</p>
-<h2>Latest stable release</h2><p>For the latest stable version browse to</p>
-<p><a href="https://molgenis.org/demo">https://molgenis.org/demo</a></p>
-<p>username: admin
-password: admin</p>
-<p>This version is updated approx. every three months so may not offer the latest and greatest.</p>
-<h2>Nightly build</h2><p>For the bleeding edge browse to</p>
-<p><a href="https://molgenis01.target.rug.nl">https://molgenis01.target.rug.nl</a></p>
-<p>username: admin
-password: admin</p>
-<p>This version may be broken because it is currently under development. Also it may lack nice example data. So this is not for the faint of hearted.</p>
-<h1>Cloud installation</h1><p>We host MOLGENIS for our partners. Email m.a.swertz@rug.nl for more information.</p>
-<p>TODO: create amazon image.</p>
-<h1>Download</h1><p>For MOLGENIS to work you need</p>
-<ul>
-<li>MySQL </li>
-<li>Tomcat</li>
-<li>MOLGENIS - <a href="http://mvnrepository.com/artifact/org.molgenis/molgenis-app">http://mvnrepository.com/artifact/org.molgenis/molgenis-app</a></li>
-</ul>
-<p>TODO: standalone MOLGENIS.</p>
-<h2>On Mac</h2><p>TODO: manual</p>
-<h2>On Linux</h2><p>TODO: packages for Ubuntu, CenTOS</p>
-<h2>On Windows</h2><p>TODO: howto</p>
-<h1>Compile yourself</h1><p>This section explains how to install MOLGENIS from sources</p>
-<h2>Software needed</h2><p>install java8 JDK (not JRE) from <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a></p>
-<p>install eclipse (we used Luna) from <a href="https://www.eclipse.org/downloads/">https://www.eclipse.org/downloads/</a></p>
-<p>install mysql from (we used 5.6.23 DMG) <a href="http://dev.mysql.com/downloads/mysql/">http://dev.mysql.com/downloads/mysql/</a></p>
-<p>install git from <a href="http://git-scm.com/download/">http://git-scm.com/download/</a></p>
-<h2>Configure mysql</h2><p>open terminal and start mysql client (command differs in Windows, Linux, Mac): </p>
-<pre><code>/usr/local/mysql/bin/mysql -u root
-</code></pre><p>Note, if not running you can start the MySQL server from the System Preferences</p>
-<p>in mysql client create database and permissions via command:</p>
-<pre><code>create database omx;
-grant all privileges on omx.* to molgenis@localhost identified by &#39;molgenis&#39;;
-flush privileges;
-</code></pre><h2>Configure Eclipse</h2><p>start Eclipse</p>
-<p>when asked, create fresh workspace folder (not same folder as git!)</p>
-<p>go to &#39;Help&#39; -&gt; &#39;Eclipse market place&#39;</p>
-<p>find and install plugins:</p>
-<ul>
-<li>&#39;JBoss Tools&#39;, during install only select Freemarker IDE</li>
-<li>&#39;TestNG for Eclipse&#39;</li>
-<li>&#39;m2e-apt&#39;</li>
-</ul>
-<p>go to &#39;Eclipse&#39; -&gt; &#39;Preferences&#39; </p>
-<ul>
-<li>&#39;installed JREs&#39; and select &#39;java 8&#39;</li>
-<li>&#39;Maven&#39; -&gt; &#39;Annotation Processing&#39; and select &#39;Automatically Configure JDT APT&#39;</li>
-</ul>
-<p>Restart</p>
-<h2>Get the code</h2><p>create acount on github.com </p>
-<p>&#39;fork&#39; on <a href="http://github.com/molgenis/molgenis">http://github.com/molgenis/molgenis</a></p>
-<p>copy the cloneURL</p>
-<p>open terminal (mkdir if needed) and type </p>
-<pre><code>cd ~/git 
-git clone http://github.com/[YOURACCOUNT]/molgenis
-</code></pre><p>Optionally select stable molgenis version:</p>
-<pre><code>git fetch --tags origin
-git checkout -b &lt;tag name: see https://github.com/molgenis/molgenis/releases&gt;
-</code></pre><p>More information about forking can be found here: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a></p>
-<h2>Set admin password</h2><p>Create the file ~/.molgenis/omx/molgenis-server.properties and add user and database properties:</p>
-<pre><code>db_user=molgenis
-db_password=molgenis
-db_uri=jdbc:mysql://localhost/omx
-admin.password=admin
-user.password=admin
-</code></pre><p>If these properties are not present, the MolgenisDatabasePopulator will fail (RuntimeException). This properties-file should be in your home folder, if the file is not there yet, just create it.    </p>
-<p>If you are developing you might want to add the following</p>
-<pre><code>environment=development
-</code></pre><p>This property allows for at runtime javascript editing and makes sure the javascript files do not get minified and bundled.</p>
-<h2>Start MOLGENIS</h2><p>In eclipse, if still open, close the &#39;Welcome&#39; screen.</p>
-<p>Choose &#39;File&#39; -&gt; &#39;Import&#39; -&gt; &#39;Import existing Maven projects&#39;</p>
-<p>Browse to your /git/molgenis directory </p>
-<p>Select it, you will then be prompted to install some maven connectors, accept these 
-(else MOLGENIS will not build properly in eclipse)</p>
-<p>Right mouse &#39;molgenis&#39; -&gt; Run as -&gt; Maven build ... 
-    In Goals type: clean install. 
-    Under Goals check Update Snapshots and Resolve Workspace artifacts. 
-    In the JRE tab, add the VM argument; -Xmx2g
-    Click run</p>
-<p>Right mouse &#39;molgenis-app&#39; -&gt; Run as -&gt; Maven build ... 
-    in goals type &#39;jetty:run&#39; 
-    In the JRE tab, add the VM argument; -Xmx2g
-    Click run</p>
-<p>Open your browser at <a href="http://localhost:8080/">http://localhost:8080/</a></p>
-<p>You should see the application. Login as &#39;admin&#39;, &#39;admin&#39; to be able to upload and view data, create users, etc etc.</p>
-<h2>Update your code</h2><p>Add the original molgenis repository as a remote location.</p>
-<pre><code>cd ~/git/molgenis
-git remote add blessed https://github.com/molgenis/molgenis.git
-</code></pre><p>Perform regular updates so the latest changes are merged with your local clone.</p>
-<pre><code>git pull blessed master
-</code></pre><p>And push back any merges or commits of your own to your online fork.</p>
-<pre><code>git push origin master
-</code></pre><h2>Troubleshooting</h2><h3>When I build I get maven build error &#39;env not available&#39;.</h3><p>Solution: start Eclipse from commandline.</p>
-<h3>When I try to start an application, the console tells me &#39;Address already in use&#39;!</h3><p>Run the Maven target &#39;jetty:stop&#39;. If that does not help, use your operating systems process manager to kill anything running on port 8080. For example:</p>
-<pre><code>kill -9 `lsof -i :8080 -t`
-</code></pre><h2>Third-party software</h2><p>For some modules in Molgenis, third-party software is in use. It is important to know that some of these licenses are different than the Molgenis license.</p>
-<p>In this section you can find a list of remarks about third-party software in Molgenis modules.</p>
-<h3>molgenis-charts module</h3><p>As a non-profit organisation we are using the Highsoft software &#39;highstock version 1.3.6&#39;, in the molgenis-charts module to build some charts.</p>
-<p>Important! The Highsoft software product is not free for commercial use. For Highsoft products and pricing go to: <a href="http://shop.highsoft.com/">http://shop.highsoft.com/</a></p>
-<p>To turn-off/deactivate this functionality you can set the RuntimeProperty “plugin.dataexplorer.mod.charts” to false:</p>
-<pre><code>1. You can find the RuntimeProperty via the menu Entities -&gt; RuntimeProperty.
-2. Search for the RuntimeProperty &quot;plugin.dataexplorer.mod.charts&quot; and update to false.
-3. If it does not exists:
-    a. Create a new RuntimeProperty
-    b. Name -&gt; plugin.dataexplorer.mod.charts
-    c. Value -&gt; false
-</code></pre><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/start.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="about/team">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation under <a href="/LICENSE-CC">CC BY 3.0</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer></body></html>
+});</script></div><div role="main" class="col-md-9 contents"><p><strong>
+Here you will learn, step-by-step, what MOLGENIS is, how to install it, and first glance on the options it offers you to manage and explore your data.
+</strong></p>
+<h1>What is MOLGENIS?</h1><p>Molecular Genetics Information Systems, or MOLGENIS for short, is a web-based software toolkit designed to provide biologists with user friendly and scalable software infrastructures to capture, exchange, and exploit the large amounts of data that is being produced by scientific organisations all around the world. To get an idea of what the software can do, visit our <a href="https://www.youtube.com/channel/UCiVR-YZFcBQe0i6RUwE9kyg">MOLGENIS YouTube channel</a>.</p>
+<p><img src="res/images/molgenis-overview.png?raw=true," alt="molgenis overview" title="molgenis overview"></p>
+<h2>Why MOLGENIS?</h2><p>Why should you use MOLGENIS? One of the key features is that it uses an extensible model system, allowing you to model your data however you want. This creates flexibility that other, more static, database applications often lack. It&#39;s web-based, meaning you setup a server, install and configure MOLGENIS, load your data and share it with the world. If your data is ready, setting up a useful online research database can be done in a matter of days. Besides storing your data, MOLGENIS also allows for the creation of R and Python scripts that interact with your data. This enables you to run statistical analysis, or create plots based on your data within the online environment.</p>
+<p>MOLGENIS takes away the hassle of storing data, and makes it highly accessible with filters and fast search capabilities. This enables you as a researcher to focus on the data itself.</p>
+<h2>Who is using MOLGENIS?</h2><p>Several research groups and organisations are already using MOLGENIS for their projects. Below is a list of all the projects currently hosted by us.</p>
+<table>
+<thead>
+<tr>
+<th>Project name</th>
+<th>Pubmed</th>
+<th>Project URL</th>
+<th>Project description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASE</td>
+<td><a href="http://www.ncbi.nlm.nih.gov/pubmed/25954321">link</a></td>
+<td><a href="molgenis.org/ase">Database</a></td>
+<td>Database for measured ASEs</td>
+</tr>
+<tr>
+<td>COL7A1</td>
+<td><a href="http://www.ncbi.nlm.nih.gov/pubmed/21681854">link</a></td>
+<td><a href="https://molgenis03.target.rug.nl/">Database</a></td>
+<td>Database for COL7A1 mutations</td>
+</tr>
+</tbody>
+</table>
+<p>BIG TODO summarize more examples</p>
+<h2>Should I use it?</h2><p>If you are a biologist, a bioinformatician, a researcher, or anyone else who has a lot of biological data on their hands, then MOLGENIS is a software package that will help you in setting up an online research database in no time at all, making your data query-able and allowing you to share your data with collaborators effortlessly. By mastering the MOLGENIS software toolkit you will be able to store, edit, analyse, and share your data faster than ever before. </p>
+<!-- If one of the following use cases applies to you, then yes it is worth the effort to learn MOLGENIS.
+
+#### <a name="biobank-example"></a> Biobank catalogue
+Biobanks are collections of data from samples.
+MOLGENIS is being used to host biobank data for several major Dutch and European biobanking projects. The BBMRI-NL and BBMRI-ERIC projects.
+
+#### <a name="ngs-example"></a> NGS data annotation and interpretation
+Next generation sequencing (NGS) data often results in mutation data. thousands of single SNPs...
+MOLGENIS is hosting multiple mutation databases like the COL7A1 database and the CHD7 database.
+-->
+<!-- TODO #### <a name="research-portal-example"></a> Research portals -->
+<!-- TODO #### <a name="compute-example"></a> Analysis pipelines and online computing -->
+<h1>Try online</h1><h2>Using our demo server</h2><p>The first thing you can do is to get some hands-on experience by trying out our <a href="http://molgenis.org/demo">demo server</a>. This server contains several data sets including biobank data and genetic data. If you want to try importing some example files, then the only thing needed from your end is that you create an account. An email will be sent containing your login in credentials.
+But perhaps you want to see how your own data looks like, but not upload it for other people to see, not yet anyway. So let&#39;s jump right into that.  </p>
+<h2>Getting your first data in</h2><p>So you have a MOLGENIS application up and running, and your dataset is sitting nice and cozy on your computer somewhere, now what? We upload the data of course! As mentioned before, MOLGENIS uses an extensible model format allowing you to model your data however you want. This is done via the <strong>EMX</strong> format. Now I know a custom format sounds scary, but if you keep reading for a bit, you will find out it&#39;s not scary at all.</p>
+<p>We wanted researchers to be able to describe their data in a flexible &#39;meta model&#39;. This sounds really interesting, but what it boils down to, is that you have one separate xlsx sheet that describes your column names, or attributes as we call them. Thats it. Thats all the EMX format is. Keep reading to find a detailed example.</p>
+<h2><a name="creating-emx-file"></a> Creating an EMX file</h2><p>If you want to skip this theory lesson and download an excel file right away to use as a template, you can find several of them <a href="https://github.com/molgenis/molgenis/tree/master/molgenis-app/src/test/resources">on Github</a>. Be advised that these are files for testing purposes, and do not have real data in them, so they might not fully represent the complexity of your own data.</p>
+<p>Now for the example. Say that you have an existing excel sheet with a couple of thousand rows of data and several columns. This data can look something like this:</p>
+<p><strong>Data sheet</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Gene</th>
+<th>Protein measured</th>
+<th>Protein count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A12345_Z</td>
+<td>BRCA2</td>
+<td>P51587</td>
+<td>321</td>
+</tr>
+<tr>
+<td>B12345_Y</td>
+<td>BRCA2</td>
+<td>Q86YC2</td>
+<td>123</td>
+</tr>
+<tr>
+<td>C12345_X</td>
+<td>BRCA2</td>
+<td>Q9P287</td>
+<td>213</td>
+</tr>
+<tr>
+<td>D12345_W</td>
+<td>BRCA2</td>
+<td>P46736</td>
+<td>231</td>
+</tr>
+<tr>
+<td>E12345_V</td>
+<td>BRCA2</td>
+<td>Q8MKI9</td>
+<td>312</td>
+</tr>
+</tbody>
+</table>
+<p>Now to make this into a full fledged EMX file, all you have to do is create a new sheet within the same file and call it <em>attributes</em>. To give an idea on what the purpose of this sheet is, it will describe the columns that you have set for your data. This description allows MOLGENIS to properly store and display it. An attribute sheet will look something like this:</p>
+<p><strong>Attribute sheet</strong></p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>entity</th>
+<th>dataType</th>
+<th>description</th>
+<th>refEntity</th>
+<th>idAttribute</th>
+<th>nillable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identifier</td>
+<td>example_data_table</td>
+<td>string</td>
+<td>The identifier for this table</td>
+<td></td>
+<td>TRUE</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>Gene</td>
+<td>example_data_table</td>
+<td>string</td>
+<td>The HGNC Gene identifier</td>
+<td></td>
+<td>FALSE</td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td>Protein measured</td>
+<td>example_data_table</td>
+<td>string</td>
+<td>The protein that was measured</td>
+<td></td>
+<td>FALSE</td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td>Protein count</td>
+<td>example_data_table</td>
+<td>int</td>
+<td>Number of proteins measured</td>
+<td></td>
+<td>FALSE</td>
+<td>TRUE</td>
+</tr>
+</tbody>
+</table>
+<p>This little bit is all you need. You specify the <em>name</em>, which is the name you gave to the column already. The <em>entity</em> is the name the table will get when it is stored in the database. The <em>dataType</em> is, as you might have guessed, the type of data that is present in each column. The <em>description</em> column allows you to describe your attribute. If you want to have a value point to another table, you can use the <em>refEntity</em> column. Complex data structures do not always consist of a single table, we support multiple table models through this system of reference entities. The <em>idAttribute</em> parameter will tell MOLGENIS that this is the primary key. It has to be unique, and it is not allowed to be null or missing. With the <em>nillable</em> parameter you can enforce whether an attribute is allowed to be missing or not.  </p>
+<p>This is a minimal example of how you can use one extra sheet and a few columns to properly define your <em>meta data</em>. MOLGENIS is now capable of importing your data, storing it, displaying it, and making the data query-able.</p>
+<h2>Importing your EMX file</h2><p>So you have a MOLGENIS application running locally or on the server, and working with the example in the previous paragraph you have now converted your dataset into the EMX format. So I guess it is time to upload!</p>
+<p>Browse to wherever your application is running, and login as admin user.
+Go to the Upload menu. You now should see something like this:</p>
+<p><img src="res/images/importer_first_screen.png?raw=true," alt="Importer first screen" title="importer"></p>
+<p>To keep it simple, all you need to do is click the &#39;select a file&#39; button, select your newly made EMX file, and press the next button until it starts importing. Don&#39;t worry about all the options you are skipping, we will handle those in the <a href="documentation/guide-upload">upload guide</a>. After your import is done, you can view your data in the data explorer. Go there by clicking the &#39;Data Explorer&#39; link in the menu.</p>
+<p>Congratulations! You have now deployed MOLGENIS either locally or on a server, and you have made the first steps on getting your data into the MOLGENIS database. Play around a bit with the different data explorer filters to get a feel on how MOLGENIS works.</p>
+<p>Of course, simply uploading and showing data is not the only thing you can do with the MOLGENIS software. In the following MOLGENIS step-by-step section, we will take you from being a simple user, and teach you on how to be an expert.</p>
+<h1>What is next?</h1><h2>Download &amp; install</h2><p>You can download and install MOLGENIS for free. See <a href="/download">Download &amp; Intall guide</a></p>
+<h2>Request cloud installation</h2><p>We host MOLGENIS for our partners. Email m.a.swertz@rug.nl for more information.</p>
+<h2>Become a MOLGENIS guru</h2><p>You can use the <a href="../documentation">Documentation</a> to become a MOLGENIS guru.
+Or you can see whether you are interested in <a href="../compute">MOLGENIS compute</a>.    </p><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/start.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="about/team">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation contents under <a href="/LICENSE-CC">CC BY 3.0</a>, and MOLGENIS software code under the <a href="/LICENSE-LGPLv3">LGPLv3 License</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">MOLGENIS Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">MOLGENIS Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer><script src="/res/js/prism.js"></script></body></html>

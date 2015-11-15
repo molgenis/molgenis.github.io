@@ -1,0 +1,176 @@
+<!DOCTYPE html><!--[if lt IE 8]><html lang="en" class="ie"><![endif]--><!--[if gt IE 8]><!--><html lang="en"><!--<![endif]--><head><meta charset="utf-8"><title>MOLGENIS - R</title><meta name="description" content="Access via R-project"><meta name="author" content="MOLGENIS community"><meta name="handheldfriendly" content="true"><meta name="mobileoptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="cleartype" content="on"><script src="/res/js/jquery-1.11.3.min.js"> </script><script src="/res/js/bootstrap.min.js"></script><link rel="stylesheet" href="/res/css/prism.css"><link rel="stylesheet" href="/res/css/application.css" type="text/css"><link rel="shortcut icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" title="undefined"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)
+[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-2273328-11', 'auto');
+ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header"><div role="navigation" class="navbar navbar-static-top"><div class="container container-fluid"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand"><img src="/res/images/wordmark-blue.png" alt="undefined" class="wordmark"/></a></div><div id="navbar" class="collapse navbar-collapse">              <ul class="nav navbar-nav navbar-right"><li><a href="/start">Start</a></li><li class="active"><a href="/documentation">Documentation</a></li><li><a href="/compute">Compute</a></li><li><a href="/develop">Develop</a></li><li><a href="/download">Download</a></li><li><a href="/about">About</a></li><li><a href="#searchbox" data-toggle="collapse"><i class="glyphicon glyphicon-search"></i></a></li></ul></div></div></div><div id="searchbox" class="collapse"><form role="search" action="/search-results"><input placeholder="Search" name="q" class="form-control"/></form></div><div class="molgenis-docs-titlebar active"><div class="container"> <h1>R</h1><p>Access via R-project   </p></div></div><a href="blaat" #{public._data[1].title}="#{public._data[1].title}"></a></header><div class="molgenis-docs-body"><div class="container"><div class="row"><div role="complementary" class="col-md-3"><nav id="molgenis-docs-sidebar" class="molgenis-docs-sidebar hidden-print hidden-xs hidden-sm"><ul id="molgenis-docs-sidenav" class="nav molgenis-docs-sidenav"></ul></nav><script>$(function() {
+    var sideNav = $("#molgenis-docs-sidenav");
+    var index = 0;
+    $(".row h1").each(function() {
+        
+        //create id for h1
+        var id = (index++) + $(this).text().replace(/\s/gi,"-").replace(/\W/g,"").toLowerCase();
+        $(this).prepend("<a name=\""+id+"\"></a>");
+        
+        //add h1 to list
+        var li = $("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>")
+        sideNav.append(li);
+        
+        //wrap h1 into section
+        var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+        //wrap parts of h1 into one section
+        $(this).parent().nextUntil("h1").each(function(){            
+            section.append($(this));
+        });
+        
+        //repeat for h2
+        if($("h2",$(this).parent()).length > 0) {
+            var ul = $("<ul class=\"nav\"></ul>");
+            li.append(ul);
+            
+            $("h2",$(this).parent()).each(function(){
+            
+                //create id for h2
+                var id = (index++) + $(this).text().replace(/\s/gi,"-").replace(/\W/g,"").toLowerCase();
+                $(this).prepend("<a name=\""+id+"\"></a>");
+        
+                //wrap h2 into section
+                var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+                ul.append($("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>"));
+        
+                //wrap parts of h2 into one section
+                $(this).parent().nextUntil("h2").each(function(){            
+                    section.append($(this));
+                });
+            
+
+            });
+        }
+    });    
+    
+    //add "back to top"
+    sideNav.append("<li><a href=\"#top\" style=\"font-size:smaller\">Back to top</a></li>");
+    var $body   = $(document.body);
+    
+    //enable the 'active' highlighting using scrollspy plugin
+    $('body').scrollspy({
+        target: '#molgenis-docs-sidebar'
+    });
+    $('#molgenis-docs-sidebar').width($('#molgenis-docs-sidebar').parent().width());
+    
+    //enable affix
+    $('#molgenis-docs-sidebar').affix({
+        offset: {
+            top: $('#molgenis-docs-sidebar').offset().top,
+            bottom: $('.molgenis-docs-footer').outerHeight(true) + 10
+        }
+    });
+    
+    //resize affix box when window resizes
+    $(window).resize(function () {
+            $('.molgenis-docs-sidebar').width($('#molgenis-docs-sidebar').parent().width());
+        });
+    
+    $("table").addClass("table table-bordered");
+});</script></div><div role="main" class="col-md-9 contents"><p><strong>
+The R API is a script that allows access to your MOLGENIS data via the R-Project statistical package. It is availabelon every MOLGENIS on the URL <code>http[s]://&lt;your.molgenis.url&gt;/molgenis.R</code>.
+</strong></p>
+<h2>Example</h2><p>As an example, let&#39;s create a plot for publicly available ASE data available on <a href="https://molgenis56.target.rug.nl/">https://molgenis56.target.rug.nl/</a>. For a description of the data, take a look at <a href="http://molgenis.org/ase">http://molgenis.org/ase</a>.</p>
+<p>Start up the R environment.</p>
+<p>In the shell type:</p>
+<pre><code class="language-R">library(&#39;RCurl&#39;)
+eval(expr = parse(text = getURL(&quot;https://molgenis56.target.rug.nl/molgenis.R&quot;)))
+</code></pre>
+<p>This loads the R API from the molgenis56 server. If you take a look in your workspace by typing</p>
+<pre><code class="language-R">ls()
+</code></pre>
+<p>you should see that a couple functions have been added for you to use:</p>
+<pre><code> [1] &quot;molgenis.add&quot;                  &quot;molgenis.addAll&quot;               &quot;molgenis.addList&quot;              &quot;molgenis.delete&quot;               &quot;molgenis.env&quot;                
+ [6] &quot;molgenis.get&quot;                  &quot;molgenis.getAttributeMetaData&quot; &quot;molgenis.getEntityMetaData&quot;    &quot;molgenis.login&quot;                &quot;molgenis.logout&quot;              
+[11] &quot;molgenis.update&quot;
+</code></pre><p>Let&#39;s load some data from the server using <code>molgenis.get</code>:</p>
+<pre><code class="language-R">molgenis.get(&quot;ASE&quot;)
+</code></pre>
+<p>This retrieves the top 1000 rows from the ASE entity.</p>
+<pre><code>P_Value Samples      SNP_ID Chr       Pos                           Genes
+1    0.000000000000000020650473933963698652198164782417962682333833636491755847419682368126814253628253936767578125000000000000000000000000000000000000000000000000000000000000000000000     145   rs9901673  17   7484101 ENSG00000129226,ENSG00000264772
+2    0.000000000000000008781097353981130661746700850633192724259771276345502150073585312384238932281732559204101562500000000000000000000000000000000000000000000000000000000000000000000     359   rs2597775   4  17503382                 ENSG00000151552
+3    0.000000000000000001491745894983400057481059632909089858257546335023040629669255352496293198782950639724731445312500000000000000000000000000000000000000000000000000000000000000000     301      rs3216  11    214421                 ENSG00000177963
+[...]
+1000 0.000132500824069775005771554265976419628714211285114288330078125000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000      47   rs1056019  12  41337435                 ENSG00000018236
+</code></pre><p>Let&#39;s retrieve a specific SNP from the ASE entity:</p>
+<pre><code class="language-R">molgenis.get(&quot;ASE&quot;, q=&quot;SNP_ID==rs12460890&quot;)
+</code></pre>
+<pre><code>  Fraction_alternative_allele Likelihood_ratio_test_D Alternative_allele Reference_allele                P_Value Samples     SNP_ID Chr    Pos           Genes
+1                       0.527                56.02079               TRUE                C 0.00000000000007170854      21 rs12460890  19 829568 ENSG00000172232
+</code></pre><p>This SNP has a mild but significant allele-specific expression, based on expression counts in 21 samples.</p>
+<p>Let&#39;s retrieve the samples for this SNP:</p>
+<pre><code class="language-R">samples &lt;- molgenis.get(&quot;SampleAse&quot;, q=&quot;SNP_ID==rs12460890&quot;)
+print(samples)
+</code></pre>
+<pre><code>       SNP_ID SampleIds Ref_Counts Alt_Counts Chromosome Position      ID
+1  rs12460890 ERS194242        130        121         19   829568 1418785
+2  rs12460890 ERS326942       4142       4791         19   829568 1418786
+3  rs12460890 ERS327006         19         28         19   829568 1418787
+4  rs12460890 SRS353551         19         23         19   829568 1418788
+5  rs12460890 SRS271084         32         11         19   829568 1418789
+6  rs12460890 SRS375020        639        572         19   829568 1418790
+7  rs12460890 SRS375024        202        309         19   829568 1418791
+8  rs12460890 SRS375022        423        401         19   829568 1418792
+9  rs12460890 SRS375030        271        234         19   829568 1418793
+10 rs12460890 SRS375026        806       1081         19   829568 1418794
+11 rs12460890 SRS375027        213        201         19   829568 1418795
+12 rs12460890 SRS376459         74         96         19   829568 1418796
+13 rs12460890 SRS375032        730        655         19   829568 1418797
+14 rs12460890 SRS376461        584        699         19   829568 1418798
+15 rs12460890 SRS376464        331        391         19   829568 1418799
+16 rs12460890 SRS376469         13         14         19   829568 1418800
+17 rs12460890 SRS376467         70        101         19   829568 1418801
+18 rs12460890 SRS376468         47         35         19   829568 1418802
+19 rs12460890 SRS418748         19         28         19   829568 1418803
+20 rs12460890 SRS418754         44         47         19   829568 1418804
+21 rs12460890 SRS418755         60         55         19   829568 1418805
+</code></pre><p>There they are.
+Let&#39;s plot the expression counts in these samples in a scatter plot.</p>
+<pre><code class="language-R">plot(samples$Ref_Counts, samples$Alt_Counts, xlim = c(0, 5000), ylim = c(0, 5000), xlab=&#39;Reference Allele&#39;, ylab=&#39;Alternative Allele&#39;, main = &#39;Allele-Specific Expression for rs12460890&#39;)
+</code></pre>
+<p>And add a line for the non-specific expression.</p>
+<pre><code class="language-R">lines(c(0,5000), c(0, 5000))
+</code></pre>
+<p><img src="../res/images/rs12460890-r.png" alt="image"></p>
+<h1>Query format</h1><p>The query must be in <a href="https://github.com/jirutka/rsql-parser">fiql/rsql format</a>.</p>
+<h1>Non-anonymous access</h1><p>The ASE data from the previous example is publicly available.
+To access private data, you can log in using</p>
+<pre><code class="language-R">molgenis.login(&quot;your username&quot;, &quot;your password&quot;)
+</code></pre>
+<p>This will create a molgenis token on the server and set it in the <code>molgenis.token</code> variable in your R workspace.</p>
+<p>When you&#39;re done, you can log out using</p>
+<pre><code class="language-R">molgenis.logout()
+</code></pre>
+<h1>Retrieving more rows</h1><p>By default, <code>molgenis.get</code> will retrieve up to 1000 rows only.</p>
+<p>If you need more rows, you can request up to 10000 rows by adding the <code>num</code> parameter:</p>
+<pre><code class="language-R">molgenis.get(&quot;ASE&quot;, num=2000)
+</code></pre>
+<p>will retrieve the top 2000 rows from the ASE entity.</p>
+<h1>Pagination</h1><p>You can retrieve the data page-by-page.</p>
+<pre><code class="language-R">molgenis.get(&quot;ASE&quot;, num=5)
+</code></pre>
+<p>will retrieve a first page of 5 rows and</p>
+<pre><code class="language-R">molgenis.get(&quot;ASE&quot;, num=5, start=5)
+</code></pre>
+<p>will retrieve the second page of 5 rows.</p>
+<h1>Cross server scripting</h1><p>By default, the MOLGENIS R API retrieves its data from the server you retrieved it from, so if you want to retrieve data from a different server, simply source the molgenis.R from that server.</p>
+<p>But if you want to combine data from multiple server, you can specify a different REST API URL to use by setting <code>molgenis.api.url</code> in the <code>molgenis.env</code> environment. For example:</p>
+<pre><code class="language-R">local({
+  molgenis.api.url &lt;- &quot;https://molgenis56.target.rug.nl:443/api/v1/&quot;
+}, env = molgenis.env)
+</code></pre>
+<p>or</p>
+<pre><code class="language-R">local({
+  molgenis.api.url &lt;- &quot;http://localhost:8080/api/v1/&quot;
+}, env = molgenis.env)
+</code></pre><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/documentation/guide-R.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="about/team">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation contents under <a href="/LICENSE-CC">CC BY 3.0</a>, and MOLGENIS software code under the <a href="/LICENSE-LGPLv3">LGPLv3 License</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">MOLGENIS Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">MOLGENIS Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer><script src="/res/js/prism.js"></script></body></html>
