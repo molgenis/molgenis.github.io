@@ -165,7 +165,7 @@ The table will update to show you to show you how many patients with at least on
 <h2>box plot <a href="https://en.wikipedia.org/wiki/Box_plot" title="Box plot">Box_plot</a></h2><p><img src="/res/images/dataexplorer/create box plot.png?raw=true," alt="Dataexplorer aggregate create box plot" title="dataexplorer/createboxplot"></p>
 <p>For the box plot 1 attribute (feature) is to be selected to make the plot, optionally a second attribute can be selected to split the dots in groups. Optionally you can provide a title for your plot.</p>
 <p><img src="/res/images/dataexplorer/boxplot.png?raw=true," alt="Dataexplorer charts box plot" title="dataexplorer/boxplot"></p>
-<h1>Reports</h1><p>The reports functionality is made for overriding the default instance view or to add a instances tab in the Data-explorer. Overriding the views or adding a tab is possible by creating a new FreemarkerTemplate entity with the right name convention. In this short tutorial I will show you how to achieve this.</p>
+<h1>Reports</h1><p>The reports functionality is made for overriding the default instance view or to add an instances tab in the Data-explorer. Overriding the views or adding a tab is possible by creating a new <code>FreemarkerTemplate</code> entity with the right name convention. In this short tutorial I will show you how to achieve this.</p>
 <p>There are two ways to create your own reports: </p>
 <ol>
 <li>Overriding the default instance view.</li>
@@ -194,9 +194,34 @@ The table will update to show you to show you how many patients with at least on
 <li>Let&#39;s upload our own template. 
  a. Go to the data explorer and select the FreemarkerTemplate entity.
  b. Click on the <img src="/res/images/add.png?raw=true," alt="add" title="add"> button. In the modal you fill in:<pre><code> * Name: view-Cities-entitiesreport.ftl (view-\&lt;template name&gt;-entitiesreport.ftl)
- * Value: &quot;\&lt;div&gt;My cities\&lt;/div&gt;&quot;
- ![view-Cities-entitiesreport](res/images/reports/view-Cities-entitiesreport.png?raw=true, &quot;view-Cities-entitiesreport&quot;)
-</code></pre></li>
+ * Value: 
+</code></pre>```js<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css">
+
+</li>
+</ol>
+<div id="map" style="width: 600px; height: 400px"></div>
+
+<p><script>
+    function showMap() {
+        var map = L.map(&#39;map&#39;).setView([38, -80], 4);</p>
+<pre><code>    L.tileLayer(&#39;//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ&#39;, {
+        maxZoom: 18,
+        attribution: &#39;Map data &amp;copy; &lt;a href=&quot;http://openstreetmap.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &#39; +
+        &#39;&lt;a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;&gt;CC-BY-SA&lt;/a&gt;, &#39; +
+        &#39;Imagery &amp;copy; &lt;a href=&quot;http://mapbox.com&quot;&gt;Mapbox&lt;/a&gt;&#39;,
+        id: &#39;mapbox.streets&#39;
+    }).addTo(map);
+
+&lt;#list datasetRepository.iterator() as city&gt;
+    L.marker([${city.get(&quot;lat&quot;)},${city.get(&quot;lng&quot;)}]).addTo(map)
+            .bindPopup(&quot;${city.get(&quot;cityName&quot;)}&quot;).openPopup();
+&lt;/#list&gt;
+}
+$.getScript(&quot;//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js&quot;, showMap);
+</code></pre><p></script>
+```</p>
+<pre><code>    ![view-Cities-entitiesreport](res/images/reports/view-Cities-entitiesreport.png?raw=true, &quot;view-Cities-entitiesreport&quot;)
+</code></pre><ol>
 <li><p>Click on the settings icon <img src="res/images/settings.png?raw=true," alt="Settings" title="Settings">
  a. Check: Modules -&gt; Data -&gt; Reports -&gt; Yes
  b. Set: Reports -&gt; Reports -&gt; root_hospital_cities:Cities</p>
