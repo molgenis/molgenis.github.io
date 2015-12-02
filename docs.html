@@ -1,0 +1,2494 @@
+<!DOCTYPE html><!--[if lt IE 8]><html lang="en" class="ie"><![endif]--><!--[if gt IE 8]><!--><html lang="en"><!--<![endif]--><head><meta charset="utf-8"><title>MOLGENIS - MOLGENIS</title><meta name="description"><meta name="author" content="MOLGENIS community"><meta name="handheldfriendly" content="true"><meta name="mobileoptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="cleartype" content="on"><script src="/res/js/jquery-1.11.3.min.js"> </script><script src="/res/js/bootstrap.min.js"></script><link rel="stylesheet" href="/res/css/prism.css"><link rel="stylesheet" href="/res/css/application.css" type="text/css"><link rel="shortcut icon" href="/favicon.ico"><link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" title="undefined"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)
+[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-2273328-11', 'auto');
+ga('send', 'pageview');</script></head><body><!--to generate doc download .html and then run pandoc--><!--pandoc -f html -t docx -o output.docx docs.html--><p>For an interactive version of this guide visit <a href="http://molgenis.github.io">http://molgenis.github.io</a></p><h1>Getting started</h1><p><strong>
+Here you will learn, step-by-step, what MOLGENIS is, how to install it, and first glance on the options it offers you to manage and explore your data.
+</strong></p>
+<h2>What is MOLGENIS?</h2><p>Molecular Genetics Information Systems, or MOLGENIS for short, is a modular web application for scientific data. MOLGENIS was born from molecular genetics research and is now, thanks too many sponsors and contributors, also used in other scientifc areas such as biobanking, rare disease research, patient registries and even energy research. MOLGENIS provides researchers with user friendly and scalable software infrastructures to capture, exchange, and exploit the large amounts of data that is being produced by scientific organisations all around the world. To get an idea of what the software can do, visit our <a href="https://www.youtube.com/channel/UCiVR-YZFcBQe0i6RUwE9kyg">MOLGENIS YouTube channel</a>.</p>
+<p><img src="res/images/molgenis-overview.png?raw=true," alt="molgenis overview" title="molgenis overview"></p>
+<h3>Why MOLGENIS?</h3><p>Why should you use MOLGENIS? One of the key features is that it has a completely customizable data system, allowing you to model your data however you need. This creates flexibility that other, more static, database applications often lack. It&#39;s web-based, meaning you setup a server, install and configure MOLGENIS, load your data and share it with the world. If your data is ready, setting up a useful online research database application can be done in a few hours. Another key feature is that MOLGENIS is modular, having all kinds of extension modules to store and interact with your data. A good example are interfaces to create R and Python scripts that interact with your data. This enables you to add your own statistical modules run statistical analysis, or create plots based on your data within the online environment.</p>
+<p>MOLGENIS takes away the hassle of storing data, and makes it highly accessible with filters and fast search capabilities. This enables you as a researcher to focus on the data itself.</p>
+<!--
+## Who is using MOLGENIS?
+Several research groups and organisations are already using MOLGENIS for their projects. Below is a list of all the projects currently hosted by us.
+
+|Project name | Pubmed                                            | Project URL                                 |Project description          |
+|-------------|---------------------------------------------------|---------------------------------------------|-----------------------------|
+|ASE          |[link](http://www.ncbi.nlm.nih.gov/pubmed/25954321)|[Database](molgenis.org/ase)                 |Database for measured ASEs   |
+|COL7A1       |[link](http://www.ncbi.nlm.nih.gov/pubmed/21681854)|[Database](https://molgenis03.target.rug.nl/)|Database for COL7A1 mutations|
+
+BIG TODO summarize more examples
+-->
+<h3>Should I use it?</h3><p>If you are a researcher, a (bio)informatician, a biomedical practicioner, or anyone else who has a lot of (scientific) data on their hands, then MOLGENIS is a software package that will help you in setting up an online  database application in no time at all, making your data query-able and allowing you to share your data with collaborators effortlessly. By mastering the MOLGENIS software toolkit you will be able to store, edit, analyse, and share your data faster than ever before. </p>
+<!-- If one of the following use cases applies to you, then yes it is worth the effort to learn MOLGENIS.
+
+#### <a name="biobank-example"></a> Biobank catalogue
+Biobanks are collections of data from samples.
+MOLGENIS is being used to host biobank data for several major Dutch and European biobanking projects. The BBMRI-NL and BBMRI-ERIC projects.
+
+#### <a name="ngs-example"></a> NGS data annotation and interpretation
+Next generation sequencing (NGS) data often results in mutation data. thousands of single SNPs...
+MOLGENIS is hosting multiple mutation databases like the COL7A1 database and the CHD7 database.
+-->
+<!-- TODO #### <a name="research-portal-example"></a> Research portals -->
+<!-- TODO #### <a name="compute-example"></a> Analysis pipelines and online computing -->
+<h2>Try online</h2><h3>Using our demo server</h3><p>The first thing you can do is to get some hands-on experience by trying out our <a href="http://molgenis.org/demo">demo server</a>. This server contains several data sets including biobank data and genetic data. If you want to try importing some example files, then the only thing needed from your end is that you create an account. An email will be sent containing your login in credentials.
+But perhaps you want to see how your own data looks like, but not upload it for other people to see, not yet anyway. So let&#39;s jump right into that.  </p>
+<h3>Getting your first data in</h3><p>So you have a MOLGENIS application up and running, and your dataset is sitting nice and cozy on your computer somewhere, now what? We upload the data of course! As mentioned before, MOLGENIS uses an extensible model format allowing you to model your data however you want. This is done via the <strong>EMX</strong> format. Now I know a custom format sounds scary, but if you keep reading for a bit, you will find out it&#39;s not scary at all.</p>
+<p>We wanted researchers to be able to describe their data in a flexible &#39;meta model&#39;. This sounds really interesting, but what it boils down to, is that you have one separate xlsx sheet that describes your column names, or attributes as we call them. Thats it. Thats all the EMX format is. Keep reading to find a detailed example.</p>
+<h3><a name="creating-emx-file"></a> Creating an EMX file</h3><p>If you want to skip this theory lesson and download an excel file right away to use as a template, you can find several of them <a href="https://github.com/molgenis/molgenis/tree/master/molgenis-app/src/test/resources">on Github</a>. Be advised that these are files for testing purposes, and do not have real data in them, so they might not fully represent the complexity of your own data.</p>
+<p>Now for the example. Say that you have an existing excel sheet with a couple of thousand rows of data and several columns. This data can look something like this:</p>
+<p><strong>Data sheet</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Gene</th>
+<th>Protein measured</th>
+<th>Protein count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A12345_Z</td>
+<td>BRCA2</td>
+<td>P51587</td>
+<td>321</td>
+</tr>
+<tr>
+<td>B12345_Y</td>
+<td>BRCA2</td>
+<td>Q86YC2</td>
+<td>123</td>
+</tr>
+<tr>
+<td>C12345_X</td>
+<td>BRCA2</td>
+<td>Q9P287</td>
+<td>213</td>
+</tr>
+<tr>
+<td>D12345_W</td>
+<td>BRCA2</td>
+<td>P46736</td>
+<td>231</td>
+</tr>
+<tr>
+<td>E12345_V</td>
+<td>BRCA2</td>
+<td>Q8MKI9</td>
+<td>312</td>
+</tr>
+</tbody>
+</table>
+<p>Now to make this into a full fledged EMX file, all you have to do is create a new sheet within the same file and call it <em>attributes</em>. To give an idea on what the purpose of this sheet is, it will describe the columns that you have set for your data. This description allows MOLGENIS to properly store and display it. An attribute sheet will look something like this:</p>
+<p><strong>Attribute sheet</strong></p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>entity</th>
+<th>dataType</th>
+<th>description</th>
+<th>refEntity</th>
+<th>idAttribute</th>
+<th>nillable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identifier</td>
+<td>example_data_table</td>
+<td>string</td>
+<td>The identifier for this table</td>
+<td></td>
+<td>TRUE</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>Gene</td>
+<td>example_data_table</td>
+<td>string</td>
+<td>The HGNC Gene identifier</td>
+<td></td>
+<td>FALSE</td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td>Protein measured</td>
+<td>example_data_table</td>
+<td>string</td>
+<td>The protein that was measured</td>
+<td></td>
+<td>FALSE</td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td>Protein count</td>
+<td>example_data_table</td>
+<td>int</td>
+<td>Number of proteins measured</td>
+<td></td>
+<td>FALSE</td>
+<td>TRUE</td>
+</tr>
+</tbody>
+</table>
+<p>This little bit is all you need. You specify the <em>name</em>, which is the name you gave to the column already. The <em>entity</em> is the name the table will get when it is stored in the database. The <em>dataType</em> is, as you might have guessed, the type of data that is present in each column. The <em>description</em> column allows you to describe your attribute. If you want to have a value point to another table, you can use the <em>refEntity</em> column. Complex data structures do not always consist of a single table, we support multiple table models through this system of reference entities. The <em>idAttribute</em> parameter will tell MOLGENIS that this is the primary key. It has to be unique, and it is not allowed to be null or missing. With the <em>nillable</em> parameter you can enforce whether an attribute is allowed to be missing or not.  </p>
+<p>This is a minimal example of how you can use one extra sheet and a few columns to properly define your <em>meta data</em>. MOLGENIS is now capable of importing your data, storing it, displaying it, and making the data query-able.</p>
+<h3>Importing your EMX file</h3><p>So you have a MOLGENIS application running locally or on the server, and working with the example in the previous paragraph you have now converted your dataset into the EMX format. So I guess it is time to upload!</p>
+<p>Browse to wherever your application is running, and login as admin user.
+Go to the Upload menu. You now should see something like this:</p>
+<p><img src="res/images/importer_first_screen.png?raw=true," alt="Importer first screen" title="importer"></p>
+<p>To keep it simple, all you need to do is click the &#39;select a file&#39; button, select your newly made EMX file, and press the next button until it starts importing. Don&#39;t worry about all the options you are skipping, we will handle those in the <a href="documentation/guide-upload">upload guide</a>. After your import is done, you can view your data in the data explorer. Go there by clicking the &#39;Data Explorer&#39; link in the menu.</p>
+<p>Congratulations! You have now deployed MOLGENIS either locally or on a server, and you have made the first steps on getting your data into the MOLGENIS database. Play around a bit with the different data explorer filters to get a feel on how MOLGENIS works.</p>
+<p>Of course, simply uploading and showing data is not the only thing you can do with the MOLGENIS software. In the following MOLGENIS step-by-step section, we will take you from being a simple user, and teach you on how to be an expert.</p>
+<h2>What is next?</h2><h3>Download &amp; install</h3><p>You can download and install MOLGENIS for free. See <a href="/download">Download &amp; Intall guide</a></p>
+<h3>Request cloud installation</h3><p>We host MOLGENIS for our partners. Email m.a.swertz@rug.nl for more information.</p>
+<h3>Become a MOLGENIS guru</h3><p>You can use the <a href="../documentation">Documentation</a> to become a MOLGENIS guru.
+Or you can see whether you are interested in <a href="../compute">MOLGENIS compute</a>.    </p>
+<h1>User interface modules</h1><p>MOLGENIS comes with a rich set of user interface modules that researchers can use out of the box, which are described below. In addition users can create their own modules, either online (e.g. R scripts) using the scripting interfaces (see section 'Scripting interface modules') or by programming modules on the server-side (see section 'Programming your own modules').</p><h2>Data Upload</h2><p><strong>
+In this section you will learn how to upload you data. Let us not wait any longer! After a quick re-cap of terminology and formats we will start off with the most basic step, importing your data.
+</strong></p>
+<h3>Terminology</h3><p>In this section we introduce and explain, terminology of MOLGENIS</p>
+<ul>
+<li>Package: A namespace item. Multiple packages can create a namspace where entities can live in. The default namespace in molgenis is called &quot;default&quot;</li>
+<li>Data set: A collections of entities that are contextually related. </li>
+<li>Entity: An entity is the template and collection of a subject like a table in a database.</li>
+<li>Entity: We also use the term entity for the actual data that is collected based on the template from an entity (Term above), like a row in a database. In the future we will change this term to &quot;instance&quot; to avoid complexity and double use of the same term</li>
+<li>Attribute: An attribute describes the charcteristics of a data item in an entity, Like a column in a database</li>
+</ul>
+<h3>Formats</h3><p>The MOLGENIS upload module supports the following file formats and data:</p>
+<table>
+<thead>
+<tr>
+<th>file format</th>
+<th>file extention</th>
+<th>data formats</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CSV</td>
+<td>&quot;.csv&quot; &quot;.txt&quot; &quot;.tsv&quot; &quot;.zip&quot;</td>
+<td>EMX</td>
+</tr>
+<tr>
+<td>Excel</td>
+<td>&quot;.xls&quot; &quot;.xlsx&quot;</td>
+<td>EMX</td>
+</tr>
+<tr>
+<td>OWL</td>
+<td>&quot;.owl.zip&quot;</td>
+<td>OWL</td>
+</tr>
+<tr>
+<td>VCF (version 4.0)</td>
+<td>&quot;vcf&quot; &quot;.vcf.gz&quot;</td>
+<td>VCF (version 4.0)</td>
+</tr>
+</tbody>
+</table>
+<p>Abbreviations:</p>
+<ul>
+<li>CSV: Comma Separated Value</li>
+<li>OWL: Web Ontology Language</li>
+<li>VCF: Variant Call Format</li>
+<li>EMX: Entity Model eXtensible</li>
+</ul>
+<h3>Overview</h3><p>The upload module is the place in MOLGENIS where you can upload your data into the MOLGENIS application. If you have the permissions, you will see the upload menu item.</p>
+<p><img src="/res/images/upload/upload-menu-item.png?raw=true," alt="Upload menu item" title="upload menu item"></p>
+<p>The different pages will be explained by uploading the<a name="advanced-data-example"></a> &quot;Advanced data example&quot; (<a href="/data/advanced_data_example_v20151104.xlsx">download</a>) example data set.</p>
+<p>The steps are: </p>
+<ol>
+<li>Upload file</li>
+<li>Options</li>
+<li>Packages</li>
+<li>Validation</li>
+<li>Result</li>
+</ol>
+<p>Navigation buttons at the bottom of the pages:</p>
+<ul>
+<li>Previous: Go to the previous page.</li>
+<li>Next: Go to the next page.</li>
+<li>Restart: Push this button when you want to start importing a new data set. It will redirect you to the start of this wizard. Pushing this button will restart the wizard. The upload job continues to upload the data set.</li>
+<li>Finish: The same as Restart.</li>
+</ul>
+<h3>Upload file</h3><ol>
+<li>Select a file to upload.</li>
+<li>Click on the next button.</li>
+</ol>
+<p><img src="/res/images/upload/upload-file-screen.png?raw=true," alt="Upload file screen" title="Upload file"></p>
+<h3>Choose options</h3><p>Select a data upload option. On this page you can select the rules of how to upload your data into MOLGENIS. Because this dataset is an new data set to the application we leave the default option &quot;Add entities&quot; selected. In tabular data sets, the term entities refers to data-rows.
+It is important to understand that this selection is about the data and not the meta data of the data set. </p>
+<p>Choose options:</p>
+<ul>
+<li>Add entities: Importer adds new entities or fails if entity exists.</li>
+<li>Add entities / update existing: Importer adds new entities or updates existing entities.</li>
+<li>Update entities: Importer updates existing entities or fails if entity does not exist.</li>
+</ul>
+<p><img src="/res/images/upload/options-screen.png?raw=true," alt="Upload file screen" title="Options"></p>
+<h3>Choose packages</h3><p>Because the entity (table) persons has no package defined, we get the option to choose another package different from the MOLGENIS default package. The select options list the available packages in the data set.</p>
+<p><img src="/res/images/upload/packages-screen.png?raw=true," alt="Upload file screen" title="Packages"></p>
+<h3>Check validation</h3><p>When you see this page the validation is already done. This page validates the structure of the meta data.</p>
+<p>&quot;Entities&quot; table where all the entities (tables) are defined.</p>
+<ul>
+<li>Name: Name of entity</li>
+<li>Importable: Is this entity inportable or not. Two options (Yes, No) </li>
+</ul>
+<p>&quot;Entity fields&quot; table that will contain information about the fields of an entity (Columns of the table)</p>
+<ul>
+<li>Name: Name of entity</li>
+<li>Detected: A comma separated list of fields that were found for this entity</li>
+<li>Required: Are there required fields defined in the meta data that are missing in the entity?</li>
+<li>Available: Are there fields in the meta data that are optionel and were not found in the entity?</li>
+<li>Unknown: Are there fields defined in the entity that were undefined in the meta data?</li>
+</ul>
+<p><img src="/res/images/upload/validation-screen.png?raw=true," alt="Upload file screen" title="Validation"></p>
+<h3>Review results</h3><p>When this page is shown with the &quot;import succes&quot; message, then you know that your data and metadata have been uploaded correctly.</p>
+<p>After the data is uploaded into MOLGENIS, you can change the permissions for the entities.</p>
+<p>In the permissions view you can do this repeatedely for multiple groups:</p>
+<ol>
+<li>Select a group: which user group will get these permissions.</li>
+<li>Select permission for an entity (table). You can choose between: Edit, View, Count and None. For more information about permissions visit the <a href="guide-admin">Admin guide</a></li>
+</ol>
+<p><img src="/res/images/upload/result-screen.png?raw=true," alt="Upload file screen" title="Result"></p>
+<h3>What next?</h3><p>To learn more you could read the <a href="ref-emx">EMX reference</a>.
+Alternatively directly move on to <a href="guide-explore">explore your data</a></p>
+<h2>Data Explorer</h2><p><strong>
+One of the central plugins for many of the MOLGENIS databases is the data explorer. As the name suggests this is the plugin to use if you wish to take a close look at your data.
+</strong></p>
+<p>Note that some of the compoments described below are only shown if they are enabled in the application settings and to people with the appropriate permissions.</p>
+<h3>Select entity</h3><p>At the top of the data explorer the name of the currently selected entity is shown as well as the description.</p>
+<p>In the top right corner, a dropdown is shown which can be used to select the entity you wish to display.
+For admins a delete button is shown at the right side of the entity select, clicking it will allow you to choose if you which to delete only the data or also the metadata for the currently selected entity.</p>
+<p><img src="/res/images/dataexplorer/entitySelect.png?raw=true," alt="Dataexplorer entity select" title="dataexplorer/entitySelect"></p>
+<h3>Search/Filter</h3><p>In the upper left corner of the data explorer is a search box, this search box can be used to search all your data for a certain search term.</p>
+<p><img src="/res/images/dataexplorer/searchbox.png?raw=true," alt="Dataexplorer search" title="dataexplorer/searchbox"></p>
+<p>Directly below the search box the currently active attribute filters are shown. By clicking on them they can be edited. The cross trailing every filter can be used to delete this filter. Filters can be set from the attribute selection tree which is described below.
+Using the checkbox in front of each attribute the visibilty of this attribute in the table can be managed. The filter icon can be used to set filters for this specific attribute.</p>
+<p><img src="/res/images/dataexplorer/active_filters.png?raw=true," alt="Dataexplorer active filters" title="dataexplorer/active_filters"></p>
+<p>In the area with the active filters you will also find the button to open the filter wizard, this is a popup screen that allows you to add filters for different attributes in one go.</p>
+<p><img src="/res/images/dataexplorer/filterwizard.png?raw=true," alt="Dataexplorer filter wizard" title="dataexplorer/filterwizard"></p>
+<h3>Different views</h3><p><img src="/res/images/dataexplorer/dataexplorer_tabs.png?raw=true," alt="Dataexplorer tabs" title="dataexplorer/dataexplorer_tabs"></p>
+<p>The data explorer consists of multiple modules to view or process the data in different ways. These modules are described below:</p>
+<h3>Data table</h3><p>The data module shows the data in a table, the table can be sorted by clicking on the headers.
+If your data contains references to other entities, an icon is shown to expand this reference to show the data from the referenced entity.</p>
+<p>Every line starts, depending on your permissions with some action icons:</p>
+<p><img src="/res/images/dataexplorer/action_buttons.png?raw=true," alt="Dataexplorer action buttons" title="dataexplorer/action_buttons"></p>
+<ul>
+<li>Add row:
+Using this button will open a form with inputs for all the attributes in the entity, allowing you to create a new entity.
+All fields will be validated based on their datatype, for example &quot;test&quot; is not a valid email adress.</li>
+<li>Edit row:
+Same as the add row button, but with prefilled inputs to allow you to edit an entity.</li>
+<li>Inspect row:
+This button will open a form with a custom made report for this row. Different reports can be created, when you have a permission to write to the FreemarkerTemplate entity.</li>
+<li>Delete row:
+This button can be used to remove a row from the entity.</li>
+</ul>
+<h3>Download</h3><p>At the bottom of the table there is a download button, which will allow you to save the data to a CSV of XLS file. Depending on the purpose of the download, identifiers or labels can be used as column headers. Probably the data is safest inside molgenis!
+Another button will allow you to send your data to a <a href="https://galaxyproject.org/" title="Galaxy">galaxy</a> server.</p>
+<p><img src="/res/images/dataexplorer/download_export.png?raw=true," alt="Dataexplorer download" title="dataexplorer/download_export"></p>
+<h3>Genome browser</h3><p><img src="/res/images/dataexplorer/genome_browser.png?raw=true," alt="Dataexplorer first screen" title="dataexplorer/genome_browser"></p>
+<p>If a selected entity has chromosome and position attribute the genome browser will be shown. The browser used by MOLGENIS is the <a href="http://www.biodalliance.org" title="Dalliance">Dalliance</a> genome browser.
+Clicking on a row in the data table will make the genome browser zoom to the coordinates of that row.
+A button (&#39;apply filters&#39;) is available at the bottom of the genome browser to filter the data table based on the coordinates currently in shown in the genome browser.</p>
+<h4>Try it out</h4><p>Upload the <a href="/data/Documentation_VCF.vcf" title="VCF example file">vcf_example_file</a> using the importer.
+Let&#39;s select an entity containing genomic variants by selecting the entity name you just chose for the upload in the entity select.
+Let&#39;s assume we have a specific location we are interested in, say position 103214569 at chromosome 7, so we&#39;d like to search for that specific line in the entity.
+Let&#39;s first use the search box to see if we can find the line that way:
+enter &quot;103214569&quot; in the search box and press enter.</p>
+<p>But now we like to take a look at all variation on chromosome 7. As you can imagine searching for &quot;7&quot; in all the attributes in the data will give us a lot of results we are not looking for. So we&#39;d like to filter for this value specifically for the chromosome attribute.</p>
+<p>Click the filter icon in front of &quot;#CHROM&quot; in the attribute selection tree and enter &quot;8&quot; in the input field then click &quot;apply&quot;
+However we meant to search for chromosome 7, so let&#39;s click the filter in the active filters box, and change the value to 7.
+We now have all the values for chromosome 7 in the table, however the results are divided over several pages of results, we&#39;d like to view them all in one screen; click the &quot;rows per page&quot; dropdown below the table and select &quot;100&quot; this will show 100 results per page.
+The &quot;FILTER&quot; column shows the same value for every line, we are not interested in this column so let&#39;s hide it by clicking the checkbox in front of &quot;#CHROM&quot; in the attribute selection tree.</p>
+<p>Click any column header in the table to sort the data based on that column, click again to sort in the opposite direction.
+Click one of the lines in the data table to zoom to the position of this variant in the genome browser.
+Click the symbol in front of the &quot;SAMPLES&quot; column header to show the columns belonging to the samples.</p>
+<p>Click the magnifing glass in front of the dataline to show a report for that line. The default report is just showing all attribute values in a structured way. However, as stated above, all kinds of reports can be added at runtime.</p>
+<h3>Inline editing</h3><p>Click the edit icon and change the chromosome from 7 to 8 and save.
+Adding a row works the same way, only without the prefilled fields.
+Now let&#39;s click the red garbage bin icon in front of a line to delete this line from the entity.</p>
+<p>TODO: add figure</p>
+<h3>Annotators</h3><p>The anotator module of the data explorer is the user interface to use the MOLGENIS annotator framework, which can also be used from the command-line.
+The annotator framework is a system to add data from other resources to your genomic entities. For example pathogenicity prediction, allele frequencies and phenotype information.</p>
+<p><img src="/res/images/dataexplorer/annotators.png?raw=true," alt="Dataexplorer annotators" title="dataexplorer/annotators"></p>
+<p>The screen shows a list of available annotators that can be used. Clicking the title of the annotator will result in a popup with additional information such as a general description and a listing of the attributes that will be added by this annotator.
+Using the checkboxes multiple annotaotrs can be selected for one run, which is starten by clicking the &quot;annotate&quot; button. If preferred a copy of the dataset can be created with the annotations added to this copy, leaving the original entity as it is.
+Annotated fields will be added to the entity in a compound attribute.</p>
+<p>On the right hand side of the screen a list of unavailable annotators is shows, the reason why they are unavailable is shown in the list, this can for example be due to a resource being unavailble or an atrribute needed to map the entity and resource to each other missing.
+The gear icon trailing every annotator in the list can be used to configure the settings for this annotator.</p>
+<h3>Aggregation</h3><p>The aggregation module allows you to produce aggregated counts for queries on the data.</p>
+<p>The screen has 2 areas, the controls and the results, the controls allow you to choose the attributes you wish to use for the aggregation.</p>
+<p><img src="/res/images/dataexplorer/aggregate_controls.png?raw=true," alt="Dataexplorer aggregates" title="dataexplorer/aggregates"></p>
+<p>You can select 1 attribute for simple one dimensional counts, represented as a table with one column, or two attributes to get a 2 dimensional aggregate table.
+A third dropdown allows you to select a attribute by which to group the results.</p>
+<p><img src="/res/images/dataexplorer/aggregate_result_table.png?raw=true," alt="Dataexplorer aggregate results" title="dataexplorer/aggregateresults"></p>
+<p>These functionalities are best explained by the example in the &quot;try it out section below&quot;.</p>
+<h4>try it out</h4><p>Upload <a href="/data/Documentation_EMX.xlsx" title="EMX example file">emx_example_file</a> through the importer.
+Navigate to the data explorer and select the aggregates tab. Select the just uploaded &quot;biobanks&quot; entity.</p>
+<p>Now select &quot;patientid&quot; in the entity dropdown.
+You now get a 1 dimensional list of counts, showing you that every patient has 3 entries in the selected entity</p>
+<p>Now select &quot;biobank&quot; in the first aggregate dropdown and in the second select &quot;sampletype&quot;
+You now get a table representing the amount of samples in both biobanks per type.</p>
+<p>Finally select &quot;patientid&quot; in the third dropdown, the distinct attribute. 
+The table will update to show you to show you how many patients with at least one sample of a specific type are available in a biobank.</p>
+<h3>Charts</h3><p>For the chart capabilities of MOLGENIS we use the <a href="http://www.highcharts.com" title="Highcharts">Highcharts</a> library.</p>
+<p>MOLGENIS currently offers two types of plots for your data, the scatter plot and the box plot.</p>
+<p><img src="/res/images/dataexplorer/charts.png?raw=true," alt="Dataexplorer charts" title="dataexplorer/charts"></p>
+<h4>scatter plot <a href="https://en.wikipedia.org/wiki/Scatter_plot" title="Scatter plot">Scatter_plot</a></h4><p><img src="/res/images/dataexplorer/create scatter plot.png?raw=true," alt="Dataexplorer charts create scatterplot" title="dataexplorer/scatterplot"></p>
+<p>For the scatterplot 2 attributes are selected to make the plot, optionally a third attribute can be selected to split the dots in groups using different shapes and colours per group. Optionally you can provide a title for your plot.</p>
+<p><img src="/res/images/dataexplorer/scatter plot.png?raw=true," alt="Dataexplorer charts scatterplot" title="dataexplorer/scatterplot"></p>
+<h4>box plot <a href="https://en.wikipedia.org/wiki/Box_plot" title="Box plot">Box_plot</a></h4><p><img src="/res/images/dataexplorer/create box plot.png?raw=true," alt="Dataexplorer aggregate create box plot" title="dataexplorer/createboxplot"></p>
+<p>For the box plot 1 attribute (feature) is to be selected to make the plot, optionally a second attribute can be selected to split the dots in groups. Optionally you can provide a title for your plot.</p>
+<p><img src="/res/images/dataexplorer/boxplot.png?raw=true," alt="Dataexplorer charts box plot" title="dataexplorer/boxplot"></p>
+<h3>Reports</h3><p>The reports functionality is made for overriding the default instance view or to add an instances tab in the Data-explorer. Overriding the views or adding a tab is possible by creating a new <code>FreemarkerTemplate</code> entity with the right name convention. In this short tutorial I will show you how to achieve this.</p>
+<p>There are two ways to create your own reports: </p>
+<ol>
+<li>Overriding the default instance view.</li>
+<li>Add one or more instances view tabs.</li>
+</ol>
+<p>You will need:</p>
+<ol>
+<li>A data set: &quot;Advanced data example&quot; (<a href="/data/advanced_data_example_v20151104.xlsx">download</a>). Upload this dataset into your MOLGENIS instance see the <a href="guide-upload">Upload guide</a>.</li>
+</ol>
+<h6>Override the entity view</h6><p>Steps:</p>
+<ol>
+<li>Go to the Data Explorer</li>
+<li>Select the &quot;cities&quot; entity via the entity select dropdown.</li>
+<li>The entity view modal is opened when you click on the <img src="/res/images/reports/view-entityreport-button.png?raw=true," alt="View entity report button" title="Entity view"> button&quot;.</li>
+<li>The default view will be: <img src="/res/images/reports/default-entityreport-view.png?raw=true," alt="View entity report default" title="Entity view"></li>
+<li>Let&#39;s upload our own template. 
+ a. Go to the data explorer and select the FreemarkerTemplate entity.
+ b. Click on the <img src="/res/images/add.png?raw=true," alt="add" title="add"> button. In the modal you fill in:<pre><code> * Name: view-entityreport-specific-root_hospital_cities.ftl (view-entityreport-specific-\&lt;Full entity name&gt;.ftl)
+ * Value: &quot;\&lt;div&gt;City name: ${entity.get(&#39;cityName&#39;)}\&lt;/div&gt;&quot;
+</code></pre> <img src="/res/images/reports/view-entityreport-specific-root_hospital_cities.png?raw=true," alt="view-Cities-entitiesreport" title="view-Cities-entitiesreport"></li>
+<li>Repeat steps 2 and 3. </li>
+<li>The new view will be: <img src="/res/images/reports/custom-entityreport-view.png?raw=true," alt="View entity report custom" title="Entity view"></li>
+</ol>
+<h6>Add an instances view tab</h6><ol>
+<li>Go to the data explorer select the &quot;cities&quot; entity via the th entity select dropdown.</li>
+<li>Let&#39;s upload our own template. 
+ a. Go to the data explorer and select the FreemarkerTemplate entity.
+ b. Click on the <img src="/res/images/add.png?raw=true," alt="add" title="add"> button. In the modal you fill in:</li>
+</ol>
+<p>Name: <code>view-Cities-entitiesreport.ftl (view-&lt;template name&gt;-entitiesreport.ftl)</code></p>
+<p>Value: </p>
+<pre><code class="language-javascript">&lt;link rel=&quot;stylesheet&quot;
+      href=&quot;//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css&quot;/&gt;
+
+&lt;div id=&quot;map&quot; style=&quot;width: 600px; height: 400px&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+    function showMap() {
+        var map = L.map(&#39;map&#39;).setView([38, -80], 4);
+
+        L.tileLayer(&#39;//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ&#39;, {
+            maxZoom: 18,
+            attribution: &#39;Map data &amp;copy; &lt;a href=&quot;http://openstreetmap.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &#39; +
+            &#39;&lt;a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;&gt;CC-BY-SA&lt;/a&gt;, &#39; +
+            &#39;Imagery &amp;copy; &lt;a href=&quot;http://mapbox.com&quot;&gt;Mapbox&lt;/a&gt;&#39;,
+            id: &#39;mapbox.streets&#39;
+        }).addTo(map);
+
+    &lt;#list datasetRepository.iterator() as city&gt;
+        L.marker([${city.get(&quot;lat&quot;)},${city.get(&quot;lng&quot;)}]).addTo(map)
+                .bindPopup(&quot;${city.get(&quot;cityName&quot;)}&quot;).openPopup();
+    &lt;/#list&gt;
+    }
+    $.getScript(&quot;//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js&quot;, showMap);
+&lt;/script&gt;
+</code></pre>
+<pre><code>    ![view-Cities-entitiesreport](res/images/reports/view-Cities-entitiesreport.png?raw=true, &quot;view-Cities-entitiesreport&quot;)
+</code></pre><ol>
+<li><p>Click on the settings icon <img src="res/images/settings.png?raw=true," alt="Settings" title="Settings">
+ a. Check: Modules -&gt; Data -&gt; Reports -&gt; Yes
+ b. Set: Reports -&gt; Reports -&gt; root_hospital_cities:Cities</p>
+<pre><code> * root_hospital_cities is the entity name.
+ * Cities is the template name.
+</code></pre><p> <img src="/res/images/reports/entities-report-correct-settings.png?raw=true," alt="Entities report settings" title="Entities report settings"></p>
+</li>
+<li>Refresh the page and repeat step 1.</li>
+<li>The result:<img src="/res/images/reports/custom-entities-report.png?raw=true," alt="Custom entities report" title="Custom entities report"></li>
+</ol>
+<h3>Model registry</h3><p>The model registry is a module that can display the entire meta data model of a data set. This means that you do not look at the actual data, but you can see how the data is modeled. This is usefull for detecting errors in your model, or if you want to base your own model on something that already exists.</p>
+<p><img src="/res/images/model_registry_screen1.png?raw=true," alt="Model registry screen 1" title="model registry screen 1"></p>
+<p>The following paragraphs will explain how the model registry works, but it is more fun to learn how it works with some actual models. So for this part, you can go to <a href="https://molgenis08.target.rug.nl/menu/main/standardsregistry">The BioMedBridges</a> website, and navigate to the model registry module, you do not even have to log in!</p>
+<p>Now that we have some actual models on our screen, let&#39;s get started by finding some models. I know! Why don&#39;t we search for the EMX model? You should be familiar with it since you probably imported your own data already. In the main model registry screen, search for EMX. You should get one model back, namely emx (Entity Model eXtensible). As you can see there are a few links mentioned as well. These are <em>Tags</em>, if you do not know the term, I suggest you look at the <a href="guide-upload">Upload guide</a> again. The label beneath the Tags tells you why this model was returned for your search.</p>
+<p>This part is not telling us much about the content of the EMX model yet, so let&#39;s see what it holds! Click the <em>View Model Details</em> button to get to the details page.</p>
+<p><img src="/res/images/model_registry_screen2.png?raw=true," alt="Model registry screen 2" title="model registry screen 2"></p>
+<p>Here you can see a tree on the left and a large middle section containing all the meta data. You can also view a UML diagram of your entire package, and even print out a document containing the overview of your model.</p>
+<p><strong>The tree</strong><br>The tree is a simplified overview of all the tables, or entities, inside a package. Clicking on the Molgenis Field Types entity for example, will take you to the detailed description of that entity. You can also expand an entity, to see all its attributes. Clicking an attribute will take you to the description of that attribute.</p>
+<p><strong>The details</strong><br>The details for every entity and attribute is an overview of data types, constraints, default values, and descriptions. </p>
+<p><strong>UML</strong>
+Navigate to the UML tab to see a UML representation of your model. You can zoom in and out using the + and - buttons. You can also drag around the different boxes to rearange the diagram.</p>
+<p><strong>Printing</strong>
+You can print your model to review it on paper by pressing the print button at the top right of the screen.</p>
+<h2>Administration</h2><p><strong>
+Once you have a server running and data loaded, you are probably eager to share your data with the world. However, you might want to only show your data to a select few. In the following paragraphs we explain on how to define groups and permissions.
+</strong></p>
+<h3>User management</h3><p>User management is crucial for keeping an overview of people visiting your online database, but it is also important for security reasons. MOLGENIS has an extensive user management system, allowing people to register themselves, or be registered by an administrator. MOLGENIS uses groups and users to efficiently control permissions. Groups and users can both have individual permissions on certain data sets for example. But users can also be part of a group, automatically inheriting the permissions set for that group. You can find the User manager module under the Admin menu:</p>
+<p><img src="../res/images/user_manager.png?raw=true," alt="Menu manager screen" title="user manager"></p>
+<p>The user management menu allows you to create new users and groups. But also let&#39;s you edit existing users, or add users to certain groups. The users <em>admin</em> and <em>anonymous</em> always exist. The admin user, as the name suggests, is the administrator user. The anonymous user is used for people navigating to your website. This means that giving rights to the anonymous user will give permissions for everyone, also those that are not registered in your system. Note that it is not possible to delete users! You can only set them to inactive, which will prevent him or her from logging in.</p>
+<h4>Try it out</h4><p>To let you get a feel of how the user manager works, we will create a new user called molgenis_user. First, click the <img src="/res/images/new.png?raw=true," alt="New button" title="new button"> button. This will open up a form for creating a new MolgenisUser. Most of the fields are pretty self explanatory, but there are a few that we will elaborate on. </p>
+<p>First, there is a destinction between required and non-required fields. Required fields are marked by an asterisk. You can decide to only show the required fields by pressing the eye icon at the top right. This will save you the trouble of scrolling past all the non-required fields.</p>
+<p>For now, click the eye so it only shows the required fields. It should show:</p>
+<ul>
+<li>Username: The users login name</li>
+<li>Password: The users password</li>
+<li>Active: This sets if the user account is active, meaning that the user can login</li>
+<li>Superuser: A super user is a form of administrator, he or she has acces to everything</li>
+<li>Email: The users email</li>
+<li>Change password: This sets whether the user has to change his or her password on the first login</li>
+</ul>
+<p>Fill these fields with the following:</p>
+<ul>
+<li>Username: molgenis_user</li>
+<li>Password: password</li>
+<li>Active: Yes</li>
+<li>Superuser: No</li>
+<li>Email: molgenis_user@email.org</li>
+<li>Change password: No</li>
+</ul>
+<p>Then click create. You will now return to the start screen and you can see that the molgenis_user user has been added to the bottom of the table. It has been automatically added to the &#39;All users&#39; group, which will give the newly created user some basic permissions like the home page and its own account.</p>
+<p>But we want more then just a user, we want to create a group as well. In the long run, setting permissions for groups is a lot less time consuming then treating every user individually. </p>
+<p><strong>Creating groups</strong><br>At the the top of the screen, select the <em>Groups</em> tab. Here, you will there is only one group, the All users group. Click the <img src="../res/images/new.png?raw=true," alt="New button" title="new button"> button to create a new group.</p>
+<p>In the popup, set the Name to test_group, and set the group to Active. Click create and you will see the newly created group being added to the bottom of the table.</p>
+<p>Go back to the users tab, and you can see there is now a column behind every user, that allows you to place that user in the test_group group. Why don&#39;t we add the molgenis_user to this test_group.</p>
+<p><strong>Edit a user</strong><br>If at any time you want to edit an existing user, you can click the icon in the edit column. This will show you a form where you can edit all the information pertaining to that specific user.</p>
+<p>Managing your users is quick and easy. And opens up way to our next big security item, setting permissions for your data.</p>
+<h3>Permissions</h3><p>For the scientific community, the need for data security is very large. We tried to meet this demand by implementing an extensive permission system. The system allows for the setting of count, read and write permissions on the different datasets 
+and modules present in MOLGENIS. These permissions can be set either for specific users, or entire user groups.</p>
+<p>You can navigate to the permission module under the Admin menu, and then navigating to the Permission Manager.</p>
+<p><img src="../res/images/permission_manager.png?raw=true," alt="Menu manager screen" title="permission manager"></p>
+<p>Here you can set permissions for different groups and users. These permission allow users to either Edit, View, Count, or do nothing with the different data sets and modules in MOLGENIS.</p>
+<p><strong>Try it out</strong><br>Remember that molgenis_user that we created in the user management section? If you go to the users tab and look for molgenis_user, you will find it does not have any permissions yet, except for those inherited from the All users group. Let&#39;s change it so that our test_group has the permission to open the Data explorer, and the molgenis_user will be able to see the example_data_table data set, which we created in the <a href="guide-upload">Upload</a> guide.</p>
+<p><strong>Setting group permissions</strong><br>As you open the permission manager, the groups tab is already selected. For the group <em>test_group</em> we want to set the permissions in such a way to the members of that group can use the data explorer to look at data sets. To do this, select the test_group from the drop down. Next you will want to lookup dataexplorer in the Plugin column, and set the permission to <em>View</em>. Press the Save button which is below the table to save your change. </p>
+<p>To make it work perfectly, we will also have to give rights to the group to read the data explorer settings table. To do this, select the <em>Entity Class Permissions</em> menu, select the test_group from the drop down, and find the <em>settings_dataexplorer</em> in the Entity Class column and set it to <em>View</em>. </p>
+<p><strong>Setting user permissions</strong><br>Now that we have the Data Explorer module working for the test_group, we want to give our molgenis_user the permission to see the example_data_table. To do this, select Entity Class Permissions menu, switch to the Users tab, and select molgenis_user from the dropdown. Look up example_data_table in the Entity Class column and set the permission to <em>View</em>.</p>
+<p>Congratulations! The molgenis_user account should now be able to use the data explorer, and see the example_data_table data set. You can verify this by logging out as admin, and logging in again as the molgenis_user.</p>
+<p>Note that if you are creating more complex data sets that have references to other data sets, that you should also consider giving permissions to those reference tables.</p>
+<p>And if you are wondering about the Entity permissions menu, that is reserved for when we implement row level security.</p>
+<h2>Customization</h2><p><strong>
+MOLGENIS allows extensive customization of look &amp; feel to suit your work
+</strong></p>
+<h3>Menu</h3><p>The menu manager is a module that gives you the ability to arrange your menu to contain the items that you want it to contain. If you only want to show the data explorer and importer, you can do that. If you want to throw away news and background modules because you do not have any need for them, then you can do that as well. Every item is configurable.</p>
+<p><img src="../res/images/menu_manager.png?raw=true," alt="Menu manager screen" title="menu manager"></p>
+<p>Just remember that throwing away the menu manager module might not be the best idea! And it&#39;s good to always keep the blue Home item at the top, else your homepage will no longer be accessible to anonymous visitors.</p>
+<h4>Try it out</h4><p>When you enter the menu manager screen, it can be a bit overwhelming. But do not be alarmed, we will take you through it one step at a time.</p>
+<p>First, pay attention to the large list on the left. As you can see, this block represents the current menu structure. You can change the structure by moving items around, you can change the name of a menu item by pressing the pencil, and you can remove items by pressing the trash can. Remember to save your changes before leaving this screen by pressing the &#39;Save the new menu layout&#39; button. If you do not, then your changes will not be applied to the menu.</p>
+<p>The block to the right gives you the options to add new menu items, or to add an entirely new menu. Try it by creating a new menu with &#39;test_plugin&#39; as ID and &#39;Test&#39; as the Name, then press &#39;Create&#39;. You will see that a new item, called Test, is added to your list of items on the left. Now that you have created a new menu, let&#39;s add an item to that menu.</p>
+<p>Fill in the Create Menu Item form with the following data:</p>
+<ul>
+<li>Plugin: contact</li>
+<li>Name: Contact information</li>
+<li>Query string: </li>
+</ul>
+<p>Now press &#39;Create&#39;. The Contact information item will appear in the list on the right. Move it under the Test menu, and save the layout. You should now have a Test drop down in your menu, and when you open it, it should show you the Contact information item. The contact plugin is similar to the Home plugin as it let&#39;s you fill in information via an online editor</p>
+<p><strong>Using Query string to add additional parameters</strong><br>Some modules, like the data explorer, can be opened with starting parameters. These can be used via the Query string field when creating a new menu item. To test this, we will add a Query string to the existing Data Explorer menu item so that the data set we created in the <a href="guide-upload">Upload guide</a>will be selected at the start.</p>
+<p>Edit the existing data explorer item by pressing the pencil, and add the the following Query string:</p>
+<ul>
+<li>Query string: entity=example_data_table</li>
+</ul>
+<p>Save and when you now press the <em>Data explorer</em> in your menu then you will be taken to the dataexplorer with the example_data_table data set selected.</p>
+<p>A complete list of all the Query strings available at the Data Explorer:</p>
+<table>
+<thead>
+<tr>
+<th>Query string</th>
+<th>Options</th>
+<th>Use</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><em>entity</em></strong></td>
+<td>All existing entities</td>
+<td>Using this query string you can open the data explorer with the specified entity selected.</td>
+<td>entity=test_data</td>
+</tr>
+<tr>
+<td><strong><em>hideselect</em></strong></td>
+<td>true, false</td>
+<td>Hide the drop down for selecting data sets. Use this if you want users to focus on only one data set. Combined with the <strong><em>entity</em></strong> query string, you can create a Data Explorer that only shows one     data set to users.</td>
+<td>entity=test_data&amp;hideselect=true</td>
+</tr>
+<tr>
+<td><strong><em>mod</em></strong></td>
+<td>data, aggregates, charts, annotators</td>
+<td>Select a Data Explorer tab to show</td>
+<td>entity=test_data&amp;hideselect=true&amp;mod=data</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Creating redirects to URLs outside MOLGENIS</strong><br>Using the redirect plugin as a menu item, you are able to create a link to an outside source. To show how this works, we will create a menu item that links to wikipedia.</p>
+<p>First, create a new Menu item that has the following traits:  </p>
+<ul>
+<li>Plugin: redirect</li>
+<li>Name: Wikipedia Link</li>
+<li>Query string: <a href="https://en.wikipedia.org/wiki/Bioinformatics">https://en.wikipedia.org/wiki/Bioinformatics</a> </li>
+</ul>
+<p>Second, move the new link below the Home item. Then press the &#39;Save the new menu layout&#39; button. </p>
+<p>A new menu item will appear which will take you to the bioinformatics wikipedia page.</p>
+<h3>Style/theme</h3><p>Creating your own research database often comes with the desire to add a unique styling to it. We wanted to give users a way to change the standard <a href="http://getbootstrap.com/">Bootstrap</a> style that is shipped with MOLGENIS. </p>
+<p>Using the Theme manager, you can select between multiple bootstrap styles.</p>
+<p><img src="../res/images/theme_manager.png?raw=true," alt="Theme Manager" title="Theme Manager"></p>
+<p>To get the feel of how certain styles look, you can select it in the dropdown menu. The style will not be applied to the application unless you press the &#39;Save current theme&#39; button.</p>
+<p>For an overview of all the different themes offered, visit the <a href="https://bootswatch.com/">Bootswatch</a> website. It is currently not yet possible to submit your own CSS sheets to update the styling. We do however plan to implement this in the future, giving you even more control to add your own personal style to your MOLGENIS research database.</p>
+<h3>Homepage</h3><p>The home page is one of the most important part of your MOLGENIS application. It is a doorway to the rest of your application, and as it is such, it should look nice! When you are logged in as administrator, the home page contains an <em>edit</em> button. Clicking this button will open up an editor. </p>
+<p><img src="../res/images/home_page_editor.png?raw=true," alt="Home page editor" title="home page editor"></p>
+<p>Here you can do simple stuff like adding text, images, and table. </p>
+<p>If you want more control, you can go to tools -&gt; Source code. This opens up an HTML editor, which is nice if you know how to write HTML. For even more fancy functionality, the Source code editor also allows you to write JavaScript code.</p>
+<p>If you need some aspiration for a nice home page, you visit either the <a href="http://molgenis.org/ase">ASE website</a> or the <a href="https://molgenis03.target.rug.nl/">COL7A1 website</a>.</p>
+<h3>Entity report</h3><p>By default, the entity report will be generated using the generic <a href="http://freemarker.incubator.apache.org/docs/index.html">Freemarker</a> template <a href="https://github.com/molgenis/molgenis/blob/master/molgenis-dataexplorer/src/main/resources/templates/view-entityreport-generic-default.ftl"><code>view-entityreport-generic-default.ftl</code></a>. You can customize this entity report for specific entities by adding Freemarker Templates for those entity. You&#39;ll need write permission for the entity <code>FreemarkerTemplate</code> to do this. </p>
+<ol>
+<li>In the top menu, select the Data Explorer.</li>
+<li>In the pulldown, select the entity FreemarkerTemplate</li>
+<li>Push the plus icon.</li>
+<li>The Name is <code>view-entityreport-specific-&lt;the entity name&gt;.ftl</code>. So for an entity named <code>ASE</code>, the Freemarker Template containing the entity report should be named <code>view-entityreport-specific-ASE.ftl</code></li>
+<li>The Value is a <a href="http://freemarker.org/">Freemarker</a> Template specifying the contents of the report.</li>
+</ol>
+<p>The HTML you specify in the template will be shown in a modal dialog, so you&#39;ll usually want to add a header, a body, and a footer:</p>
+<pre><code class="language-html">&lt;#-- modal header --&gt;            
+&lt;div class=&quot;modal-header&quot;&gt;
+    &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot; aria-hidden=&quot;true&quot;&gt;&amp;times;&lt;/button&gt;
+    &lt;h4 class=&quot;modal-title&quot;&gt;&lt;#-- Custom entity report title goes here --&gt;&lt;/h4&gt;
+&lt;/div&gt;
+
+&lt;#-- modal body --&gt;
+&lt;div class=&quot;modal-body&quot;&gt;
+    &lt;#-- Custom entity report contents go here --&gt;
+&lt;/div&gt;
+
+&lt;#-- modal footer --&gt;
+&lt;div class=&quot;modal-footer&quot;&gt;
+    &lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot; data-dismiss=&quot;modal&quot;&gt;close&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+<h4>Accessing entity details from Freemarker</h4><p>The model will contain</p>
+<ul>
+<li>a variable named <code>entity</code> of type <a href="https://github.com/molgenis/molgenis/blob/master/molgenis-data/src/main/java/org/molgenis/data/Entity.java"><code>org.molgenis.data.Entity</code></a> </li>
+<li>a variable named <code>entityMetadata</code> of type <a href="https://github.com/molgenis/molgenis/blob/master/molgenis-data/src/main/java/org/molgenis/data/EntityMetaData.java"><code>org.molgenis.data.EntityMetaData</code></a>
+which you can use to specify the contents of your template.</li>
+</ul>
+<ul>
+<li>To display the value of one of the entity&#39;s attributes value, use <code>${entity.getString(&quot;&lt;the attribute name&gt;&quot;)}</code>.</li>
+<li>To make a conditional check on the actual value of an attribute, use <code>&lt;#if entity.get(&quot;P_Value&quot;) == 0&gt;...&lt;/#if&gt;</code>.</li>
+<li>You can follow references to other entities: <code>&lt;#list entity.getEntities(&quot;Genes&quot;) as gene&gt;...&lt;/#list&gt;</code> will iterate over all Genes. In between the list tags, the gene gets added as a variable <code>gene</code> which you can access the same way as you access the variable <code>entity</code>.</li>
+<li>To open a page at a button click, use the <code>data-href</code> attribute to specify the href: <code>&lt;button type=&quot;button&quot; class=&quot;btn&quot; data-href=&#39;&lt;the link&gt;&#39;&gt;Button label&lt;/button&gt;</code>.</li>
+<li>These are just examples, many powerful constructs are possible.</li>
+</ul>
+<h3>Adding genome browser component</h3><p>You can show the genome browser, zoomed in on this specific entity.</p>
+<p>In the body, add a placeholder div for the genome browser:
+    <code>&lt;div id=&quot;modalGenomeBrowser&quot;&gt;&lt;/div&gt;</code></p>
+<p>At the bottom of the template, add script tags to instantiate the genome browser:</p>
+<pre><code class="language-javascript">&lt;script&gt;
+    molgenis.dataexplorer.data.createGenomeBrowser({
+        pageName: &#39;modalGenomeBrowser&#39;, 
+        noPersist: true, 
+        chr: ${entity.getString(&quot;Chr&quot;)}, 
+        viewStart: ${entity.getString(&quot;Pos&quot;)} - 10000, 
+        viewEnd: ${entity.getString(&quot;Pos&quot;)} + 10000
+    });
+
+    setTimeout(function(){
+        $(&#39;.modal-body&#39;).animate({scrollTop:0},0);
+    }, 10);
+&lt;/script&gt;
+</code></pre>
+<h2>Script</h2><p><strong>
+Scripts are defined in the Scripts plugin and can be reused, e.g. as part of reports. By default you can find it in the menu under Plugins, Scripts.
+The Scripts plugin allows you to create, edit and delete the available scripts.
+</strong></p>
+<h3>Create a script</h3><p>You open the script editor by clicking the add button <img src="../res/images/new.png" alt="image">.</p>
+<ul>
+<li>Name: The name uniquely identifies the script</li>
+<li>Type: The script type determines how the script is executed.<ul>
+<li>R scripts are executed in R</li>
+<li>Python scripts are executed in Python</li>
+<li>Magma JavaScript and JavaScript scripts are executed in a JavaScript context</li>
+</ul>
+</li>
+<li>Content: The actual script content goes here.</li>
+<li>Result file extension: Allows you to render output in your script. For instance, if you set this to <code>png</code>, the script will be provided with a parameter <code>outputFile</code>. You can write your png image to this file. When the script is done, the contents of the file will be served as a result of the script invocation request.</li>
+<li>Parameters Your script may define parameters that it needs in order to run. <strong>All parameters are of type String</strong>. Multiple scripts can share the same parameter, here you just specify the parameter names.</li>
+</ul>
+<h3>Passing parameters</h3><p>If your Type is R, JavaScript or Python, the Script Content is interpreted as a <a href="http://freemarker.apache.org">Freemarker</a> template. The parameters are provided as Freemarker variables. You can render them in the script by typing <code>${parameter}</code>, but the full Freemarker syntax is at your disposal, so for instance <code>&lt;#if&gt;&lt;#else&gt;&lt;#/if&gt;</code> constructs are also available.</p>
+<p>This means that if you want to initialize an R or Python string variable with the value of a parameter string, you&#39;ll need to explicitly encapsulate it with quotes.</p>
+<p>So in R:</p>
+<pre><code># Assign string parameter
+name &lt;- &quot;${name}&quot;
+# Assign numeric parameter
+amount &lt;- ${amount}
+</code></pre><p>And in Python:</p>
+<pre><code># Assign string parameter
+name = &quot;${name}&quot;
+# Assign numeric parameter
+amount = ${amount}
+</code></pre><p>And in JavaScript:</p>
+<pre><code>// Assign string parameter
+var name = &quot;${name}&quot;
+// Assign numeric parameter
+var amount = ${amount}
+</code></pre><p>The script template will be rendered to a file in the File Store and this file will be interpreted using the R or Python interpreter.</p>
+<h5><a name="passing-script-parameters-magma"></a> Passing parameters to Magma JavaScript</h5><p>If your Type is <a href="http://wiki.obiba.org/display/OPALDOC/Magma+Javascript+API">Magma JavaScript</a>, the parameters are available through Magma&#39;s <a href="http://wiki.obiba.org/display/OPALDOC/value+selector+method">$ selector</a> method.
+JavaScript will have to do the type conversions for you. Or if you want to be sure, you should cast the values explicitly</p>
+<pre><code>// Assign string parameter
+var name = $(&quot;name&quot;)
+// Assign numeric parameter
+var amount = int($(&quot;amount&quot;))
+</code></pre><h3>Security token</h3><p>Your script can access data inside a MOLGENIS repository through the APIs.
+If the data is private data, you can set Generate Security Token to Yes.
+Then a molgenis security token will be generated for the user running the script and added as a parameter named <code>molgenisToken</code>.
+You can pass the token on to the REST API.</p>
+<h4>Use security token in R script</h4><p>Pass the token as a parameter when you request the molgenis.R api script:</p>
+<pre><code>library(&#39;RCurl&#39;)
+eval(expr = parse(text = getURL(&quot;https://molgenis01.target.rug.nl/molgenis.R?molgenis-token=${molgenisToken}&quot;)))
+molgenis.get(&quot;MolgenisUser&quot;)
+</code></pre><h3>Running a script</h3><p>You can run your script by pressing the <img src="../res/images/execute.png" alt="image"> execute button.
+If the script has parameters, you&#39;ll be presented with a popup form to specify them.</p>
+<p>You can also run the script through an HTTP request.
+For instance, to run the <code>bmi</code> script with parameters <code>weight=50</code> and <code>height=1.60</code> on server <code>http://molgenis09.target.rug.nl</code> you can surf to <a href="https://molgenis09.target.rug.nl/scripts/bmi/run?weight=50&amp;height=1.60">https://molgenis09.target.rug.nl/scripts/bmi/run?weight=50&amp;height=1.60</a></p>
+<p><strong>Beware that you need to URL-encode parameter values if they contain special characters</strong></p>
+<h3>Permissions</h3><p>Note that in order to execute scripts, users need</p>
+<ul>
+<li>to be authenticated (i.e. anonymous users cannot execute your scripts)</li>
+<li>View permissions on the Scripts entity</li>
+<li>View permissions on the ScriptParameter entity</li>
+<li>View permissions on the ScriptType entity</li>
+</ul>
+<h3>Example</h3><p>Let&#39;s take the R script from <a href="#example-rest-R">the previous example</a> and add it to the Script plugin. The script will fetch the public ASE data from <a href="https://molgenis56.target.rug.nl/">https://molgenis56.target.rug.nl/</a></p>
+<p>You&#39;ll need a running instance of MOLGENIS.
+So either run this example locally on your own MOLGENIS instance or Sign Up on our demo server <a href="https://molgenis09.target.rug.nl/">https://molgenis09.target.rug.nl/</a></p>
+<h4>Create the script</h4><p>Go to the Script plugin and create a new script.</p>
+<ul>
+<li>Name: Any name will do, as long as it&#39;s unique. Since the result will be a plot of Allele-Specific Expression for a SNP, we suggest the name <code>plot-ase</code>.</li>
+<li>Type: We&#39;re creating an R script, so pick <code>R</code>.</li>
+<li>Generate security token: No, since the data is publicly available and lives on a different server anyways.</li>
+<li>Result file extension: R can plot postscript, pdf, png and jpeg. Let&#39;s pick <code>png</code>.</li>
+<li><p>Parameters: In the example we plotted one specific ASE, let&#39;s make the snp ID a parameter. Select <code>snp_id</code>. If it&#39;s not yet available you can add it by pushing the <strong>+</strong> button to the right of the select box.</p>
+</li>
+<li><p>Content:</p>
+</li>
+</ul>
+<pre><code>library(&#39;RCurl&#39;)
+eval(expr = parse(text = getURL(&quot;https://molgenis56.target.rug.nl/molgenis.R&quot;)))
+
+samples &lt;- molgenis.get(&quot;SampleAse&quot;, q=&quot;SNP_ID==${snp_id}&quot;)
+jpeg(&#39;${outputFile}&#39;)
+
+max &lt;- max(samples$Ref_Counts, samples$Alt_Counts)
+
+plot(samples$Ref_Counts, samples$Alt_Counts, xlim = c(0, max), ylim = c(0, max), xlab=&#39;Reference Allele&#39;, ylab=&#39;Alternative Allele&#39;, main = &#39;Allele-Specific Expression for ${snp_id}&#39;)
+lines(c(0,max), c(0, max))
+</code></pre><p>Let&#39;s take a closer look at what happens here.</p>
+<p>First we fetch and source the MOLGENIS R API from molgenis56.
+This means it&#39;ll be set up to retrieve its data from molgenis56.</p>
+<p>Then we retrieve the samples using <code>molgenis.get</code>.</p>
+<p>The <code>snp_id</code> parameter gets filled in into the rsql query q.
+So if for instance <code>snp_id</code> equals <code>rs2287988</code>, Freemarker will fill the parameter in where it says <code>${snp_id}</code> so the query becomes <code>q=&quot;SNP_ID==rs2287988&quot;</code>.</p>
+<p>The outputFile parameter gets filled in into <code>jpeg(&#39;${outputFile}&#39;)</code> so that R plots to the correct output file.</p>
+<p>In <a href="#example-rest-R">the previous example</a> we manually set the axes to <code>c(0, 5000)</code>, but here the amount of reads depends on the chosen SNP. So we compute the maximum amount of reads in both the <code>Ref_Counts</code> and <code>Alt_Counts</code> attributes of the <code>samples</code> dataframe.</p>
+<p>Next we create the scatter plot and the reference line, like we did before.
+Note how we use the <code>snp_id</code> parameter a second time, to render the plot title.</p>
+<p>Save the script.</p>
+<h4>Call the script</h4><p>Push the <img src="../res/images/execute.png" alt="image"> execute button.</p>
+<p>In the popup, specify the value for <code>snp_id</code>, for example <code>rs2287988</code>.</p>
+<p>Push Run.</p>
+<p><img src="../res/images/rs2287988.png" alt="image"></p>
+<h1>Scripting interface modules</h1><p>MOLGENIS comes with a rich set of programmatic interface modules that enable researchers who know how to script/program to interact with their data at a large scale, e.g., creating interactive visualizations or filters. The scripts can be made available to other researchers via the 'Scripts' user interface module, see above.</p><h2>How to use REST API</h2><p>See the <a href="ref-rest">RESTv1</a> and <a href="ref-rest2">RESTv2</a> references</p>
+<h2>How to use R-Project API</h2><p><strong>
+The R API is a script that allows access to your MOLGENIS data via the R-Project statistical package. It is available on every MOLGENIS on the URL <code>http[s]://&lt;your.molgenis.url&gt;/molgenis.R</code>.
+</strong></p>
+<h4>Example</h4><p>As an example, let&#39;s create a plot for publicly available ASE data available on <a href="https://molgenis56.target.rug.nl/">https://molgenis56.target.rug.nl/</a>. For a description of the data, take a look at <a href="http://molgenis.org/ase">http://molgenis.org/ase</a>.</p>
+<p>Start up the R environment.</p>
+<p>In the shell type:</p>
+<pre><code class="language-R">library(&#39;RCurl&#39;)
+eval(expr = parse(text = getURL(&quot;https://molgenis56.target.rug.nl/molgenis.R&quot;)))
+</code></pre>
+<p>This loads the R API from the molgenis56 server. If you take a look in your workspace by typing</p>
+<pre><code class="language-R">ls()
+</code></pre>
+<p>you should see that a couple functions have been added for you to use:</p>
+<pre><code> [1] &quot;molgenis.add&quot;                  &quot;molgenis.addAll&quot;               &quot;molgenis.addList&quot;              &quot;molgenis.delete&quot;               &quot;molgenis.env&quot;                
+ [6] &quot;molgenis.get&quot;                  &quot;molgenis.getAttributeMetaData&quot; &quot;molgenis.getEntityMetaData&quot;    &quot;molgenis.login&quot;                &quot;molgenis.logout&quot;              
+[11] &quot;molgenis.update&quot;
+</code></pre><p>Let&#39;s load some data from the server using <code>molgenis.get</code>:</p>
+<pre><code class="language-R">molgenis.get(&quot;ASE&quot;)
+</code></pre>
+<p>This retrieves the top 1000 rows from the ASE entity.</p>
+<pre><code>P_Value Samples      SNP_ID Chr       Pos                           Genes
+1    0.000000000000000020650473933963698652198164782417962682333833636491755847419682368126814253628253936767578125000000000000000000000000000000000000000000000000000000000000000000000     145   rs9901673  17   7484101 ENSG00000129226,ENSG00000264772
+2    0.000000000000000008781097353981130661746700850633192724259771276345502150073585312384238932281732559204101562500000000000000000000000000000000000000000000000000000000000000000000     359   rs2597775   4  17503382                 ENSG00000151552
+3    0.000000000000000001491745894983400057481059632909089858257546335023040629669255352496293198782950639724731445312500000000000000000000000000000000000000000000000000000000000000000     301      rs3216  11    214421                 ENSG00000177963
+[...]
+1000 0.000132500824069775005771554265976419628714211285114288330078125000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000      47   rs1056019  12  41337435                 ENSG00000018236
+</code></pre><p>Let&#39;s retrieve a specific SNP from the ASE entity:</p>
+<pre><code class="language-R">molgenis.get(&quot;ASE&quot;, q=&quot;SNP_ID==rs12460890&quot;)
+</code></pre>
+<pre><code>  Fraction_alternative_allele Likelihood_ratio_test_D Alternative_allele Reference_allele                P_Value Samples     SNP_ID Chr    Pos           Genes
+1                       0.527                56.02079               TRUE                C 0.00000000000007170854      21 rs12460890  19 829568 ENSG00000172232
+</code></pre><p>This SNP has a mild but significant allele-specific expression, based on expression counts in 21 samples.</p>
+<p>Let&#39;s retrieve the samples for this SNP:</p>
+<pre><code class="language-R">samples &lt;- molgenis.get(&quot;SampleAse&quot;, q=&quot;SNP_ID==rs12460890&quot;)
+print(samples)
+</code></pre>
+<pre><code>       SNP_ID SampleIds Ref_Counts Alt_Counts Chromosome Position      ID
+1  rs12460890 ERS194242        130        121         19   829568 1418785
+2  rs12460890 ERS326942       4142       4791         19   829568 1418786
+3  rs12460890 ERS327006         19         28         19   829568 1418787
+4  rs12460890 SRS353551         19         23         19   829568 1418788
+5  rs12460890 SRS271084         32         11         19   829568 1418789
+6  rs12460890 SRS375020        639        572         19   829568 1418790
+7  rs12460890 SRS375024        202        309         19   829568 1418791
+8  rs12460890 SRS375022        423        401         19   829568 1418792
+9  rs12460890 SRS375030        271        234         19   829568 1418793
+10 rs12460890 SRS375026        806       1081         19   829568 1418794
+11 rs12460890 SRS375027        213        201         19   829568 1418795
+12 rs12460890 SRS376459         74         96         19   829568 1418796
+13 rs12460890 SRS375032        730        655         19   829568 1418797
+14 rs12460890 SRS376461        584        699         19   829568 1418798
+15 rs12460890 SRS376464        331        391         19   829568 1418799
+16 rs12460890 SRS376469         13         14         19   829568 1418800
+17 rs12460890 SRS376467         70        101         19   829568 1418801
+18 rs12460890 SRS376468         47         35         19   829568 1418802
+19 rs12460890 SRS418748         19         28         19   829568 1418803
+20 rs12460890 SRS418754         44         47         19   829568 1418804
+21 rs12460890 SRS418755         60         55         19   829568 1418805
+</code></pre><p>There they are.
+Let&#39;s plot the expression counts in these samples in a scatter plot.</p>
+<pre><code class="language-R">plot(samples$Ref_Counts, samples$Alt_Counts, xlim = c(0, 5000), ylim = c(0, 5000), xlab=&#39;Reference Allele&#39;, ylab=&#39;Alternative Allele&#39;, main = &#39;Allele-Specific Expression for rs12460890&#39;)
+</code></pre>
+<p>And add a line for the non-specific expression.</p>
+<pre><code class="language-R">lines(c(0,5000), c(0, 5000))
+</code></pre>
+<p><img src="../res/images/rs12460890-r.png" alt="image"></p>
+<h3>Query format</h3><p>The query must be in <a href="https://github.com/jirutka/rsql-parser">fiql/rsql format</a>.</p>
+<h3>Non-anonymous access</h3><p>The ASE data from the previous example is publicly available.
+To access private data, you can log in using</p>
+<pre><code class="language-R">molgenis.login(&quot;your username&quot;, &quot;your password&quot;)
+</code></pre>
+<p>This will create a molgenis token on the server and set it in the <code>molgenis.token</code> variable in your R workspace.</p>
+<p>When you&#39;re done, you can log out using</p>
+<pre><code class="language-R">molgenis.logout()
+</code></pre>
+<h3>Retrieving more rows</h3><p>By default, <code>molgenis.get</code> will retrieve up to 1000 rows only.</p>
+<p>If you need more rows, you can request up to 10000 rows by adding the <code>num</code> parameter:</p>
+<pre><code class="language-R">molgenis.get(&quot;ASE&quot;, num=2000)
+</code></pre>
+<p>will retrieve the top 2000 rows from the ASE entity.</p>
+<h3>Pagination</h3><p>You can retrieve the data page-by-page.</p>
+<pre><code class="language-R">molgenis.get(&quot;ASE&quot;, num=5)
+</code></pre>
+<p>will retrieve a first page of 5 rows and</p>
+<pre><code class="language-R">molgenis.get(&quot;ASE&quot;, num=5, start=5)
+</code></pre>
+<p>will retrieve the second page of 5 rows.</p>
+<h3>Cross server scripting</h3><p>By default, the MOLGENIS R API retrieves its data from the server you retrieved it from, so if you want to retrieve data from a different server, simply source the molgenis.R from that server.</p>
+<p>But if you want to combine data from multiple server, you can specify a different REST API URL to use by setting <code>molgenis.api.url</code> in the <code>molgenis.env</code> environment. For example:</p>
+<pre><code class="language-R">local({
+  molgenis.api.url &lt;- &quot;https://molgenis56.target.rug.nl:443/api/v1/&quot;
+}, env = molgenis.env)
+</code></pre>
+<p>or</p>
+<pre><code class="language-R">local({
+  molgenis.api.url &lt;- &quot;http://localhost:8080/api/v1/&quot;
+}, env = molgenis.env)
+</code></pre>
+<h2>How to use Python API</h2><p><strong>
+The Python API is a script that allows access to your MOLGENIS data from python. It is available on every MOLGENIS with version 1.14.0 and up on the URL <code>http[s]://&lt;your.molgenis.url&gt;/molgenis.py</code>.
+</strong></p>
+<h3>Example</h3><p>As an example, let&#39;s create a plot for publicly available ASE data available on <a href="https://molgenis56.target.rug.nl/">https://molgenis56.target.rug.nl/</a>. For a description of the data, take a look at <a href="http://molgenis.org/ase">http://molgenis.org/ase</a>.</p>
+<p>We&#39;ll be creating a scatter plot so if you haven&#39;t already, install matplotlib from the commandline:</p>
+<pre><code class="language-sh">pip install matplotlib
+</code></pre>
+<p>Download the python api from a molgenis server, for instance <a href="https://molgenis01.target.rug.nl/molgenis.py">https://molgenis01.target.rug.nl/molgenis.py</a> and save it in <code>molgenis.py</code>.</p>
+<p>Start an interactive python shell and create a molgenis connection:</p>
+<pre><code class="language-python">import molgenis
+</code></pre>
+<p>This imports the molgenis package.</p>
+<pre><code class="language-python">session = molgenis.Session(&quot;https://molgenis56.target.rug.nl/api/&quot;)
+</code></pre>
+<p>Instantiates a new <code>Session</code> pointing at the molgenis56 server. If you take a look at the connection by typing</p>
+<pre><code class="language-python">dir(session)
+</code></pre>
+<p>you should see, amongst others, the methods you can call:</p>
+<pre><code class="language-python">[...,&#39;add&#39;, &#39;add_all&#39;, &#39;delete&#39;, &#39;get&#39;, &#39;get_attribute_meta_data&#39;, &#39;get_entity_meta_data&#39;, &#39;login&#39;, &#39;logout&#39;,...]
+</code></pre>
+<p>Let&#39;s load some data from the server using <code>session.get</code>:</p>
+<pre><code class="language-python">session.get(&quot;ASE&quot;)
+</code></pre>
+<p>This retrieves the top 1000 rows from the ASE entity.</p>
+<pre><code class="language-python">[{u&#39;Alternative_allele&#39;: u&#39;A&#39;, u&#39;P_Value&#39;: 2.06504739339637e-17, u&#39;Genes&#39;: {u&#39;href&#39;: u&#39;/api/v1/ASE/rs9901673/Genes&#39;}, u&#39;Fraction_alternative_allele&#39;: 0.479, u&#39;Pos&#39;: 7484101, u&#39;Reference_allele&#39;: u&#39;C&#39;, u&#39;Chr&#39;: u&#39;17&#39;, u&#39;href&#39;: u&#39;/api/v1/ASE/rs9901673&#39;, u&#39;Samples&#39;: u&#39;145&#39;, u&#39;Likelihood_ratio_test_D&#39;: 72.0813644150712, u&#39;SNP_ID&#39;: u&#39;rs9901673&#39;}, {u&#39;Alternative_allele&#39;: u&#39;T&#39;, u&#39;P_Value&#39;: 8.78109735398113e-18, u&#39;Genes&#39;: {u&#39;href&#39;: u&#39;/api/v1/ASE/rs2597775/Genes&#39;}, u&#39;Fraction_alternative_allele&#39;: 0.479, u&#39;Pos&#39;: 17503382, u&#39;Reference_allele&#39;: u&#39;C&#39;, u&#39;Chr&#39;: u&#39;4&#39;, u&#39;href&#39;: u&#39;/api/v1/ASE/rs2597775&#39;, u&#39;Samples&#39;: u&#39;359&#39;, u&#39;Likelihood_ratio_test_D&#39;: 73.769089117417, u&#39;SNP_ID&#39;: u&#39;rs2597775&#39;}, {u&#39;Alternative_allele&#39;: u&#39;C&#39;, u&#39;P_Value&#39;: 1.4917458949834e-18, u&#39;Genes&#39;: {u&#39;href&#39;: u&#39;/api/v1/ASE/rs3216/Genes&#39;}, u&#39;Fraction_alternative_allele&#39;: 0.479, u&#39;Pos&#39;: 214421, u&#39;Reference_allele&#39;: u&#39;G&#39;, u&#39;Chr&#39;: u&#39;11&#39;, u&#39;href&#39;: u&#39;/api/v1/ASE/rs3216&#39;, u&#39;Samples&#39;: u&#39;301&#39;, u&#39;Likelihood_ratio_test_D&#39;: 77.2691957930797, u&#39;SNP_ID&#39;: u&#39;rs3216&#39;}, [...],{u&#39;Alternative_allele&#39;: u&#39;T&#39;, u&#39;P_Value&#39;: 0.000132500824069775, u&#39;Genes&#39;: {u&#39;href&#39;: u&#39;/api/v1/ASE/rs1056019/Genes&#39;}, u&#39;Fraction_alternative_allele&#39;: 0.482, u&#39;Pos&#39;: 41337435, u&#39;Reference_allele&#39;: u&#39;C&#39;, u&#39;Chr&#39;: u&#39;12&#39;, u&#39;href&#39;: u&#39;/api/v1/ASE/rs1056019&#39;, u&#39;Samples&#39;: u&#39;47&#39;, u&#39;Likelihood_ratio_test_D&#39;: 14.605874945467, u&#39;SNP_ID&#39;: u&#39;rs1056019&#39;}]
+</code></pre>
+<p>Let&#39;s retrieve a specific SNP from the ASE entity:</p>
+<pre><code class="language-python">print(session.get(&quot;ASE&quot;, q=[{&quot;field&quot;:&quot;SNP_ID&quot;, &quot;operator&quot;:&quot;EQUALS&quot;, &quot;value&quot;:&quot;rs12460890&quot;}]))
+</code></pre>
+<pre><code class="language-python">[{u&#39;Alternative_allele&#39;: u&#39;T&#39;, u&#39;P_Value&#39;: 7.1708540619282e-14, u&#39;Genes&#39;: {u&#39;href&#39;: u&#39;/api/v1/ASE/rs12460890/Genes&#39;}, u&#39;Fraction_alternative_allele&#39;: 0.527, u&#39;Pos&#39;: 829568, u&#39;Reference_allele&#39;: u&#39;C&#39;, u&#39;Chr&#39;: u&#39;19&#39;, u&#39;href&#39;: u&#39;/api/v1/ASE/rs12460890&#39;, u&#39;Samples&#39;: u&#39;21&#39;, u&#39;Likelihood_ratio_test_D&#39;: 56.0207947348388, u&#39;SNP_ID&#39;: u&#39;rs12460890&#39;}]
+</code></pre>
+<p>This SNP has a mild but significant allele-specific expression, based on expression counts in 21 samples.</p>
+<p>Let&#39;s retrieve the samples for this SNP:</p>
+<pre><code class="language-python">samples = session.get(&quot;SampleAse&quot;, q=[{&quot;field&quot;:&quot;SNP_ID&quot;, &quot;operator&quot;:&quot;EQUALS&quot;, &quot;value&quot;:&quot;rs12460890&quot;}])
+print(samples)
+</code></pre>
+<pre><code class="language-python">[{u&#39;Ref_Counts&#39;: u&#39;130&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418785&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418785/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418785/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;121&#39;, u&#39;ID&#39;: u&#39;1418785&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;4142&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418786&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418786/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418786/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;4791&#39;, u&#39;ID&#39;: u&#39;1418786&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;19&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418787&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418787/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418787/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;28&#39;, u&#39;ID&#39;: u&#39;1418787&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;19&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418788&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418788/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418788/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;23&#39;, u&#39;ID&#39;: u&#39;1418788&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;32&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418789&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418789/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418789/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;11&#39;, u&#39;ID&#39;: u&#39;1418789&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;639&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418790&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418790/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418790/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;572&#39;, u&#39;ID&#39;: u&#39;1418790&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;202&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418791&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418791/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418791/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;309&#39;, u&#39;ID&#39;: u&#39;1418791&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;423&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418792&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418792/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418792/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;401&#39;, u&#39;ID&#39;: u&#39;1418792&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;271&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418793&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418793/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418793/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;234&#39;, u&#39;ID&#39;: u&#39;1418793&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;806&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418794&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418794/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418794/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;1081&#39;, u&#39;ID&#39;: u&#39;1418794&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;213&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418795&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418795/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418795/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;201&#39;, u&#39;ID&#39;: u&#39;1418795&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;74&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418796&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418796/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418796/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;96&#39;, u&#39;ID&#39;: u&#39;1418796&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;730&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418797&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418797/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418797/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;655&#39;, u&#39;ID&#39;: u&#39;1418797&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;584&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418798&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418798/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418798/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;699&#39;, u&#39;ID&#39;: u&#39;1418798&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;331&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418799&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418799/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418799/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;391&#39;, u&#39;ID&#39;: u&#39;1418799&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;13&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418800&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418800/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418800/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;14&#39;, u&#39;ID&#39;: u&#39;1418800&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;70&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418801&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418801/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418801/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;101&#39;, u&#39;ID&#39;: u&#39;1418801&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;47&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418802&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418802/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418802/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;35&#39;, u&#39;ID&#39;: u&#39;1418802&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;19&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418803&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418803/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418803/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;28&#39;, u&#39;ID&#39;: u&#39;1418803&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;44&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418804&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418804/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418804/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;47&#39;, u&#39;ID&#39;: u&#39;1418804&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;}, {u&#39;Ref_Counts&#39;: u&#39;60&#39;, u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418805&#39;, u&#39;SampleIds&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418805/SampleIds&#39;}, u&#39;Position&#39;: 829568, u&#39;SNP_ID&#39;: {u&#39;href&#39;: u&#39;/api/v1/SampleAse/1418805/SNP_ID&#39;}, u&#39;Alt_Counts&#39;: u&#39;55&#39;, u&#39;ID&#39;: u&#39;1418805&#39;, u&#39;Chromosome&#39;: u&#39;19&#39;
+}]
+</code></pre>
+<p>There they are.</p>
+<p>Let&#39;s format the expression counts</p>
+<pre><code class="language-python">for sample in samples:
+    print(&quot;{Ref_Counts:5} {Alt_Counts:5}&quot;.format(**sample))
+</code></pre>
+<pre><code class="language-python">130      121
+4142     4791
+19       28
+19       23
+32       11
+639      572
+202      309
+423      401
+271      234
+806      1081
+213      201
+74       96
+730      655
+584      699
+331      391
+13       14
+70       101
+47       35
+19       28
+44       47
+60       55
+</code></pre>
+<p>Let&#39;s plot the expression counts in these samples in a scatter plot.</p>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+plt.scatter([sample[&quot;Ref_Counts&quot;] for sample in samples], [sample[&quot;Alt_Counts&quot;] for sample in samples])
+plt.xlim([0, 5000])
+plt.ylim([0, 5000])
+plt.xlabel(&quot;Reference Allele&quot;)
+plt.ylabel(&quot;Alternative Allele&quot;)
+plt.title(&quot;Allele-Specific Expression for rs12460890&quot;)
+</code></pre>
+<p>And add a line for the non-specific expression.</p>
+<pre><code class="language-python">plt.plot([0, 5000], [0, 5000])
+plt.show()
+</code></pre>
+<p><img src="../res/images/rs12460890-py.png" alt="image"></p>
+<h1>Programming new modules</h1><p>While MOLGENIS provides rich scripting capabilities more advanced programmers may want to create server-side modules, e.g. to accomodate new upload file formats, new data backends, new annotators, and/or completely new user interface frontend modules. This section provides some information to get to know the MOLGENIS source code.</p><h2>Architecture overview</h2><p><strong> 
+This section summarizes the overall architecture of MOLGENIS. Obviously there is much more too it but this should give you a conceptual overview.
+</strong></p>
+<p>MOLGENIS is setup as a modular maven project. There is a minimal &#39;core&#39; that binds everything together. In addition to this core there are many additional software modules that can be optionally be used, depending on needs. Each of these modules is then registered with the &#39;core&#39;. </p>
+<p>MOLGENIS follows a commonly used three layer architecture:</p>
+<ul>
+<li>Frontend runs in the web browser using HTML + CSS + javascript pages, mostly interactive using AJAX</li>
+<li>Middleware runs on a web server using Java + Tomcat. </li>
+<li>Backend runs runs either embedded in the web server (e.g. elasticsearch) or is a seperate backend service (e.g. mysql)</li>
+</ul>
+<p>The figure below summarizes this architecture.</p>
+<p><img src="/res/images/architecture.png?raw=true," alt="Architecture overview" title="architecture"></p>
+<h2>Technologies re-used in MOLGENIS</h2><p><strong>
+We are happy to reuse as much as we can from high-quality existing open source software projects. Find below a listing of the technologies we use:
+</strong></p>
+<h3>Middleware</h3><ul>
+<li><a href="http://maven.apache.org/">Maven</a> - to organize, compile and build modules</li>
+<li><a href="http://projects.spring.io/spring-framework/">Spring framework</a> - to assemble modules at runtime</li>
+<li><a href="http://projects.spring.io/spring-framework/">Spring MVC framework</a> - to assemble modules at runtime</li>
+<li><a href="http://projects.spring.io/spring-framework/">Spring framework</a> - to create web service &#39;controllers&#39;</li>
+<li><a href="http://freemarker.incubator.apache.org/docs/index.html">Freemarker template language</a> - for server-side layout</li>
+<li><a href="https://www.apache.org/">Various great Apache projects</a> - for utilities such as commons, commons-io, logging</li>
+<li><a href="https://code.google.com/p/guava-libraries/">Google guava</a> - for utilities</li>
+</ul>
+<h3>Frontend</h3><ul>
+<li><a href="http://getbootstrap.com/">Bootstrap</a> - for responsible HTML layouts</li>
+<li><a href="https://facebook.github.io/react/">React</a> - to create module user interface components</li>
+<li><a href="https://jquery.com/">jQuery</a> - to ease javascript + DOM interaction</li>
+<li><a href="http://www.highcharts.com/">Higcharts</a> - for graphs (can be used not-for profit only)</li>
+</ul>
+<h3>Backend</h3><ul>
+<li><a href="https://www.mysql.com/">MySQL</a> - our work-horse for simple database storage</li>
+<li><a href="https://www.elastic.co/products/elasticsearch">ElasticSearch</a> - for smart indexing and search</li>
+<li><a href="http://owlapi.sourceforge.net/">OWL api</a> - for semantic data imports</li>
+<li><a href="http://opencsv.sourceforge.net/">Open CSV</a> - for reading tab/csv delimited files</li>
+<li><a href="https://poi.apache.org/">Apache POI </a> - for reading Microsoft Excel files</li>
+</ul>
+<h3>Quality</h3><ul>
+<li><a href="http://github.com/molgenis/molgenis">Github</a> - for our code versioning, bug lists and code reviews</li>
+<li><a href="http://www.molgenis.org/jenkins/">Jenkins</a> - our continuous integration build and automatic test server</li>
+<li><a href="http://testng.org/doc/documentation-main.html">TestNG</a> - for unit tests</li>
+<li><a href="http://www.seleniumhq.org/">Selenium+Java </a> - for user interface tests</li>
+<li><a href="http://trac.edgewall.org">TRAC</a> - for managing our scrum backlog</li>
+</ul>
+<h2>Getting started</h2><p><strong>
+This document explains how to get the code, install the necessary software and compile/run for the first time
+</strong></p>
+<h3>Software needed</h3><p>install java8 JDK (not JRE) from <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a></p>
+<p>install eclipse (we used Luna) from <a href="https://www.eclipse.org/downloads/">https://www.eclipse.org/downloads/</a></p>
+<p>install mysql from (we used 5.6.23 DMG) <a href="http://dev.mysql.com/downloads/mysql/">http://dev.mysql.com/downloads/mysql/</a></p>
+<p>install git from <a href="http://git-scm.com/download/">http://git-scm.com/download/</a></p>
+<h3>Configure mysql</h3><p>open terminal and start mysql client (command differs in Windows, Linux, Mac): </p>
+<pre><code>/usr/local/mysql/bin/mysql -u root
+</code></pre><p>Note, if not running you can start the MySQL server from the System Preferences</p>
+<p>in mysql client create database and permissions via command:</p>
+<pre><code>create database omx;
+grant all privileges on omx.* to molgenis@localhost identified by &#39;molgenis&#39;;
+flush privileges;
+</code></pre><h3>Configure Eclipse</h3><p>start Eclipse</p>
+<p>when asked, create fresh workspace folder (not same folder as git!)</p>
+<p>go to &#39;Help&#39; -&gt; &#39;Eclipse market place&#39;</p>
+<p>find and install plugins:</p>
+<ul>
+<li>&#39;JBoss Tools&#39;, during install only select Freemarker IDE</li>
+<li>&#39;TestNG for Eclipse&#39;</li>
+<li>&#39;m2e-apt&#39;</li>
+</ul>
+<p>go to &#39;Eclipse&#39; -&gt; &#39;Preferences&#39; </p>
+<ul>
+<li>&#39;installed JREs&#39; and select &#39;java 8&#39;</li>
+<li>&#39;Maven&#39; -&gt; &#39;Annotation Processing&#39; and select &#39;Automatically Configure JDT APT&#39;</li>
+</ul>
+<p>Restart</p>
+<h3>Get the code</h3><p>create acount on github.com </p>
+<p>&#39;fork&#39; on <a href="http://github.com/molgenis/molgenis">http://github.com/molgenis/molgenis</a></p>
+<p>copy the cloneURL</p>
+<p>open terminal (mkdir if needed) and type </p>
+<pre><code>cd ~/git 
+git clone http://github.com/[YOURACCOUNT]/molgenis
+</code></pre><p>Optionally select stable molgenis version:</p>
+<pre><code>git fetch --tags origin
+git checkout -b &lt;tag name: see https://github.com/molgenis/molgenis/releases&gt;
+</code></pre><p>More information about forking can be found here: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a></p>
+<h3>Set admin password</h3><p>Create the file ~/.molgenis/omx/molgenis-server.properties and add user and database properties:</p>
+<pre><code>db_user=molgenis
+db_password=molgenis
+db_uri=jdbc:mysql://localhost/omx
+admin.password=admin
+user.password=admin
+</code></pre><p>If these properties are not present, the MolgenisDatabasePopulator will fail (RuntimeException). This properties-file should be in your home folder, if the file is not there yet, just create it.    </p>
+<p>If you are developing you might want to add the following</p>
+<pre><code>environment=development
+</code></pre><p>This property allows for at runtime javascript editing and makes sure the javascript files do not get minified and bundled.</p>
+<h3>Start MOLGENIS</h3><p>In eclipse, if still open, close the &#39;Welcome&#39; screen.</p>
+<p>Choose &#39;File&#39; -&gt; &#39;Import&#39; -&gt; &#39;Import existing Maven projects&#39;</p>
+<p>Browse to your /git/molgenis directory </p>
+<p>Select it, you will then be prompted to install some maven connectors, accept these 
+(else MOLGENIS will not build properly in eclipse)</p>
+<p>Right mouse &#39;molgenis&#39; -&gt; Run as -&gt; Maven build ... 
+    In Goals type: clean install. 
+    Under Goals check Update Snapshots and Resolve Workspace artifacts. 
+    In the JRE tab, add the VM argument; -Xmx2g
+    Click run</p>
+<p>Right mouse &#39;molgenis-app&#39; -&gt; Run as -&gt; Maven build ... 
+    in goals type &#39;jetty:run&#39; 
+    In the JRE tab, add the VM argument; -Xmx2g
+    Click run</p>
+<p>Open your browser at <a href="http://localhost:8080/">http://localhost:8080/</a></p>
+<p>You should see the application. Login as &#39;admin&#39;, &#39;admin&#39; to be able to upload and view data, create users, etc etc.</p>
+<h3>Update your code</h3><p>Add the original molgenis repository as a remote location.</p>
+<pre><code>cd ~/git/molgenis
+git remote add blessed https://github.com/molgenis/molgenis.git
+</code></pre><p>Perform regular updates so the latest changes are merged with your local clone.</p>
+<pre><code>git pull blessed master
+</code></pre><p>And push back any merges or commits of your own to your online fork.</p>
+<pre><code>git push origin master
+</code></pre><h3>Troubleshooting</h3><h4>When I build I get maven build error &#39;env not available&#39;.</h4><p>Solution: start Eclipse from commandline.</p>
+<h4>When I try to start an application, the console tells me &#39;Address already in use&#39;!</h4><p>Run the Maven target &#39;jetty:stop&#39;. If that does not help, use your operating systems process manager to kill anything running on port 8080. For example:</p>
+<pre><code>kill -9 `lsof -i :8080 -t`
+</code></pre><h2>Adding frontend modules</h2><p><strong>
+This section describes how you can create a new front-end component
+</strong></p>
+<p>This example shows how to create a user interface plugin. We build on industry strandard <a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html">Spring MVC (model view controller) framework</a>. We use Java to define the &#39;controller&#39; and &#39;model&#39; and use Freemarker for the &#39;view&#39;.</p>
+<h3>Controller</h3><p>First the controller + model:</p>
+<pre><code class="language-java">@Controller
+@RequestMapping(URI)
+public class MyPluginController extends MolgenisPluginController
+{
+  public static final String ID = &quot;myplugin&quot;;
+  public static final String URI = MolgenisPluginController.PLUGIN_URI_PREFIX + ID;
+
+  @RequestMapping(method = RequestMethod.GET)
+  public String init(Model model) throws Exception
+  {
+    model.addAttribute(&quot;my_property&quot;, &quot;my_value&quot;);
+    return &quot;view-myplugin&quot;;
+  }
+}
+</code></pre>
+<h3>View</h3><p>The layout of this is determined via a freemarker file matching the &#39;return&#39; above:</p>
+<pre><code class="language-freemarker">&lt;#include &quot;molgenis-header.ftl&quot;&gt;
+&lt;#include &quot;molgenis-footer.ftl&quot;&gt;
+&lt;#assign css=[&quot;myplugin.css&quot;]&gt;
+&lt;#assign js=[&quot;myplugin.js&quot;]&gt;
+&lt;@header css js/&gt;
+    &lt;p&gt;My plugin content here&lt;/p&gt;
+&lt;@footer/&gt;
+</code></pre>
+<h3>Reusing components</h3><p>Via the myplugin.js you can use MOLGENIS standard UI components (Table, Form, Entity select etc.) that retrieve data via the REST API (see <a href="/documentation">REST reference</a>. See components at <a href="https://github.com/molgenis/molgenis/tree/master//molgenis-core-ui/src/main/resources/js/component">Github</a></p>
+<h3>Adding to your menu</h3><p>Finally you can use this component within your menu (see <a href="/documentation/guide-customize">Customization guide</a>) and give it permissions so users can see it (see <a href="/documentation/guide-admin">Admin guide</a>)</p>
+<h3>Advanced topics</h3><h4>Settings</h4><p>Optionally, you can add settings to your plug-in. Settings associated with a plugin are managed through the settings cog icon on the top right of a plugin. Alternatively they can be managed through the Settings plugin together with application settings and other settings. The following example illustrates how to create a settings entity for your plugin:</p>
+<pre><code class="language-java">public interface ExamplePluginSettings
+{
+    String getTitle();
+
+    void setTitle(String title);
+}
+</code></pre>
+<p>The default implementation of this interface extends DefaultSettingsEntity and contains an inner class that describes the settings meta data by extending DefaultSettingsEntityMetaData. The plugin ID is used to associate these settings with a specific plugin.</p>
+<pre><code class="language-java">@Component
+public class ExamplePluginDbSettings extends DefaultSettingsEntity implements ExamplePluginSettings
+{
+    private static final long serialVersionUID = 1L;
+
+    private static final String ID = ExamplePluginController.ID;
+
+    public ExamplePluginSettings()
+    {
+        super(ID);
+    }
+
+    @Component
+    private static class Meta extends DefaultSettingsEntityMetaData
+    {
+        private static final String TITLE = &quot;title&quot;;
+
+        public Meta()
+        {
+            super(ID);
+            setLabel(&quot;Example plugin settings&quot;);
+            setDescription(&quot;Settings for the example plugin.&quot;);
+            addAttribute(TITLE).setDataType(STRING).setLabel(&quot;Title&quot;);
+       }
+    }
+
+    @Override
+    public String getTitle()
+    {
+        return getString(Meta.TITLE);
+    }
+
+    @Override
+    public void setTitle(String title)
+    {
+        set(Meta.TITLE, title);
+    }
+}
+</code></pre>
+<h3>Using settings in Java</h3><p>Settings entities are automatically registered and updated on application startup. Since setting beans are spring managed you can inject them into the plugin controller:</p>
+<pre><code class="language-java">@Controller
+@RequestMapping(URI)
+public class ExamplePluginController extends MolgenisPluginController
+{
+  private final ExamplePluginSettings examplePluginSettings;
+
+  @Autowired
+  public ExamplePluginController(ExamplePluginSettings examplePluginSettings) {
+    super(URI);
+    this.examplePluginSettings = checkNotNull(examplePluginSettings);
+  }
+}
+</code></pre>
+<h3>Using settings in Freemarker</h3><p>Setting beans are automatically injected into the Model making them available in your view (e.g. Freemarker template) under the key plugin_settings. </p>
+<h3>Using settings in JavaScript</h3><p>In JavaScript the settings for the current plugin can be retrieved as follows:
+molgenis.getPluginSettings() which returns a promise. This allows the following in JavaScript plugin files:</p>
+<pre><code class="language-javascript">$.when( $, window.top.molgenis = window.top.molgenis || {}, molgenis.getPluginSettings()).then(
+  function($, molgenis, settingsXhr) {
+    ...
+  }
+);
+</code></pre>
+<h2>Adding data backendend modules</h2><p><strong>
+MOLGENIS has a data api behind which there is great flexibility in the data backends. Currently we mostly use MySQL and ElasticSearch. This section describes how you can create a new back-end, e.g a NoSQL store or a file reader/writer
+</strong></p>
+<p>The best way to learn how backends are created are to first studie the core interfaces and then use one of the existing backends as template.</p>
+<h3>Core interfaces</h3><p>MOLGENIS currently has the following &#39;data&#39; interfaces </p>
+<ul>
+<li><a href="https://github.com/molgenis/molgenis/blob/master/molgenis-data/src/main/java/org/molgenis/data/Entity.java">Entity</a></li>
+<li><a href="https://github.com/molgenis/molgenis/blob/master/molgenis-data/src/main/java/org/molgenis/data/DataService.java">DataService</a></li>
+<li><a href="https://github.com/molgenis/molgenis/blob/master/molgenis-data/src/main/java/org/molgenis/data/Repository.java">Repository</a></li>
+<li><a href="https://github.com/molgenis/molgenis/blob/master/molgenis-data/src/main/java/org/molgenis/data/RepositoryCollection.java">RepositoryCollection</a></li>
+<li><a href="https://github.com/molgenis/molgenis/blob/master/molgenis-data/src/main/java/org/molgenis/data/Query.java">Query</a></li>
+</ul>
+<h3>Existing backends</h3><p>MOLGENIS currently has the following backend implementations:</p>
+<ul>
+<li><a href="https://github.com/molgenis/molgenis/tree/master/molgenis-data-mysql/src/main/java/org/molgenis/data/mysql">MySQL</a></li>
+<li><a href="https://github.com/molgenis/molgenis/tree/master/molgenis-data-elasticsearch/src/main/java/org/molgenis/data/elasticsearch">Elastic Search</a></li>
+<li><a href="https://github.com/molgenis/molgenis/tree/master/molgenis-data-excel/src/main/java/org/molgenis/data/excel">Microsoft Excel</a></li>
+<li><a href="https://github.com/molgenis/molgenis/tree/master/molgenis-data-csv/src/main/java/org/molgenis/data/csv">Comma Seperated Values</a> </li>
+<li><a href="https://github.com/molgenis/molgenis/tree/master/molgenis-data-vcf/src/main/java/org/molgenis/data/vcf">Variant Calling Format, VCF</a></li>
+<li><a href="https://github.com/molgenis/molgenis/tree/master/molgenis-data-googlespreadsheet/src/main/java/org/molgenis/googlespreadsheet">Google spreadsheet</a></li>
+<li><a href="https://github.com/molgenis/molgenis/tree/master/molgenis-data-jpa/src/main/java/org/molgenis/data/jpa">Java Persistency API, JPA</a></li>
+</ul>
+<h3>How to create a new backend</h3><p>Minimally you need to implement RepositoryCollection and Repository.</p>
+<p>Simple example available is <a href="https://github.com/molgenis/molgenis/tree/master/molgenis-data/src/main/java/org/molgenis/data/mem">InMemoryRepository</a>.</p>
+<p>If you want users to choose it when uploading EMX you need to register your backend to MOLGENIS. This is done via Spring framework as specified in:</p>
+<ul>
+<li><a href="https://github.com/molgenis/molgenis/blob/master/molgenis-app/src/main/java/org/molgenis/app/WebAppConfig.java">WebAppConfig</a></li>
+</ul>
+<h1>Appendix: Reference</h1><p>This section provides reference documentation for the EMX exchange format, the REST interfaces and the R-project API.</p><h2>EMX format</h2><p><strong>
+EMX (entity model extensible) is a flexible spreadsheet format to easily upload any tabular data using Excel or a zipfile of tab-delimited *.tsv files. This works because you can tell MOLGENIS the &#39;model&#39; of your data via a special sheet named &#39;attributes&#39;. Optionally, you can also add metadata on entities (i.e., classes, tables), and packages (i.e, models and submodels)
+</strong></p>
+<h3>Minimal example</h3><p>(<a href="/data/example1.xlsx">download</a>)</p>
+<p>For example, if you want to upload an Excel with sheet &#39;patients&#39;:</p>
+<table>
+<thead>
+<tr>
+<th>displayName</th>
+<th>firstName</th>
+<th>lastName</th>
+<th>birthdate</th>
+<th>birthplace</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>john doe</td>
+<td>john</td>
+<td>doe</td>
+<td>1976-03-13</td>
+<td>new york</td>
+</tr>
+<tr>
+<td>jane doe</td>
+<td>jane</td>
+<td>doe</td>
+<td></td>
+<td>metropolis</td>
+</tr>
+<tr>
+<td>papa doe</td>
+<td>papa</td>
+<td>doe</td>
+<td></td>
+<td>new york</td>
+</tr>
+</tbody>
+</table>
+<p>Then you must provide a model of your &#39;patients&#39; via Excel with sheet named &#39;attributes&#39;:</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>entity</th>
+<th>dataType</th>
+<th>idAttribute</th>
+<th>nillable</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>displayName</td>
+<td>patients</td>
+<td></td>
+<td>TRUE</td>
+<td>FALSE</td>
+<td>name</td>
+</tr>
+<tr>
+<td>firstName</td>
+<td>patients</td>
+<td></td>
+<td></td>
+<td>FALSE</td>
+<td>first name</td>
+</tr>
+<tr>
+<td>lastName</td>
+<td>patients</td>
+<td></td>
+<td></td>
+<td>FALSE</td>
+<td>family name</td>
+</tr>
+<tr>
+<td>birthdate</td>
+<td>patients</td>
+<td>date</td>
+<td></td>
+<td>FALSE</td>
+<td>day of birth</td>
+</tr>
+<tr>
+<td>birthplace</td>
+<td>patients</td>
+<td></td>
+<td></td>
+<td>FALSE</td>
+<td>place of birth</td>
+</tr>
+</tbody>
+</table>
+<p>&#39;entity&#39; should show the name of your data sheet. Each attribute the column headers in your data. Default dataType is &#39;string&#39; so you only need to provide non-string values (int, date, decimal, etc). And you must always provide one idAttribute that has &#39;nillable&#39; = &#39;FALSE&#39;.</p>
+<p>You can first upload the &#39;model&#39; and then the &#39;data&#39;. Or you can put the both into one file and upload in one go. What you prefer :-) [todo: provide example files for download]</p>
+<h3>Advanced example</h3><p>(<a href="/data/example2.xlsx">download</a>)</p>
+<p>Lets assume we want to upload multiple data sheets, with relations between them:</p>
+<p>Cities:</p>
+<table>
+<thead>
+<tr>
+<th>cityName</th>
+<th>lat</th>
+<th>lng</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>new york</td>
+<td>40,712784</td>
+<td>-74,005941</td>
+</tr>
+<tr>
+<td>metropolis</td>
+<td>37,151165</td>
+<td>-88,731998</td>
+</tr>
+</tbody>
+</table>
+<p>Patients:</p>
+<table>
+<thead>
+<tr>
+<th>displayName</th>
+<th>firstName</th>
+<th>lastName</th>
+<th>birthdate</th>
+<th>birthplace</th>
+<th>children</th>
+<th>disease</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>john doe</td>
+<td>john</td>
+<td>doe</td>
+<td>1976-13-03</td>
+<td>new york</td>
+<td></td>
+<td>none</td>
+</tr>
+<tr>
+<td>jane doe</td>
+<td>jane</td>
+<td>doe</td>
+<td></td>
+<td>metropolis</td>
+<td></td>
+<td>none</td>
+</tr>
+<tr>
+<td>pape doe</td>
+<td>papa</td>
+<td>doe</td>
+<td></td>
+<td>new york</td>
+<td>john doe, jane doe</td>
+<td>cardio</td>
+</tr>
+</tbody>
+</table>
+<p>Notes: birthplace refers to elements in the cityName values in the cities table. children contains comma separated values referring to another patient via displayName (trailing spaces will be removed).</p>
+<p>Users:</p>
+<table>
+<thead>
+<tr>
+<th>userName</th>
+<th>active</th>
+<th>displayName</th>
+<th>firstName</th>
+<th>lastName</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jdoe</td>
+<td>TRUE</td>
+<td>john doe</td>
+<td>john</td>
+<td>doe</td>
+</tr>
+<tr>
+<td>jdoe2</td>
+<td></td>
+<td>jane doe</td>
+<td>jane</td>
+<td>doe</td>
+</tr>
+<tr>
+<td>pdoe</td>
+<td></td>
+<td>papa doe</td>
+<td>papa</td>
+<td>doe</td>
+</tr>
+</tbody>
+</table>
+<p>Note: users looks similar patients, i.e. they are also persons having &#39;displayName&#39;, &#39;firstName&#39;, and &#39;lastName&#39;. We will use this in the model below. </p>
+<p>To model the data advanced data example, again you need to provide the &#39;attributes&#39; (i.e., columns, properties). Optionally, you can also describe entities (i.e., classes, tables), and packages (i.e, models and submodels) which gives you some advanced options.</p>
+<p>Attributes:</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>entity</th>
+<th>dataType</th>
+<th>nillable</th>
+<th>refEntity</th>
+<th>idAttribute</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cityName</td>
+<td>cities</td>
+<td></td>
+<td>FALSE</td>
+<td></td>
+<td>TRUE</td>
+<td>unique city name</td>
+</tr>
+<tr>
+<td>lat</td>
+<td>cities</td>
+<td>decimal</td>
+<td></td>
+<td></td>
+<td></td>
+<td>latitude in degrees</td>
+</tr>
+<tr>
+<td>lng</td>
+<td>cities</td>
+<td>decimal</td>
+<td></td>
+<td></td>
+<td></td>
+<td>longitude in degrees</td>
+</tr>
+<tr>
+<td>displayName</td>
+<td>persons</td>
+<td></td>
+<td>FALSE</td>
+<td></td>
+<td>TRUE</td>
+<td>unique name</td>
+</tr>
+<tr>
+<td>firstName</td>
+<td>persons</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>first name</td>
+</tr>
+<tr>
+<td>lastName</td>
+<td>persons</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>family name</td>
+</tr>
+<tr>
+<td>birthdate</td>
+<td>patients</td>
+<td>date</td>
+<td></td>
+<td></td>
+<td></td>
+<td>day of birth</td>
+</tr>
+<tr>
+<td>birthplace</td>
+<td>patients</td>
+<td>xref</td>
+<td></td>
+<td>cities</td>
+<td></td>
+<td>place of birth</td>
+</tr>
+<tr>
+<td>disease</td>
+<td>patients</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>disese description</td>
+</tr>
+<tr>
+<td>userName</td>
+<td>users</td>
+<td></td>
+<td>FALSE</td>
+<td></td>
+<td>TRUE</td>
+<td>unique login name</td>
+</tr>
+<tr>
+<td>active</td>
+<td>users</td>
+<td>bool</td>
+<td></td>
+<td></td>
+<td></td>
+<td>whether user is active</td>
+</tr>
+</tbody>
+</table>
+<p>The example below defines the model for entities &#39;city&#39;, &#39;patient&#39; and &#39;user&#39;. Note that &#39;users&#39; had some attributes shared with &#39;patients&#39; so we will use &#39;object orientation&#39; to say that both &#39;user&#39; and &#39;patient&#39; are both a special kind of &#39;persons&#39;. This will be defined using the &#39;extends&#39; relation defined in the &#39;entities&#39; sheet below.</p>
+<p>Entities:</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>package</th>
+<th>extends</th>
+<th>abstract</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cities</td>
+<td>hospital</td>
+<td></td>
+<td></td>
+<td>list of cities</td>
+</tr>
+<tr>
+<td>persons</td>
+<td>hospital</td>
+<td></td>
+<td>true</td>
+<td>person defines general attributes like firstName, lastName</td>
+</tr>
+<tr>
+<td>users</td>
+<td>hospital</td>
+<td>persons</td>
+<td></td>
+<td>users extends persons, meaning it &#39;inherits&#39; attribute definition</td>
+</tr>
+<tr>
+<td>patients</td>
+<td>hospital</td>
+<td>persons</td>
+<td></td>
+<td>patient extends person, adding patientNumber</td>
+</tr>
+</tbody>
+</table>
+<p>In most cases the &#39;attributes&#39; sheet is all you need. However, in some cases you may want to add more details on the &#39;entity&#39;. Here we wanted to show use of &#39;abstract&#39; (i.e., interfaces) to create model class &#39;persons&#39; and &#39;extends&#39; (i.e., subclass, inheritance) to define that &#39;user&#39; and &#39;patient&#39; have the same attributes as &#39;persons&#39;. When data model become larger, or when many data sheets are loaded then the &#39;package&#39; construct enables you to group your (meta)data. </p>
+<p>Packages:</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>description</th>
+<th>parent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>root</td>
+<td>my main package</td>
+<td></td>
+</tr>
+<tr>
+<td>hospital</td>
+<td>sub package holding entities to describe all kinds of persons</td>
+<td>root</td>
+</tr>
+</tbody>
+</table>
+<h3>Rules for technical names</h3><p>For all technical names in the EMX format, the following rules apply:</p>
+<ul>
+<li>No special characters, except for; &#39;_&#39; and &#39;#&#39;, only letters, numbers are allowed.</li>
+<li>No names starting with digits. </li>
+<li>Maximum length for names is 30 chars.</li>
+<li>Keywords used by programming languages (e.g. java, javascript, mysql) are not allowed.</li>
+</ul>
+<p>These rules only apply to the technical names, labels are not limited by these rules.</p>
+<h3>Attributes options</h3><p>Required columns:</p>
+<ul>
+<li>entity : name of the entity this attribute is part of</li>
+<li>attribute : name of attribute, unique per entity</li>
+</ul>
+<p>Optional columns (can be omitted):</p>
+<ul>
+<li>dataType: defines the data type (default: string)<ul>
+<li>string : character string of &lt;255 characters</li>
+<li>text : character string of unlimited length (usually &lt;2Gb)</li>
+<li>int : natural numbers like -1, 0, 3. Optionally use rangeMin and rangeMax</li>
+<li>long : non-decimal number of type long</li>
+<li>decimal : decimal numbers like -1.3, 0.5, 3.75 (float precision)</li>
+<li>bool : yes/no choice</li>
+<li>date : date in yyyy-mm-dd format</li>
+<li>datetime : date in yyyy-mm-dd hh:mm:ss</li>
+<li>xref : cross reference to another entity; requires refEntity to be provided</li>
+<li>mref : many-to-many relation to another entity; requires refEntity to be provided</li>
+<li>categorical_mref : many-to-many relation to another entity; requires refEntity to be provided. Forms will display a complete list of options.</li>
+<li>compound : way to assemble complex entities from building blocks (will be shown as tree in user interface);   requires refEntity to be provided.</li>
+<li>file: <a href="https://github.com/molgenis/molgenis/wiki/File-datatype">create a column of the &#39;file&#39; data type</a> requires refEntity FileMeta.</li>
+</ul>
+</li>
+<li>refEntity : used in combination with xref, mref or compound. Should refer to an entity.</li>
+<li>nillable : whether the column may be left empty. Default: false</li>
+<li>idAttribute : whether this field is the unique key for the entity. Default: false. Use &#39;AUTO&#39; for auto generated (string) identifiers.</li>
+<li>description : free text documentation describing the attribute</li>
+<li>rangeMin : used to set range in case of int attributes</li>
+<li>rangeMax : used to set range in case of int attributes</li>
+<li>lookupAttribute : true/false to indicate that the attribute should appear in the xref/mref search dropdown in the dataexplorer</li>
+<li>label : optional human readable name of the attribute</li>
+<li>aggregateable : true/false to indicate if the user can use this atrribute in an aggregate query</li>
+<li>labelAttribute : true/false to indicate that the value of this attribute should be used as label for the entity (in the dataexplorer when used in xref/mref). Default: false</li>
+<li>readOnly true/false to indicate a readOnly attribute</li>
+<li>tags : ability to tag the data referring to the tags sections, described below</li>
+<li>validationExpression : javascript validation expression that must return a bool. Must return true if valid and false if invalid. See for a syntax description the section [[Javascript Expressions]]</li>
+<li>defaultValue: value that will be filled in in the forms when a new entity instance is created. Not yet supported for mref and xref values. For categorical_mref, should be a comma separated list of ids. For xref should be the of the refEntity. For bool should be true or false. For datetime should be a string in the format YYYY-MM-DDTHH:mm:ssZZ. For date should be a string in the format YYYY-MM-DD.</li>
+</ul>
+<h3>Entities options</h3><p>Required columns:</p>
+<ul>
+<li>entity : unique name of the entity. If packages are provided, name must be unique within a package.</li>
+</ul>
+<p>Optional columns:</p>
+<ul>
+<li>extends : reference to another entity that is extended</li>
+<li>package : name of the group this entity is part of</li>
+<li>abstract : indicate if data can be provided for this entity (abstract entities are only used for data modeling purposes but cannot accept data)</li>
+<li>description : free text description of the entity</li>
+<li>backend: the backend (database) to store the entities in (currently MySQL or ElasticSearch)</li>
+<li>tags : ability to tag the data referring to the tags sections, described below</li>
+</ul>
+<h3>Packages options</h3><p>Required columns:</p>
+<ul>
+<li>name : unique name of the package. If parent package is provided the name is unique within the parent.</li>
+</ul>
+<p>Optional columns:</p>
+<ul>
+<li>description : free text description of the package</li>
+<li>parent : use when packages is a sub-package of another package</li>
+<li>tags : mechanism to add flexible meta data such as ontology references, hyperlinks</li>
+</ul>
+<h3>Tags options (BETA)</h3><p>Optionally, additional information can be provided beyond the standard meta data described above. Therefore all meta-data elements can be tagged in simple or advanced ways (equivalent to using RDF triples). For example, above in the packages example there is a &#39;homepage&#39; tag provided. For example:</p>
+<table>
+<thead>
+<tr>
+<th>identifier</th>
+<th>label</th>
+<th>objectIRI</th>
+<th>relationLabel</th>
+<th>codeSystem</th>
+<th>relationIRI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>like</td>
+<td>like</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>homepage</td>
+<td><a href="http://www.molgenis.org">http://www.molgenis.org</a></td>
+<td><a href="http://www.molgenis.org">http://www.molgenis.org</a></td>
+<td>homepage</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>docs</td>
+<td><a href="http://some.url">http://some.url</a></td>
+<td><a href="http://www.molgenis.org">http://www.molgenis.org</a></td>
+<td>Documentation and Help</td>
+<td>EDAM</td>
+<td><a href="http://edamontology.org/topic_3061">http://edamontology.org/topic_3061</a></td>
+</tr>
+</tbody>
+</table>
+<p>Required columns:</p>
+<ul>
+<li>identifier : unique name of this tag, such that it can be referenced</li>
+<li>label : the human readable label of the tag (e.g. the &#39;like&#39; tag as shown above).</li>
+</ul>
+<p>Optional columns:</p>
+<ul>
+<li>objectIRI: url to the value object (will become an hyperlink in the user interface)</li>
+<li>relationLabel: human readible label of the relation, e.g. &#39;Documentation and Help&#39;</li>
+<li>relationIRI: url to the relation definition, e.g. <a href="http://edamontology.org/topic_3061">http://edamontology.org/topic_3061</a></li>
+<li>codeSystem: name of the code system used, e.g. EDAM</li>
+</ul>
+<h2>REST api v1</h2><p><strong>
+The MOLGENIS REST API allows you to retrieve and modify your data model entities and entity collections. The API supports all CRUD (create, read, update and delete) methods as well as resource collections paging &amp; filtering and resource field expansion. At the moment of writing JSON and form data are supported as request content types and JSON is the only supported response content type.
+</strong></p>
+<p>Your MOLGENIS data model defines the resources and resource collections that can be accessed and modified. Lets assume that your data model contains the entities DataSet, Protocol and Feature. The REST API will consist of the following endpoints:</p>
+<h3>Collections</h3><p>MOLGENIS entity collections are available as end-points:</p>
+<p><em>Endpoints</em></p>
+<ul>
+<li><a href="http://your.molgenis.url/api/v1/dataset">http://your.molgenis.url/api/v1/dataset</a></li>
+<li><a href="http://your.molgenis.url/api/v1/protocol">http://your.molgenis.url/api/v1/protocol</a></li>
+<li><a href="http://your.molgenis.url/api/v1/feature">http://your.molgenis.url/api/v1/feature</a></li>
+</ul>
+<h4>Retrieve collection</h4><p>Each entity collection has its own end-point:</p>
+<p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/dataset&quot;,
+    &quot;start&quot;: 0,
+    &quot;num&quot;: 100,
+    &quot;total&quot;: 2,
+    &quot;items&quot;: [{
+        &quot;href&quot;: &quot;/api/v1/dataset/1&quot;,
+        &quot;name&quot;: &quot;my first data set&quot;,
+        &quot;protocol&quot;: {
+            &quot;href&quot;: &quot;/api/v1/dataset/1/protocol&quot;
+        },{
+        &quot;href&quot;: &quot;/api/v1/dataset/2&quot;,
+        &quot;name&quot;: &quot;my second data set&quot;,
+        &quot;protocol&quot;: {
+            &quot;href&quot;: &quot;/api/v1/dataset/2/protocol&quot;
+        }
+    }]
+}
+</code></pre>
+<h4>Delete collection</h4><p>Datasets can be completely deleted (Nb. the meta data will be kept):</p>
+<p><em>Request</em></p>
+<pre><code>DELETE http://your.molgenis.url/api/v1/dataset
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">204 No Content
+</code></pre>
+<h4>Query a collection</h4><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>start</em></td>
+<td>int</td>
+<td>Offset in resource collection</td>
+</tr>
+<tr>
+<td><em>num</em></td>
+<td>int</td>
+<td>Number of resources to retrieve starting at <em>start</em></td>
+</tr>
+<tr>
+<td><em>q</em></td>
+<td>list of molgenis query rule objects</td>
+<td>Query to filter the resource collection list</td>
+</tr>
+</tbody>
+</table>
+<h3>start and num</h3><p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset?start=1&amp;num=1
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/dataset&quot;,
+    &quot;start&quot;: 1,
+    &quot;num&quot;: 1,
+    &quot;total&quot;: 3,
+    &quot;prevHref&quot;:&quot;/api/v1/dataset?start=0&amp;num=1&quot;
+    &quot;nextHref&quot;:&quot;/api/v1/dataset?start=2&amp;num=1&quot;
+    &quot;items&quot;: [{
+        &quot;href&quot;: &quot;/api/v1/dataset/2&quot;,
+        &quot;name&quot;: &quot;my second data set&quot;,
+        &quot;protocol&quot;: {
+            &quot;href&quot;: &quot;/api/v1/dataset/2/protocol&quot;
+        }
+    }]
+}
+</code></pre>
+<p><em>prevHref</em> is the location of the previous page of resources, <em>nextHref</em> is the location of the next page of resources.</p>
+<h3>q</h3><p><em>Request</em></p>
+<pre><code>POST http://your.molgenis.url/api/v1/dataset?_method=GET
+Content-Type: application/json
+
+{
+    &quot;q&quot;: [{
+       &quot;field&quot;: &quot;name&quot;,
+       &quot;operator&quot;: &quot;EQUALS&quot;,
+       &quot;value&quot;: &quot;my first data set&quot;
+    }]
+}
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/dataset&quot;,
+    &quot;start&quot;: 0,
+    &quot;num&quot;: 100,
+    &quot;total&quot;: 1,
+    &quot;items&quot;: [{
+        &quot;href&quot;: &quot;/api/v1/dataset/1&quot;,
+        &quot;name&quot;: &quot;my first data set&quot;,
+        &quot;protocol&quot;: {
+            &quot;href&quot;: &quot;/api/v1/dataset/1/protocol&quot;
+        }
+    }]
+}
+</code></pre>
+<h3>Instances</h3><p>Each data row within a collection (i.e. entity instance) can be accessed via its identifier:</p>
+<p><em>Endpoints</em></p>
+<ul>
+<li><a href="http://your.molgenis.url/api/v1/dataset/">http://your.molgenis.url/api/v1/dataset/</a><entity id></entity></li>
+<li><a href="http://your.molgenis.url/api/v1/protocol/">http://your.molgenis.url/api/v1/protocol/</a><entity id></entity></li>
+<li><a href="http://your.molgenis.url/api/v1/feature/">http://your.molgenis.url/api/v1/feature/</a><entity id></entity></li>
+</ul>
+<h4>Retrieve</h4><p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset/1
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/dataset/1&quot;,
+    &quot;name&quot;: &quot;my first data set&quot;,
+    &quot;protocol&quot;: {
+        &quot;href&quot;: &quot;/api/v1/dataset/1/protocol&quot;
+    }
+}
+</code></pre>
+<p><em>href</em> is the location of this resource, <em>name</em> is a string value and <em>protocol</em> is the location of the entity that this dataset refers to.</p>
+<h4>Create</h4><p>By psoting a JSON message that matches the meta data attributes you can add new instances:</p>
+<p><em>Request</em></p>
+<pre><code>POST http://your.molgenis.url/api/v1/person
+Content-Type: application/json
+
+{
+    &quot;age&quot;: &quot;17&quot;,
+    &quot;driverslicence&quot;: true
+}
+</code></pre><p><em>Response</em></p>
+<pre><code>201 Created
+
+In the response headers you can find the id of the newly created resource:
+Example: Location: /api/v1/person/AAAACTUMDL2N4BTTSWWS6PQAAE
+</code></pre><h4>Update</h4><p>Existing instances can be updated by putting a complete changed record to the entity instance endpoint:</p>
+<p><em>Request</em></p>
+<pre><code>PUT http://your.molgenis.url/api/v1/dataset/3
+Content-Type: application/json
+
+{
+    &quot;name&quot;: &quot;renamed data set&quot;
+}
+</code></pre><p><em>Response</em></p>
+<pre><code>204 No Content
+</code></pre><h4>Update one value</h4><p>If you only want to change one attribute without needing to provide all other attributes you can put values to the attributes seperately:</p>
+<p><em>Request</em></p>
+<pre><code>PUT http://your.molgenis.url/api/v1/dataset/3/name
+Content-Type: application/json
+
+{
+    &quot;name&quot;: &quot;renamed data set&quot;
+}
+</code></pre><p><em>Response</em></p>
+<pre><code>204 No Content
+</code></pre><h4>Delete</h4><p><em>Request</em></p>
+<pre><code>DELETE http://your.molgenis.url/api/v1/dataset/3
+</code></pre><p><em>Response</em></p>
+<pre><code>204 No Content
+</code></pre><h4>Advanced options</h4><p>Instance end-points have the following options:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>attributes</em></td>
+<td>Comma-separated string</td>
+<td>Defines which fields in the API response to select</td>
+</tr>
+<tr>
+<td><em>expand</em></td>
+<td>Comma-separated string</td>
+<td>Defines which fields in the API response to (partially) expand</td>
+</tr>
+<tr>
+<td><em>_method</em></td>
+<td>HTTP method</td>
+<td>Tunnel request through defined method over default API operation</td>
+</tr>
+<tr>
+<td><em>callback</em></td>
+<td>string</td>
+<td>Callback function name used as JSON padding to allow cross domain requests</td>
+</tr>
+</tbody>
+</table>
+<h3>select attributes</h3><p>In a query you can specify what attributes to return, useful when having thousands of attributes:</p>
+<p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset/1?attributes=identifier,name
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/DataSet/1&quot;,
+    &quot;Identifier&quot;: &quot;celiacsprue&quot;,
+    &quot;Name&quot;: &quot;Celiac Sprue&quot;
+}
+</code></pre>
+<h3>expand xref attributes</h3><p>MOLGENIS can have attributes of type xref (foreign key) that you can follow and expand attributes of:</p>
+<p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset/1?expand=protocol
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/dataset/1&quot;,
+    &quot;name&quot;: &quot;my first data set&quot;,
+    &quot;protocol&quot;: {
+        &quot;href&quot;: &quot;/api/v1/protocol/10&quot;,
+        &quot;name&quot;: &quot;protocol for dataset #1&quot;,
+        &quot;features&quot;: {
+            &quot;href&quot;:&quot;/api/v1/protocol/37265/features&quot;
+        }
+    }
+}
+</code></pre>
+<h3>partial expand</h3><p>Within the expansion you can again specify the attributes to be included:</p>
+<p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset/1?expand=protocol[name]
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/dataset/1&quot;,
+    &quot;name&quot;: &quot;my first data set&quot;,
+    &quot;protocol&quot;: {
+        &quot;href&quot;: &quot;/api/v1/protocol/10&quot;,
+        &quot;name&quot;: &quot;protocol for dataset #1&quot;
+    }
+}
+</code></pre>
+<h3>_method</h3><p>Some browsers do not support operations such as PUT and DELETE. The <em>_method</em> parameter can be used to tunnel the request over a POST operation.</p>
+<p><em>Request</em></p>
+<pre><code>POST http://your.molgenis.url/api/v1/dataset/3?_method=PUT
+Content-Type: application/json
+
+{
+    &quot;name&quot;: &quot;renamed data set&quot;
+}
+</code></pre><p><em>Response</em></p>
+<pre><code>204 No Content
+</code></pre><h3>callback</h3><p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset/1?callback=myfunction
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+myfunction(
+{
+    &quot;href&quot;: &quot;/api/v1/dataset/1&quot;,
+    &quot;name&quot;: &quot;my first data set&quot;,
+    &quot;protocol&quot;: {
+        &quot;href&quot;: &quot;/api/v1/dataset/1/protocol&quot;
+    }
+}
+)
+</code></pre>
+<h3>Meta data</h3><p>Meta data provides details on the attributes within your collection. This allows for client side generation of user interfaces. Assuming that you have entities &#39;datasets&#39;, &#39;protocol&#39; and &#39;features&#39; then you can retrieve the metadata as follows:</p>
+<p><em>Endpoints</em></p>
+<ul>
+<li><a href="http://your.molgenis.url/api/v1/dataset/meta">http://your.molgenis.url/api/v1/dataset/meta</a></li>
+<li><a href="http://your.molgenis.url/api/v1/protocol/meta">http://your.molgenis.url/api/v1/protocol/meta</a></li>
+<li><a href="http://your.molgenis.url/api/v1/feature/meta">http://your.molgenis.url/api/v1/feature/meta</a></li>
+</ul>
+<h4>Retrieve meta data</h4><p>You can retrieve meta data for each collection:</p>
+<p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/dataset/meta
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">200 OK
+
+{
+    &quot;href&quot;: &quot;/api/v1/DataSet/meta&quot;,
+    &quot;name&quot;: &quot;DataSet&quot;,
+    &quot;label&quot;: &quot;&quot;,
+    &quot;attributes&quot;: {
+        &quot;Identifier&quot;: {
+            &quot;href&quot;: &quot;/api/v1/DataSet/meta/Identifier&quot;
+        },
+        &quot;Name&quot;: {
+            &quot;href&quot;: &quot;/api/v1/DataSet/meta/Name&quot;
+        },
+        &quot;description&quot;: {
+            &quot;href&quot;: &quot;/api/v1/DataSet/meta/description&quot;
+        },
+        &quot;ProtocolUsed&quot;: {
+            &quot;href&quot;: &quot;/api/v1/DataSet/meta/ProtocolUsed&quot;
+        },
+        &quot;startTime&quot;: {
+            &quot;href&quot;: &quot;/api/v1/DataSet/meta/startTime&quot;
+        },
+        &quot;endTime&quot;: {
+            &quot;href&quot;: &quot;/api/v1/DataSet/meta/endTime&quot;
+        }
+    },
+    &quot;labelAttribute&quot;: &quot;Identifier&quot;
+}
+</code></pre>
+<h4>Delete meta data</h4><p>Deletes resource meta data and all data associated with this resource.</p>
+<p><em>Request</em></p>
+<pre><code>DELETE http://your.molgenis.url/api/v1/dataset/meta
+</code></pre><p><em>Response</em></p>
+<pre><code class="language-javascript">204 No Content
+</code></pre>
+<h3>Authentication</h3><h4>Login</h4><p><em>Request</em></p>
+<pre><code>POST http://your.molgenis.url/api/v1/login
+Content-Type: application/json
+
+{
+    &quot;username&quot;: &quot;your username&quot;,
+    &quot;password&quot;: &quot;your password&quot;
+}
+</code></pre><p><em>Response</em></p>
+<pre><code>200 OK
+{
+    &quot;token&quot;: &quot;4296ef4fd9324360aa5c-bf8a849003da&quot;,
+    &quot;username&quot;: &quot;admin&quot;,
+    &quot;firstname&quot;: &quot;John&quot;,
+    &quot;lastname&quot;: &quot;Doe&quot;
+}
+
+OR
+401 Unauthorized
+</code></pre><p>The token can be used as authentication token in subsequent api calls. The token must be added to the http header:</p>
+<pre><code>x-molgenis-token: 4296ef4fd9324360aa5c-bf8a849003da
+</code></pre><h4>Logout</h4><p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v1/logout
+
+header:
+x-molgenis-token: 4296ef4fd9324360aa5c-bf8a849003da
+</code></pre><p><em>Response</em></p>
+<pre><code>200 OK
+</code></pre><h3>Response codes</h3><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Request ok, returned content in body</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Resource succesfully created</td>
+</tr>
+<tr>
+<td>204</td>
+<td>Request ok</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Your request was not valid</td>
+</tr>
+<tr>
+<td>401</td>
+<td>You are not authorized to perform this operation, did you authenticate?</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Resource does not exist</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Request ok but something went wrong on the server</td>
+</tr>
+</tbody>
+</table>
+<h3>FAQ</h3><p>How to resolve a 400 Bad Request error?</p>
+<blockquote>
+<p>Did you specify the Content-Type header if your body contains content?</p>
+</blockquote>
+<p>What options exist to define query rules for resource collection requests?</p>
+<blockquote>
+<p>The query rules are serialized Java QueryRule objects, take a look at the source code of the QueryRule class to see what options are available.</p>
+</blockquote>
+<h2>REST api v2</h2><p><strong>
+We are expanding and improving the REST api. At its heart is a simplified query syntax called RSQL for collection queries
+For query syntax see <a href="https://github.com/jirutka/rsql-parser">RSQL parser</a>. In addition we simplify the reading of entities.
+</strong></p>
+<h3>Instance</h3><h4>Read instance</h4><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>attrs</em></td>
+<td>Comma-separated string</td>
+<td>Defines which fields in the API response to select</td>
+</tr>
+<tr>
+<td><em>_method</em></td>
+<td>HTTP method</td>
+<td>Tunnel request through defined method over default API operation</td>
+</tr>
+</tbody>
+</table>
+<p><em>Request</em></p>
+<pre><code>GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;?attrs=attr0
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;?attrs=attr0,attr1
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;?attrs=attr0(subattr0,subattr1),attr1(*)
+</code></pre><pre><code>POST http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;?_method=GET
+</code></pre><pre><code>POST http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;?_method=GET
+attrs=attr0(subattr0,subattr1),attr1(*)
+</code></pre><h4>Delete instance</h4><p><em>Request</em></p>
+<pre><code>DELETE http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;
+</code></pre><h3>Query</h3><p>We use the <a href="https://github.com/jirutka/rsql-parser">RSQL</a> HTTP/URL based query language:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>q</em></td>
+<td>Query string in RSQL</td>
+<td>RSQL query to filter the entity collection response</td>
+</tr>
+<tr>
+<td><em>sort</em></td>
+<td>Query string in RSQL</td>
+<td>Defines how entity collection response is sorted</td>
+</tr>
+<tr>
+<td><em>attrs</em></td>
+<td>Comma-separated string</td>
+<td>Defines which fields in the API response to select</td>
+</tr>
+<tr>
+<td><em>start</em></td>
+<td>int</td>
+<td>Offset in resource collection</td>
+</tr>
+<tr>
+<td><em>num</em></td>
+<td>int</td>
+<td>Number of resources to retrieve starting at <em>start</em></td>
+</tr>
+<tr>
+<td><em>_method</em></td>
+<td>HTTP method</td>
+<td>Tunnel request through defined method over default API operation</td>
+</tr>
+</tbody>
+</table>
+<pre><code>GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?attrs=attr0
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?attrs=attr0,attr1
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?attrs=attr0(subattr0,subattr1),attr1(*)
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?sort=attr0
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?sort=attr0:asc
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?sort=attr0:desc
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?sort=attr0:desc,attr1
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?start=40&amp;num=20
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?q=attr0==val
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?q=attr0!=val
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?q=attr0!=val;q=attr1=ge=5
+</code></pre><h4>Aggregation</h4><p>We also support aggregation of the result query:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>q</em></td>
+<td>Query string in RSQL</td>
+<td>RSQL query to filter the entity collection response</td>
+</tr>
+<tr>
+<td><em>aggs</em></td>
+<td>Aggregation query string in RSQL</td>
+<td>Aggregation query to aggregate entities</td>
+</tr>
+</tbody>
+</table>
+<p>The aggregation query supports the RSQL selectors &#39;x&#39;, &#39;y&#39; and &#39;distinct&#39; and the RSQL operator &#39;==&#39;. The selector &#39;x&#39; defines the first aggregation attribute name, &#39;y&#39; defines the second aggregation attribute name, &#39;distinct&#39; defines the distinct aggregation attribute name.</p>
+<pre><code>GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?aggs=x==attr0
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?aggs=x==attr0;y==attr1
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?aggs=x==attr0;y==attr1;distinct=attr2
+GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?aggs=x==attr0;y==attr1;distinct=attr2&amp;q=attr4==val
+</code></pre><h3>Batch</h3><p>When working with larger datasets the RESTv2 api provides batching via the &#39;entities&#39; parameter:</p>
+<h4>create</h4><p>To create/add a list of entities into a collection you can POST the &#39;entities&#39; parameter to a collection:</p>
+<p><em>Request</em></p>
+<pre><code>POST http://your.molgenis.url/api/v2/person
+Content-Type: application/json
+
+{entities: [
+{
+    &quot;age&quot;: &quot;101&quot;,
+    &quot;driverslicence&quot;: true
+},
+{
+    &quot;age&quot;: &quot;102&quot;,
+    &quot;driverslicence&quot;: true
+}
+]}
+</code></pre><p><em>Response</em></p>
+<pre><code>201 Created
+</code></pre><p>Body</p>
+<pre><code>{
+    location: &quot;/api/v2/Person?q=id=in=(&quot;1&quot;,&quot;2&quot;)&quot;
+    resources: [{
+        href: &quot;/api/v2/Person/1&quot;
+    },
+    {
+        href: &quot;/api/v2/Person/2&quot;
+    }]
+}
+
+* href: &quot;/api/v2/Person/2&quot; returns a created resource
+* location: /api/v2/person/?q=id=in=(1,2) returns all created resources
+</code></pre><h4>Update</h4><p>To batch update a list of entities of a collection you can PUT the &#39;entities&#39; parameter to a collection:</p>
+<p><em>Request</em></p>
+<pre><code>PUT http://your.molgenis.url/api/v2/person
+Content-Type: application/json
+
+{entities: [
+{
+    &quot;id&quot;: 1,
+    &quot;age&quot;: &quot;11&quot;,
+    &quot;driverslicence&quot;: true
+},
+{
+    &quot;id&quot;: 2,
+    &quot;age&quot;: &quot;12&quot;,
+    &quot;driverslicence&quot;: true
+}
+]}
+</code></pre><p><em>Response</em></p>
+<pre><code>204 No Content
+</code></pre><h4>One value</h4><p>If you only want to change one attribute without needing to provide all other attributes:</p>
+<p><em>Request</em></p>
+<pre><code>PUT http://your.molgenis.url/api/v2/person/age
+Content-Type: application/json
+
+{entities: [
+{
+    &quot;id&quot;: 1,
+    &quot;age&quot;: &quot;1&quot;
+},
+{
+    &quot;id&quot;: 2,
+    &quot;age&quot;: &quot;2&quot;
+}
+]}
+</code></pre><p><em>Response</em></p>
+<pre><code>204 No Content
+</code></pre><h2>R-project api</h2><p><strong> 
+The MOLGENIS R API client allows you to retrieve, create, update and delete entities from within the <a href="http://r-project.org">R</a> environment.
+</strong></p>
+<p>Just add <code>source(&quot;http://your.molgenis.url/molgenis.R&quot;)</code> at the top of your script and you can connect to a MOLGENIS server. Typically the first thing you do is login and the last thing is logout.</p>
+<p>NOTE: For https connections use <code>eval(expr = parse(text = getURL(&quot;https://your.molgenis.url/molgenis.R?molgenis-token=${molgenisToken}&quot;)))</code>  </p>
+<h3>Overview example</h3><pre><code>source(&quot;http://localhost:8080/molgenis.R&quot;)
+
+
+molgenis.login(&quot;admin&quot;, &quot;admin&quot;)
+
+df &lt;- molgenis.get(&quot;celiacsprue&quot;, 
+                   q = &quot;celiac_weight&gt;80 and celiac_height&gt;180&quot;,
+                   num = 1000,
+                   attributes = c(&quot;celiac_weight&quot;, &quot;celiac_height&quot;, &quot;celiac_gender&quot;))
+
+plot(df$Celiac_Height ~ df$Celiac_Weight, col=df$Celiac_Gender)
+
+molgenis.logout()
+</code></pre><h3>Methods</h3><h4>login</h4><pre><code class="language-molgenis.login(username,password)```">Login to the MOLGENIS REST API
+
+## logout
+```molgenis.logout()
+</code></pre>
+<p>Logout from the MOLGENIS REST API and destroy the session.</p>
+<h4>get</h4><p><code>molgenis.get (entity, q = NULL, start = 0, num = 1000, attributes = NULL)</code></p>
+<p>Retrieves entities and returns the result in a dataframe.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>entity</code></td>
+<td>The entity name</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>q</code></td>
+<td>Query string in rsql/fiql format (see below)</td>
+<td>No</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td><code>start</code></td>
+<td>The index of the thirst row to return</td>
+<td>No</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>num</code></td>
+<td>The maximum number of rows to return (max 10000)</td>
+<td>No</td>
+<td>1000</td>
+</tr>
+<tr>
+<td><code>attributes</code></td>
+<td>Vector of attributenames(columns) to return</td>
+<td>No</td>
+<td>All attributes</td>
+</tr>
+<tr>
+<td><code>sortColumn</code></td>
+<td>attributeName of the column to sort on</td>
+<td>No</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td><code>sortOrder</code></td>
+<td>sort order, &#39;ASC&#39; of &#39;DESC&#39;</td>
+<td>No</td>
+<td>NULL</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Supported RSQL/FIQL query operators (see <a href="https://github.com/jirutka/rsql-parser">https://github.com/jirutka/rsql-parser</a>)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Symbol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logical AND</td>
+<td><code>;</code> or <code>and</code></td>
+</tr>
+<tr>
+<td>Logical OR</td>
+<td><code>,</code> or <code>or</code></td>
+</tr>
+<tr>
+<td>Group</td>
+<td><code>(</code> and <code>)</code></td>
+</tr>
+<tr>
+<td>Equal to</td>
+<td><code>==</code></td>
+</tr>
+<tr>
+<td>Less then</td>
+<td><code>=lt=</code> or <code>&lt;</code></td>
+</tr>
+<tr>
+<td>Less then or equal to</td>
+<td><code>=le=</code> or <code>&lt;=</code></td>
+</tr>
+<tr>
+<td>Greater than</td>
+<td><code>=gt=</code> or <code>&gt;</code></td>
+</tr>
+<tr>
+<td>Greater tha or equal to</td>
+<td><code>=ge=</code> or <code>&gt;=</code></td>
+</tr>
+</tbody>
+</table>
+<p>Argument can be a single value, or multiple values in parenthesis separated by comma. Value that doesn’t contain any reserved character or a white space can be unquoted, other arguments must be enclosed in single or double quotes.            </p>
+<p><strong>Examples</strong></p>
+<pre><code>molgenis.get(&quot;celiacsprue&quot;)
+molgenis.get(&quot;celiacsprue&quot;, num = 100000, start = 1000)
+molgenis.get(&quot;celiacsprue&quot;, attributes = c(&quot;Individual&quot;, &quot;celiac_gender&quot;))
+molgenis.get(&quot;celiacsprue&quot;, q = &quot;(celiac_weight&gt;=80 and celiac_height&lt;180) or (celiac_gender==Female)&quot;)
+molgenis.get(&quot;celiacsprue&quot;, q = &quot;(celiac_weight&gt;=80;celiac_height&lt;180),(celiac_gender==Female)&quot;)
+</code></pre><p><br></p>
+<h4>add</h4><p><code>molgenis.add(entity, ...)</code></p>
+<p>Creates a new instance of an entity (i.e. a new row of the entity data table) and returns the id.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entity</td>
+<td>The entity name of the entity to create</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>...</td>
+<td>Var arg list of attribute names and values</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong></p>
+<pre><code>id &lt;- molgenis.add(entity = &quot;Person&quot;, firstName = &quot;Piet&quot;, lastName = &quot;Paulusma&quot;)
+</code></pre><h4>addAll</h4><p><code>molgenis.addAll(entity, rows)</code></p>
+<p>Creates new instances of an entity (i.e. adds new rows to the entity data table) and returns the ids.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entity</td>
+<td>The entity name of the entity to create</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>rows</td>
+<td>data frame where each row represents an entity instance</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong></p>
+<pre><code>firstName &lt;- c(&quot;Piet&quot;, &quot;Paulusma&quot;)
+lastName &lt;- c(&quot;Klaas&quot;, &quot;de Vries&quot;)
+df &lt;- data.frame(firstName, lastName)
+
+molgenis.addAll(&quot;Person&quot;, df)
+</code></pre><p><br></p>
+<h4>update</h4><p><code>molgenis.update(entity, id, ...)</code></p>
+<p>Updates un existing entity</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entity</td>
+<td>The entity name</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>id</td>
+<td>The id of the entity</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>...</td>
+<td>Var arg list of attribute names and values</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong></p>
+<pre><code>molgenis.update(entity = &quot;Person&quot;, id = 8, firstName = &quot;Pietje&quot;, lastName = &quot;Paulusma&quot;)
+</code></pre><h4>delete</h4><p><code>molgenis.delete(entity, id)</code></p>
+<p>Deletes an entity.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entity</td>
+<td>The entity name</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>id</td>
+<td>The id of the entity</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong></p>
+<pre><code>molgenis.delete(entity = &quot;Person&quot;, id = 8)
+</code></pre><h4>getEntityMetaData</h4><pre><code class="language-molgenis.getEntityMetaData(entity)```">
+Gets the entity metadata as list.
+
+**Example**
+</code></pre>
+<p>meta &lt;- molgenis.getEntityMetaData(&quot;celiacsprue&quot;)
+meta$label</p>
+<pre><code>
+## getAttributeMetaData
+```molgenis.getAttributeMetaData(entity, attribute)
+</code></pre><p>Gets attribute metadata as list.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entity</td>
+<td>The entity name</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>attribute</td>
+<td>The name of the attribute</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong></p>
+<pre><code>attr &lt;- molgenis.getAttributeMetaData(entity = &quot;celiacsprue&quot;, attribute = &quot;celiac_gender&quot;)
+attr$fieldType
+</code></pre><br></body></html>

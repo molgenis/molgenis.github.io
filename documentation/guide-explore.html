@@ -5,7 +5,7 @@ m=s.getElementsByTagName(o)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'UA-2273328-11', 'auto');
-ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header"><div role="navigation" class="navbar navbar-static-top"><div class="container container-fluid"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand"><img src="/res/images/wordmark-blue.png" alt="undefined" class="wordmark"/></a></div><div id="navbar" class="collapse navbar-collapse">              <ul class="nav navbar-nav navbar-right"><li><a href="/start">Start</a></li><li class="active"><a href="/documentation">Documentation</a></li><li><a href="/compute">Compute</a></li><li><a href="/develop">Develop</a></li><li><a href="/download">Download</a></li><li><a href="/about">About</a></li><li><a href="#searchbox" data-toggle="collapse"><i class="glyphicon glyphicon-search"></i></a></li></ul></div></div></div><div id="searchbox" class="collapse"><form role="search" action="/search-results"><input placeholder="Search" name="q" class="form-control"/></form></div><div class="molgenis-docs-titlebar active"><div class="container"> <h1>Explore</h1><p>Search and visualize your data   </p></div></div><a href="blaat" #{public._data[1].title}="#{public._data[1].title}"></a></header><div class="molgenis-docs-body"><div class="container"><div class="row"><div role="complementary" class="col-md-3"><nav id="molgenis-docs-sidebar" class="molgenis-docs-sidebar hidden-print hidden-xs hidden-sm"><ul id="molgenis-docs-sidenav" class="nav molgenis-docs-sidenav"></ul></nav><script>$(function() {
+ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header"><div role="navigation" class="navbar navbar-static-top"><div class="container container-fluid"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand"><img src="/res/images/wordmark-blue.png" alt="undefined" class="wordmark"/></a></div><div id="navbar" class="collapse navbar-collapse">              <ul class="nav navbar-nav navbar-right"><li><a href="/start">Start</a></li><li class="active"><a href="/documentation">Documentation</a></li><li><a href="/compute">Compute</a></li><li><a href="/develop">Develop</a></li><li><a href="/download">Download</a></li><li><a href="/about">About</a></li><li><a href="#searchbox" data-toggle="collapse"><i class="glyphicon glyphicon-search"></i></a></li></ul></div></div></div><div id="searchbox" class="collapse"><form role="search" action="/search-results"><input placeholder="Search" name="q" class="form-control"/></form></div><div class="molgenis-docs-titlebar active"><div class="container"> <h1>Explore</h1><p>Search and visualize your data   </p></div></div></header><div class="molgenis-docs-body"><div class="container"><div class="row"><div role="complementary" class="col-md-3"><nav id="molgenis-docs-sidebar" class="molgenis-docs-sidebar hidden-print hidden-xs hidden-sm"><ul id="molgenis-docs-sidenav" class="nav molgenis-docs-sidenav"></ul></nav><script>$(function() {
     var sideNav = $("#molgenis-docs-sidenav");
     var index = 0;
     $(".row h1").each(function() {
@@ -157,8 +157,8 @@ You now get a table representing the amount of samples in both biobanks per type
 <p>Finally select &quot;patientid&quot; in the third dropdown, the distinct attribute. 
 The table will update to show you to show you how many patients with at least one sample of a specific type are available in a biobank.</p>
 <h1>Charts</h1><p>For the chart capabilities of MOLGENIS we use the <a href="http://www.highcharts.com" title="Highcharts">Highcharts</a> library.</p>
-<p>MOLGENIS currently offers two types of plots for your data, the scatter plot and the box plot.
-<img src="/res/images/dataexplorer/charts.png?raw=true," alt="Dataexplorer charts" title="dataexplorer/charts"></p>
+<p>MOLGENIS currently offers two types of plots for your data, the scatter plot and the box plot.</p>
+<p><img src="/res/images/dataexplorer/charts.png?raw=true," alt="Dataexplorer charts" title="dataexplorer/charts"></p>
 <h2>scatter plot <a href="https://en.wikipedia.org/wiki/Scatter_plot" title="Scatter plot">Scatter_plot</a></h2><p><img src="/res/images/dataexplorer/create scatter plot.png?raw=true," alt="Dataexplorer charts create scatterplot" title="dataexplorer/scatterplot"></p>
 <p>For the scatterplot 2 attributes are selected to make the plot, optionally a third attribute can be selected to split the dots in groups using different shapes and colours per group. Optionally you can provide a title for your plot.</p>
 <p><img src="/res/images/dataexplorer/scatter plot.png?raw=true," alt="Dataexplorer charts scatterplot" title="dataexplorer/scatterplot"></p>
@@ -189,37 +189,39 @@ The table will update to show you to show you how many patients with at least on
 <li>Repeat steps 2 and 3. </li>
 <li>The new view will be: <img src="/res/images/reports/custom-entityreport-view.png?raw=true," alt="View entity report custom" title="Entity view"></li>
 </ol>
-<h6>Add a instances view tab</h6><ol>
+<h6>Add an instances view tab</h6><ol>
 <li>Go to the data explorer select the &quot;cities&quot; entity via the th entity select dropdown.</li>
 <li>Let&#39;s upload our own template. 
  a. Go to the data explorer and select the FreemarkerTemplate entity.
- b. Click on the <img src="/res/images/add.png?raw=true," alt="add" title="add"> button. In the modal you fill in:<pre><code> * Name: view-Cities-entitiesreport.ftl (view-\&lt;template name&gt;-entitiesreport.ftl)
- * Value: 
-</code></pre>```js<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css">
-
-</li>
+ b. Click on the <img src="/res/images/add.png?raw=true," alt="add" title="add"> button. In the modal you fill in:</li>
 </ol>
-<div id="map" style="width: 600px; height: 400px"></div>
+<p>Name: <code>view-Cities-entitiesreport.ftl (view-&lt;template name&gt;-entitiesreport.ftl)</code></p>
+<p>Value: </p>
+<pre><code class="language-javascript">&lt;link rel=&quot;stylesheet&quot;
+      href=&quot;//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css&quot;/&gt;
 
-<p><script>
+&lt;div id=&quot;map&quot; style=&quot;width: 600px; height: 400px&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
     function showMap() {
-        var map = L.map(&#39;map&#39;).setView([38, -80], 4);</p>
-<pre><code>    L.tileLayer(&#39;//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ&#39;, {
-        maxZoom: 18,
-        attribution: &#39;Map data &amp;copy; &lt;a href=&quot;http://openstreetmap.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &#39; +
-        &#39;&lt;a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;&gt;CC-BY-SA&lt;/a&gt;, &#39; +
-        &#39;Imagery &amp;copy; &lt;a href=&quot;http://mapbox.com&quot;&gt;Mapbox&lt;/a&gt;&#39;,
-        id: &#39;mapbox.streets&#39;
-    }).addTo(map);
+        var map = L.map(&#39;map&#39;).setView([38, -80], 4);
 
-&lt;#list datasetRepository.iterator() as city&gt;
-    L.marker([${city.get(&quot;lat&quot;)},${city.get(&quot;lng&quot;)}]).addTo(map)
-            .bindPopup(&quot;${city.get(&quot;cityName&quot;)}&quot;).openPopup();
-&lt;/#list&gt;
-}
-$.getScript(&quot;//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js&quot;, showMap);
-</code></pre><p></script>
-```</p>
+        L.tileLayer(&#39;//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ&#39;, {
+            maxZoom: 18,
+            attribution: &#39;Map data &amp;copy; &lt;a href=&quot;http://openstreetmap.org&quot;&gt;OpenStreetMap&lt;/a&gt; contributors, &#39; +
+            &#39;&lt;a href=&quot;http://creativecommons.org/licenses/by-sa/2.0/&quot;&gt;CC-BY-SA&lt;/a&gt;, &#39; +
+            &#39;Imagery &amp;copy; &lt;a href=&quot;http://mapbox.com&quot;&gt;Mapbox&lt;/a&gt;&#39;,
+            id: &#39;mapbox.streets&#39;
+        }).addTo(map);
+
+    &lt;#list datasetRepository.iterator() as city&gt;
+        L.marker([${city.get(&quot;lat&quot;)},${city.get(&quot;lng&quot;)}]).addTo(map)
+                .bindPopup(&quot;${city.get(&quot;cityName&quot;)}&quot;).openPopup();
+    &lt;/#list&gt;
+    }
+    $.getScript(&quot;//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js&quot;, showMap);
+&lt;/script&gt;
+</code></pre>
 <pre><code>    ![view-Cities-entitiesreport](res/images/reports/view-Cities-entitiesreport.png?raw=true, &quot;view-Cities-entitiesreport&quot;)
 </code></pre><ol>
 <li><p>Click on the settings icon <img src="res/images/settings.png?raw=true," alt="Settings" title="Settings">

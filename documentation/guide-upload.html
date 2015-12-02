@@ -5,7 +5,7 @@ m=s.getElementsByTagName(o)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'UA-2273328-11', 'auto');
-ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header"><div role="navigation" class="navbar navbar-static-top"><div class="container container-fluid"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand"><img src="/res/images/wordmark-blue.png" alt="undefined" class="wordmark"/></a></div><div id="navbar" class="collapse navbar-collapse">              <ul class="nav navbar-nav navbar-right"><li><a href="/start">Start</a></li><li class="active"><a href="/documentation">Documentation</a></li><li><a href="/compute">Compute</a></li><li><a href="/develop">Develop</a></li><li><a href="/download">Download</a></li><li><a href="/about">About</a></li><li><a href="#searchbox" data-toggle="collapse"><i class="glyphicon glyphicon-search"></i></a></li></ul></div></div></div><div id="searchbox" class="collapse"><form role="search" action="/search-results"><input placeholder="Search" name="q" class="form-control"/></form></div><div class="molgenis-docs-titlebar active"><div class="container"> <h1>Upload</h1><p>How to structure and load your data   </p></div></div><a href="blaat" #{public._data[1].title}="#{public._data[1].title}"></a></header><div class="molgenis-docs-body"><div class="container"><div class="row"><div role="complementary" class="col-md-3"><nav id="molgenis-docs-sidebar" class="molgenis-docs-sidebar hidden-print hidden-xs hidden-sm"><ul id="molgenis-docs-sidenav" class="nav molgenis-docs-sidenav"></ul></nav><script>$(function() {
+ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header"><div role="navigation" class="navbar navbar-static-top"><div class="container container-fluid"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand"><img src="/res/images/wordmark-blue.png" alt="undefined" class="wordmark"/></a></div><div id="navbar" class="collapse navbar-collapse">              <ul class="nav navbar-nav navbar-right"><li><a href="/start">Start</a></li><li class="active"><a href="/documentation">Documentation</a></li><li><a href="/compute">Compute</a></li><li><a href="/develop">Develop</a></li><li><a href="/download">Download</a></li><li><a href="/about">About</a></li><li><a href="#searchbox" data-toggle="collapse"><i class="glyphicon glyphicon-search"></i></a></li></ul></div></div></div><div id="searchbox" class="collapse"><form role="search" action="/search-results"><input placeholder="Search" name="q" class="form-control"/></form></div><div class="molgenis-docs-titlebar active"><div class="container"> <h1>Upload</h1><p>How to structure and load your data   </p></div></div></header><div class="molgenis-docs-body"><div class="container"><div class="row"><div role="complementary" class="col-md-3"><nav id="molgenis-docs-sidebar" class="molgenis-docs-sidebar hidden-print hidden-xs hidden-sm"><ul id="molgenis-docs-sidenav" class="nav molgenis-docs-sidenav"></ul></nav><script>$(function() {
     var sideNav = $("#molgenis-docs-sidenav");
     var index = 0;
     $(".row h1").each(function() {
@@ -80,47 +80,13 @@ ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header
 In this section you will learn how to upload you data. Let us not wait any longer! After a quick re-cap of terminology and formats we will start off with the most basic step, importing your data.
 </strong></p>
 <h1>Terminology</h1><p>In this section we introduce and explain, terminology of MOLGENIS</p>
-<table>
-<thead>
-<tr>
-<th>Term</th>
-<th>Explanation</th>
-<th>Example</th>
-<th>Comments</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Package</td>
-<td>A namespace item. Multiple packages can create a namspace where entities can live in</td>
-<td></td>
-<td>The default namespace in molgenis is called &quot;default&quot;</td>
-</tr>
-<tr>
-<td>Data set</td>
-<td>A collections of entities that are contextually related</td>
-<td>An file can contain multiple entities</td>
-<td></td>
-</tr>
-<tr>
-<td>Entity</td>
-<td>An entity is the template and collection of a subject</td>
-<td>Like a table in a database</td>
-<td></td>
-</tr>
-<tr>
-<td>Entity</td>
-<td>An entity is the actual data that is collected based on the template from an entity (Term above)</td>
-<td>Like a row in a database</td>
-<td>In the future we will change this term to &quot;instance&quot; to avoid complexity and double use of the same term</td>
-</tr>
-<tr>
-<td>Attribute</td>
-<td>An attribute describes the charcteristics of a data item in an entity</td>
-<td>Like a column in a database</td>
-</tr>
-</tbody>
-</table>
+<ul>
+<li>Package: A namespace item. Multiple packages can create a namspace where entities can live in. The default namespace in molgenis is called &quot;default&quot;</li>
+<li>Data set: A collections of entities that are contextually related. </li>
+<li>Entity: An entity is the template and collection of a subject like a table in a database.</li>
+<li>Entity: We also use the term entity for the actual data that is collected based on the template from an entity (Term above), like a row in a database. In the future we will change this term to &quot;instance&quot; to avoid complexity and double use of the same term</li>
+<li>Attribute: An attribute describes the charcteristics of a data item in an entity, Like a column in a database</li>
+</ul>
 <h1>Formats</h1><p>The MOLGENIS upload module supports the following file formats and data:</p>
 <table>
 <thead>
