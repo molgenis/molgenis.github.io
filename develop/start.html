@@ -118,10 +118,10 @@ git checkout -b &lt;tag name: see https://github.com/molgenis/molgenis/releases&
 </code></pre><p>More information about forking can be found here: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a></p>
 <h1>Set admin password</h1><p>Create directory ~/.molgenis/omx/</p>
 <pre><code>mkdir ~/.molgenis/omx/
-</code></pre><p>Create the file ~/.molgenis/omx/molgenis-server.properties and add user and database properties:</p>
+</code></pre><p>Create the file ~/.molgenis/omx/molgenis-server.properties </p>
 <pre><code>nano ~/.molgenis/omx/molgenis-server.properties
-
-db_user=molgenis
+</code></pre><p>... and add user and database properties to this file:</p>
+<pre><code>db_user=molgenis
 db_password=molgenis
 db_uri=jdbc:mysql://localhost/omx
 admin.password=admin
