@@ -604,6 +604,23 @@ which you can use to specify the contents of your template.</li>
     }, 10);
 &lt;/script&gt;
 </code></pre>
+<h3>Internationalization</h3><h4>Adding a new language</h4><ol>
+<li>In the top menu, select the Data Explorer.</li>
+<li>In the pulldown, select the entity &#39;languages&#39;.</li>
+<li>Push the plus icon.</li>
+<li>The code must be a lowercase ISO 639 alpha-2 or alpha-3 code.</li>
+<li>The name is the name of the language as shown to the user.</li>
+</ol>
+<p>If the is more then one language available a dropdown appears next to the &#39;Sign out&#39; button
+on the right of the menu bar (Maybe you have to refresh the browser page first). You can switch langage by selecting a language
+from the dropdown.</p>
+<h4>Editing translations</h4><ol>
+<li>In the top menu, select the Data Explorer.</li>
+<li>In the pulldown, select the entity &#39;i18nstrings&#39;.</li>
+<li>Click on the &#39;Edit row&#39; icon before the row you want to edit.</li>
+<li>Provide a translation for each available language.</li>
+</ol>
+<p>Missing translations will show up as #msgid# in the user interface.</p>
 <h2>Script</h2><p><strong>
 Scripts are defined in the Scripts plugin and can be reused, e.g. as part of reports. By default you can find it in the menu under Plugins, Scripts.
 The Scripts plugin allows you to create, edit and delete the available scripts.
@@ -1536,7 +1553,7 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 <h3>Attributes options</h3><p>Required columns:</p>
 <ul>
 <li>entity : name of the entity this attribute is part of</li>
-<li>attribute : name of attribute, unique per entity</li>
+<li>name : name of attribute, unique per entity.</li>
 </ul>
 <p>Optional columns (can be omitted):</p>
 <ul>
@@ -1560,10 +1577,12 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 <li>nillable : whether the column may be left empty. Default: false</li>
 <li>idAttribute : whether this field is the unique key for the entity. Default: false. Use &#39;AUTO&#39; for auto generated (string) identifiers.</li>
 <li>description : free text documentation describing the attribute</li>
+<li>description-{languageCode} : description for specified language (can be multiple languages, example: description-nl)</li>
 <li>rangeMin : used to set range in case of int attributes</li>
 <li>rangeMax : used to set range in case of int attributes</li>
 <li>lookupAttribute : true/false to indicate that the attribute should appear in the xref/mref search dropdown in the dataexplorer</li>
 <li>label : optional human readable name of the attribute</li>
+<li>label-{languageCode} : label for specified language (can be multiple languages, example: label-nl)</li>
 <li>aggregateable : true/false to indicate if the user can use this atrribute in an aggregate query</li>
 <li>labelAttribute : true/false to indicate that the value of this attribute should be used as label for the entity (in the dataexplorer when used in xref/mref). Default: false</li>
 <li>readOnly true/false to indicate a readOnly attribute</li>
@@ -1571,6 +1590,9 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 <li>validationExpression : javascript validation expression that must return a bool. Must return true if valid and false if invalid. See for a syntax description the section [[Javascript Expressions]]</li>
 <li>defaultValue: value that will be filled in in the forms when a new entity instance is created. Not yet supported for mref and xref values. For categorical_mref, should be a comma separated list of ids. For xref should be the of the refEntity. For bool should be true or false. For datetime should be a string in the format YYYY-MM-DDTHH:mm:ssZZ. For date should be a string in the format YYYY-MM-DD.</li>
 </ul>
+<h3>Language depended attributes</h3><p>You can internationalize attributes by postfixing the name with -{countryCode}.
+Examples: city-en, city-nl. If this is the label attribute,
+you must set all city-xx labelAttribute values to &#39;TRUE&#39; on the &#39;entities&#39; tab.</p>
 <h3>Entities options</h3><p>Required columns:</p>
 <ul>
 <li>entity : unique name of the entity. If packages are provided, name must be unique within a package.</li>
@@ -1581,6 +1603,7 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 <li>package : name of the group this entity is part of</li>
 <li>abstract : indicate if data can be provided for this entity (abstract entities are only used for data modeling purposes but cannot accept data)</li>
 <li>description : free text description of the entity</li>
+<li>description-{languageCode} : description for specified language (can be multiple languages, example: description-nl)</li>
 <li>backend: the backend (database) to store the entities in (currently MySQL or ElasticSearch)</li>
 <li>tags : ability to tag the data referring to the tags sections, described below</li>
 </ul>
@@ -1960,7 +1983,8 @@ myfunction(
             &quot;href&quot;: &quot;/api/v1/DataSet/meta/endTime&quot;
         }
     },
-    &quot;labelAttribute&quot;: &quot;Identifier&quot;
+    &quot;labelAttribute&quot;: &quot;Identifier&quot;,
+    &quot;languageCode&quot;: &quot;en&quot;
 }
 </code></pre>
 <h4>Delete meta data</h4><p>Deletes resource meta data and all data associated with this resource.</p>
