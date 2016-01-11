@@ -1591,9 +1591,6 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 <li>defaultValue: value that will be filled in in the forms when a new entity instance is created. Not yet supported for mref and xref values. For categorical_mref, should be a comma separated list of ids. For xref should be the of the refEntity. For bool should be true or false. For datetime should be a string in the format YYYY-MM-DDTHH:mm:ssZZ. For date should be a string in the format YYYY-MM-DD.</li>
 <li>partOfAttribute: is used to group attributes into a compound attribute. Put here the name of the compound attribute.</li>
 </ul>
-<h3>Language depended attributes</h3><p>You can internationalize attributes by postfixing the name with -{countryCode}.
-Examples: city-en, city-nl. If this is the label attribute,
-you must set all city-xx labelAttribute values to &#39;TRUE&#39; on the &#39;entities&#39; tab.</p>
 <h3>Entities options</h3><p>Required columns:</p>
 <ul>
 <li>entity : unique name of the entity. If packages are provided, name must be unique within a package.</li>
@@ -1669,6 +1666,156 @@ you must set all city-xx labelAttribute values to &#39;TRUE&#39; on the &#39;ent
 <li>relationIRI: url to the relation definition, e.g. <a href="http://edamontology.org/topic_3061">http://edamontology.org/topic_3061</a></li>
 <li>codeSystem: name of the code system used, e.g. EDAM</li>
 </ul>
+<h3>Internationalization</h3><p>You can internationalize attribute labels and descriptions, entity labels and descriptions and
+you can define internationalized versions of entity attributes.</p>
+<h3>entities</h3><p>description-{languageCode} : description for specified language (can be multiple languages)
+label-{languageCode} : label for specified language (can be multiple languages)</p>
+<p>Example:</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>package</th>
+<th>description-en</th>
+<th>description-nl</th>
+<th>label-en</th>
+<th>label-nl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cities</td>
+<td>hospital</td>
+<td>list of cities</td>
+<td>lijst van steden</td>
+<td>Cities</td>
+<td>Steden</td>
+</tr>
+<tr>
+<td>persons</td>
+<td>hospital</td>
+<td>list of persons</td>
+<td>lijst van personen</td>
+<td>Persons</td>
+<td>Personen</td>
+</tr>
+</tbody>
+</table>
+<h3>attributes</h3><p>description-{languageCode} : description for specified language (can be multiple languages)
+label-{languageCode} : label for specified language (can be multiple languages)</p>
+<p>Example:</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>entity</th>
+<th>idAttribute</th>
+<th>description-en</th>
+<th>description-nl</th>
+<th>label-en</th>
+<th>label-nl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>displayName</td>
+<td>patients</td>
+<td>TRUE</td>
+<td>Patient name</td>
+<td>Naam van de patient</td>
+<td>name</td>
+<td>naam</td>
+</tr>
+<tr>
+<td>firstName</td>
+<td>patients</td>
+<td></td>
+<td>Patient first name</td>
+<td>Voornaam van de patient</td>
+<td>first name</td>
+<td>voornaam</td>
+</tr>
+<tr>
+<td>lastName</td>
+<td>patients</td>
+<td></td>
+<td>Patient family name</td>
+<td>Achternaam van de patient</td>
+<td>family name</td>
+<td>achternaam</td>
+</tr>
+</tbody>
+</table>
+<h3>Language depended entity attributes</h3><p>You can internationalize attributes by postfixing the name with -{countryCode}.</p>
+<p>If this is the label attribute,
+you must set all city-xx labelAttribute values to &#39;TRUE&#39; on the &#39;entities&#39; tab.</p>
+<p>Example:</p>
+<p><strong>entities:</strong></p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>entity</th>
+<th>idAttribute</th>
+<th>label-nl</th>
+<th>label-de</th>
+<th>labelAttribute</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>gender</td>
+<td>TRUE</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>genderlabel-nl</td>
+<td>gender</td>
+<td></td>
+<td>Label (nl)</td>
+<td>Etikette (nl)</td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td>genderlabel-de</td>
+<td>gender</td>
+<td></td>
+<td>Label (de)</td>
+<td>Etikette (de)</td>
+<td>TRUE</td>
+</tr>
+</tbody>
+</table>
+<p><strong>gender:</strong></p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>genderlabel-nl</th>
+<th>genderlabel-de</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Male</td>
+<td>Man</td>
+<td>Man</td>
+</tr>
+<tr>
+<td>Female</td>
+<td>Vrouw</td>
+<td>Frau</td>
+</tr>
+<tr>
+<td>Unknown</td>
+<td>Onbekend</td>
+<td>Unbekannt</td>
+</tr>
+</tbody>
+</table>
 <h2>REST api v1</h2><p><strong>
 The MOLGENIS REST API allows you to retrieve and modify your data model entities and entity collections. The API supports all CRUD (create, read, update and delete) methods as well as resource collections paging &amp; filtering and resource field expansion. At the moment of writing JSON and form data are supported as request content types and JSON is the only supported response content type.
 </strong></p>
