@@ -162,21 +162,21 @@ ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header
                         BED file to exlude from sample ratio calculation. DEFAULT: 20
   -rmDup                Switch to enable duplicate removal when using BAM files as input.
   -sexChr               Switch to include sex chromosomes in analysis.
-  -useSampleAsControl    Switch to use samples as control. Example: when using BAM
-                          files to create count files and subsequentially use the
-                          generated count files as controls.
+  -useSampleAsControl   Switch to use samples as control. Example: when using BAM
+                        files to create count files and subsequentially use the
+                        generated count files as controls.
   -ratioCutOffLow       Lower ratio cutoff value. Region ratio values below this
                         threshold are marked as deletion. DEFAULT: 0.65
   -ratioCutOffHigh      Higher ratio cutoff value. Region ratio values above this
                         threshold are marked as duplication. DEFAULT: 1.4
   -zScoreCutOffLow      Lower Z-score cutoff value. Regions with a Z-score below
-                          this threshold are marked as deletion. DEFAULT: -3
+                        this threshold are marked as deletion. DEFAULT: -3
   -zScoreCutOffHigh     Higher Z-score cutoff value. Regions with a Z-score above
-                          this threshold are marked as duplication. DEFAULT: 3
+                        this threshold are marked as duplication. DEFAULT: 3
   -sampleRatioScore     Sample ratio z-score cutoff value. Sample with a ratio
-                          score below this value are excluded from analysis. DEFAULT: 0.09
+                        score below this value are excluded from analysis. DEFAULT: 0.09
   -percentageLessReliableTargets    Target labelled as less reliable in percentage
-                          of control samples. DEFAULT: 20
+                        of control samples. DEFAULT: 20
 </code></pre>
 <h2>Create normalized count files</h2><p>The first step in the analysis is to create normalized count files. This can be done in two ways, from a bam file or from a text file including mean coverage per target.</p>
 <h3>StartWithBam</h3><p>If a bam file is used CoNVaDING will use samtools to calculate the mean coverage for each target. For this type of analysis the StartWithBam mode has to be selected.</p>
@@ -334,5 +334,5 @@ The target ratio is also used to filter calls for the shortlist. Both QC metrics
 <p>Sample ratio: 0.09</p>
 <p>Target ratio: 0.10</p>
 <h1>Contact</h1><p>Mailto: </p>
-<p>Lennart Johansson <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#108;&#46;&#x6a;&#x6f;&#104;&#x61;&#110;&#x73;&#115;&#x6f;&#110;&#64;&#x75;&#109;&#x63;&#103;&#46;&#x6e;&#108;">&#108;&#46;&#x6a;&#x6f;&#104;&#x61;&#110;&#x73;&#115;&#x6f;&#110;&#64;&#x75;&#109;&#x63;&#103;&#46;&#x6e;&#108;</a></p>
-<p>Freerk van Dijk <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#102;&#46;&#x76;&#97;&#x6e;&#x2e;&#100;&#x69;&#x6a;&#x6b;&#x30;&#50;&#x40;&#117;&#109;&#x63;&#x67;&#x2e;&#110;&#x6c;">&#102;&#46;&#x76;&#97;&#x6e;&#x2e;&#100;&#x69;&#x6a;&#x6b;&#x30;&#50;&#x40;&#117;&#109;&#x63;&#x67;&#x2e;&#110;&#x6c;</a></p><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/software/CoNVaDING.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="about/team">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation contents under <a href="/LICENSE-CC">CC BY 3.0</a>, and MOLGENIS software code under the <a href="/LICENSE-LGPLv3">LGPLv3 License</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">MOLGENIS Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">MOLGENIS Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer><script src="/res/js/prism.js"></script></body></html>
+<p>Lennart Johansson <a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#58;&#x6c;&#46;&#x6a;&#x6f;&#104;&#x61;&#110;&#x73;&#115;&#111;&#x6e;&#64;&#x75;&#x6d;&#x63;&#x67;&#x2e;&#x6e;&#108;">&#x6c;&#46;&#x6a;&#x6f;&#104;&#x61;&#110;&#x73;&#115;&#111;&#x6e;&#64;&#x75;&#x6d;&#x63;&#x67;&#x2e;&#x6e;&#108;</a></p>
+<p>Freerk van Dijk <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#102;&#x2e;&#x76;&#x61;&#x6e;&#46;&#100;&#105;&#106;&#x6b;&#48;&#x32;&#64;&#117;&#109;&#99;&#103;&#46;&#x6e;&#108;">&#102;&#x2e;&#x76;&#x61;&#x6e;&#46;&#100;&#105;&#106;&#x6b;&#48;&#x32;&#64;&#117;&#109;&#99;&#103;&#46;&#x6e;&#108;</a></p><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/software/CoNVaDING.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="about/team">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation contents under <a href="/LICENSE-CC">CC BY 3.0</a>, and MOLGENIS software code under the <a href="/LICENSE-LGPLv3">LGPLv3 License</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">MOLGENIS Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">MOLGENIS Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer><script src="/res/js/prism.js"></script></body></html>
