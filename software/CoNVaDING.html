@@ -76,9 +76,7 @@ ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header
         });
     
     $("table").addClass("table table-bordered");
-});</script></div><div role="main" class="col-md-9 contents"><h1>CoNVaDING User Guide</h1><p>Lennart Johansson <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#58;&#x6c;&#x2e;&#106;&#111;&#104;&#x61;&#110;&#115;&#115;&#x6f;&#x6e;&#64;&#117;&#x6d;&#99;&#103;&#x2e;&#110;&#x6c;">&#x6c;&#x2e;&#106;&#111;&#104;&#x61;&#110;&#115;&#115;&#x6f;&#x6e;&#64;&#117;&#x6d;&#99;&#103;&#x2e;&#110;&#x6c;</a> &amp; Freerk van Dijk <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x66;&#46;&#118;&#x61;&#110;&#x2e;&#100;&#105;&#x6a;&#x6b;&#x30;&#x32;&#64;&#117;&#x6d;&#x63;&#103;&#x2e;&#110;&#108;">&#x66;&#46;&#118;&#x61;&#110;&#x2e;&#100;&#105;&#x6a;&#x6b;&#x30;&#x32;&#64;&#117;&#x6d;&#x63;&#103;&#x2e;&#110;&#108;</a>
-v0.2, August 26th 2015:
-Written for release CoNVaDING v0.1.4.17</p>
+});</script></div><div role="main" class="col-md-9 contents"><h1>CoNVaDING User Guide</h1><p>Written for release CoNVaDING v1.1.6</p>
 <h1>Introduction</h1><p>CoNVaDING (Copy Number Variation Detection In Next-generation sequencing Gene panels) was designed for small (single-exon) copy number variation (CNV) detection in high coverage next-generation sequencing (NGS) data, such as obtained by analysis of smaller targeted gene panels. </p>
 <p>CoNVaDING makes use of a group of (at least 30) possible control samples from which the samples with the most similar overall pattern are selected as control samples. These samples are then used for read-depth normalization on all (autosomal) targets and on all targets per gene. CNV prediction is based on a combination of ratio scores and Z-scores of the sample of interest compared to the selected controlsamples.</p>
 <p>Quality (QC) metrics are calculated per sample and per analyzed target. Output is generated on three levels:</p>
@@ -91,14 +89,14 @@ Written for release CoNVaDING v0.1.4.17</p>
 </ul>
 <p>CoNVaDING has been written for use of CNV detection in high coverage NGS data (at least ~200x). With lower coverages it might still work, but more targets will fail QC metrics.</p>
 <p>The program is written in perl and has dependencies on specific perl libraries as well as on samtools.</p>
-<h1>Installation</h1><p>The latest version of CoNVaDING can be downloaded from [[X1]]DOWNLOADSITE[here].</p>
+<h1>Installation</h1><p>The latest version of CoNVaDING can be downloaded from the <a href="https://github.com/molgenis/CoNVaDING/releases">github</a> page.</p>
 <p>CoNVaDING has several dependencies:</p>
 <ul>
-<li><p>[[X1]]<a href="https://www.perl.org/[Perl">https://www.perl.org/[Perl</a>]</p>
+<li><p><a href="https://www.perl.org/">Perl</a></p>
 </li>
-<li><p>The [[X1]]<a href="http://search.cpan.org/~mwendl/Statistics-Normality-0.01/lib/Statistics/Normality.pm[Statistics::Normality">http://search.cpan.org/~mwendl/Statistics-Normality-0.01/lib/Statistics/Normality.pm[Statistics::Normality</a> package] for perl  </p>
+<li><p>The <a href="http://search.cpan.org/~mwendl/Statistics-Normality-0.01/lib/Statistics/Normality.pm">Statistics::Normality package</a> for perl  </p>
 </li>
-<li><p>[[X1]]<a href="http://www.htslib.org/[Samtools">http://www.htslib.org/[Samtools</a>]</p>
+<li><p><a href="http://www.htslib.org/">Samtools</a></p>
 </li>
 </ul>
 <p>After installation the samtools executable has to be added to your local environment using the $PATH variable.</p>
@@ -181,7 +179,7 @@ Written for release CoNVaDING v0.1.4.17</p>
               of control samples. DEFAULT: 20
 </code></pre>
 <h2>Create normalized count files</h2><p>The first step in the analysis is to create normalized count files. This can be done in two ways, from a bam file or from a text file including mean coverage per target.</p>
-<h2>StartWithBam</h2><p>If a bam file is used CoNVaDING will use samtools to calculate the mean coverage for each target. For this type of analysis the StartWithBam mode has to be selected.</p>
+<h3>StartWithBam</h3><p>If a bam file is used CoNVaDING will use samtools to calculate the mean coverage for each target. For this type of analysis the StartWithBam mode has to be selected.</p>
 <p>The basic analysis starts as follows: </p>
 <pre><code class="language-bash">  perl ./CoNVaDING-0.1.4.17.pl \
   -mode StartWithBam \
@@ -223,7 +221,7 @@ The &#39;outputDir&#39; option should specify the path to the folder in which th
 <pre><code class="language-bash">  -rmdup
 </code></pre>
 <p>This is advisable for capturing data, but should not be done for amplicon data.</p>
-<h2>StartWithAvgCount</h2><p>If no bam files are present the analysis can also start with a text file specifying average counts per target. This file shoud contain the headers as shown in the example below.
+<h3>StartWithAvgCount</h3><p>If no bam files are present the analysis can also start with a text file specifying average counts per target. This file shoud contain the headers as shown in the example below.
 This enables the use of alternative analysis software.</p>
 <p>An example of a text file that can be used in this mode:</p>
 <pre><code class="language-bash">  CHR     START   STOP    GENE    REGION_COV
@@ -257,7 +255,7 @@ This enables the use of alternative analysis software.</p>
   -controlsDir /PATH/TO/CONTROLSDIR
 </code></pre>
 <p>The -rmdup option is not available in this mode. If necessary the duplicates should have been removed before calculating the mean coverage per target.</p>
-<h1>Selecting the most informative control samples</h1><h2>StartWithMatchScore</h2><p>The next step in the analysis is selecting the control samples estimated to be the most informative.</p>
+<h2>Selecting the most informative control samples</h2><h3>StartWithMatchScore</h3><p>The next step in the analysis is selecting the control samples estimated to be the most informative.</p>
 <p>If a bam file is used CoNVaDING will use samtools to calculate the mean coverage for each target. For this type of analysis the StartWithBam mode has to be selected.</p>
 <p>The basic analysis starts as follows: </p>
 <pre><code class="language-bash">  perl ./CoNVaDING-0.1.4.17.pl \
@@ -280,7 +278,7 @@ This enables the use of alternative analysis software.</p>
 <pre><code class="language-bash">  -controlSamples 40
 </code></pre>
 <p>to select for instance the 40 best matching samples.</p>
-<h1>CNV Detection</h1><h2>StartWithBestScore</h2><p>The last step in the analysis is the CNV detection itself.</p>
+<h2>CNV Detection</h2><h3>StartWithBestScore</h3><p>The last step in the analysis is the CNV detection itself.</p>
 <p>The basic analysis starts as follows: </p>
 <pre><code class="language-bash">  perl ./CoNVaDING-0.1.4.17.pl \
   -mode StartWithBestScore \
@@ -310,7 +308,7 @@ To call a deletion when the Z-score is below -3 or duplication when the Z-score 
   -zScoreCutOffHigh 3
 </code></pre>
 <p>To finetune the variant list one can generate a list of targets which in general are of lower quality in all possible controlsamples and apply this as a filter to generate a final list of high quality calls. This can be done by executing two steps:</p>
-<h2>GenerateTargetQcList</h2><p>To generate the list of targets and corresponding quality thresholds run:</p>
+<h3>GenerateTargetQcList</h3><p>To generate the list of targets and corresponding quality thresholds run:</p>
 <pre><code class="language-bash">  perl ./CoNVaDING-0.1.4.17.pl \
   -mode GenerateTargetQcList \
   -inputDir /PATH/TO/CONTROLSDIR \
@@ -318,7 +316,7 @@ To call a deletion when the Z-score is below -3 or duplication when the Z-score 
   -controlsDir /PATH/TO/CONTROLSDIR
 </code></pre>
 <p>For this analysis, the same region threshold, ratio cutoffs and Z-score cutoffs as explained above can be altered using their corresponding parameters.</p>
-<h2>CreateFinalList</h2><p>To apply the generated list of sample target QCs to the <em>.best.score.shortlist.txt</em> files execute:</p>
+<h3>CreateFinalList</h3><p>To apply the generated list of sample target QCs to the <em>.best.score.shortlist.txt</em> files execute:</p>
 <pre><code class="language-bash">  perl ./CoNVaDING-0.1.4.17.pl \
   -mode CreateFinalList \
   -inputDir /PATH/TO/BESTSCOREOUTPUT \
@@ -336,5 +334,5 @@ The target ratio is also used to filter calls for the shortlist. Both QC metrics
 <p>Sample ratio: 0.09
 Target ratio: 0.10</p>
 <h2>Contact</h2><p>Mailto: </p>
-<p>Lennart Johansson <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x6c;&#x2e;&#x6a;&#111;&#104;&#x61;&#x6e;&#115;&#x73;&#111;&#110;&#64;&#117;&#x6d;&#x63;&#103;&#46;&#110;&#108;">&#x6c;&#x2e;&#x6a;&#111;&#104;&#x61;&#x6e;&#115;&#x73;&#111;&#110;&#64;&#117;&#x6d;&#x63;&#103;&#46;&#110;&#108;</a></p>
-<p>Freerk van Dijk <a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x66;&#x2e;&#118;&#x61;&#110;&#46;&#100;&#105;&#x6a;&#x6b;&#48;&#50;&#x40;&#x75;&#109;&#x63;&#103;&#46;&#110;&#108;">&#x66;&#x2e;&#118;&#x61;&#110;&#46;&#100;&#105;&#x6a;&#x6b;&#48;&#50;&#x40;&#x75;&#109;&#x63;&#103;&#46;&#110;&#108;</a></p><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/software/CoNVaDING.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="about/team">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation contents under <a href="/LICENSE-CC">CC BY 3.0</a>, and MOLGENIS software code under the <a href="/LICENSE-LGPLv3">LGPLv3 License</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">MOLGENIS Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">MOLGENIS Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer><script src="/res/js/prism.js"></script></body></html>
+<p>Lennart Johansson <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#108;&#46;&#106;&#111;&#x68;&#97;&#110;&#x73;&#115;&#111;&#x6e;&#x40;&#x75;&#x6d;&#99;&#103;&#46;&#x6e;&#x6c;">&#108;&#46;&#106;&#111;&#x68;&#97;&#110;&#x73;&#115;&#111;&#x6e;&#x40;&#x75;&#x6d;&#99;&#103;&#46;&#x6e;&#x6c;</a></p>
+<p>Freerk van Dijk <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#102;&#46;&#118;&#97;&#110;&#46;&#x64;&#x69;&#x6a;&#x6b;&#48;&#x32;&#64;&#x75;&#109;&#99;&#x67;&#x2e;&#x6e;&#108;">&#102;&#46;&#118;&#97;&#110;&#46;&#x64;&#x69;&#x6a;&#x6b;&#48;&#x32;&#64;&#x75;&#109;&#99;&#x67;&#x2e;&#x6e;&#108;</a></p><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/software/CoNVaDING.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="about/team">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation contents under <a href="/LICENSE-CC">CC BY 3.0</a>, and MOLGENIS software code under the <a href="/LICENSE-LGPLv3">LGPLv3 License</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">MOLGENIS Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">MOLGENIS Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer><script src="/res/js/prism.js"></script></body></html>
