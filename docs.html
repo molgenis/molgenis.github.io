@@ -260,6 +260,42 @@ It is important to understand that this selection is about the data and not the 
 <p><img src="/res/images/upload/result-screen.png?raw=true," alt="Upload file screen" title="Result"></p>
 <h3>What next?</h3><p>To learn more you could read the <a href="ref-emx">EMX reference</a>.
 Alternatively directly move on to <a href="guide-explore">explore your data</a></p>
+<h3>Import API</h3><h4>Endpoints</h4><p>[SERVER URL]/plugin/importwizard/importFile/
+This endpoint can be used to import a file into MOLGENIS by providing the file by for example the use of a webform.</p>
+<h5>Required parameter:</h5><p>MultipartFile file</p>
+<p>[SERVER URL]/plugin/importwizard/importByUrl/
+This endpoint can be used to import a file into MOLGENIS by providing a URL to the file.</p>
+<h5>Required parameter:</h5><p>String url</p>
+<h5>optional parameters for both endpoints:</h5><p>entityName: The name of the entity, this only has effect for VCF files (.vcf and .vcf.gz)
+    Default value is the filename.</p>
+<p>action: the database action to import with, options are:
+    ADD: add records, error on duplicate records
+    ADD_UPDATE_EXISTING: add, update existing records
+    UPDATE: update records, throw an error if records are missing in the database
+    ADD_IGNORE_EXISTING: Adds new records, ignores existing records</p>
+<p>Note that for VCF files only &quot;add&quot; is supported</p>
+<p>Default value is &quot;ADD&quot;.</p>
+<p>notify: Boolean value to indicate of success and failure should be reported to the user by email.
+    Default value is &quot;false&quot;.</p>
+<h4>Response:</h4><p>The service responds with a statuscode <strong>201 CREATED</strong> if the preliminary checks went well and the import run has been started, it also returns a href to the metadata of the importrun.
+The href can be used to poll the status of the import by checking the status field of the importrun, also the message field of the importrun entity gives some basic feedback on what was imported or what went wrong.</p>
+<h4>Examples</h4><h3>importByURL Example:</h3><pre><code>https://molgenis01.gcc.rug.nl/plugin/importwizard/importByURL
+notify=false&amp;entityName=demo&amp;url=https://raw.githubusercontent.com/bartcharbon/molgenis/feature/importService/
+molgenis-app/src/test/resources/vcf/test.vcf
+</code></pre><h5>Response:</h5><pre><code>201 CREATED
+/api/v2/ImportRun/[ImportRunID]
+</code></pre><h3>importFile example using cURL(<a href="https://curl.haxx.se">https://curl.haxx.se</a>):</h3><pre><code>curl -H &quot;x-molgenis-token:[TOKEN]&quot; -X POST -F&quot;file=@path/to/file/test.vcf&quot; -Faction=update -FentityName=newName
+-Fnotify=true https://[SERVER URL]/plugin/importwizard/importFile
+</code></pre><p>A token can be obtained using:</p>
+<pre><code>curl -H &quot;Content-Type: application/json&quot; -X POST -d &#39;{&quot;username&quot;=&quot;USERNAME&quot;, &quot;password&quot;=&quot;YOURPASSWORD&quot;}&#39; https://[SERVER URL]/api/v1/login
+</code></pre><h5>Response:</h5><pre><code>201 CREATED
+/api/v2/ImportRun/[ImportRunID]
+</code></pre><h4>Exceptions:</h4><p>In case anything went wrong even before starting the importrun a <strong>400 BAD REQUEST</strong> is returned.</p>
+<h4>Examples of known exceptions are:</h4><ul>
+<li>Invalid action: [ILLEGAL VALUE] valid values: ADD, ADD_UPDATE_EXISTING, UPDATE, ADD_IGNORE_EXISTING</li>
+<li>Update mode UPDATE is not supported, only ADD is supported for VCF</li>
+<li>A repository with name NewEntity already exists</li>
+</ul>
 <h2>Data Explorer</h2><p><strong>
 One of the central plugins for many of the MOLGENIS databases is the data explorer. As the name suggests this is the plugin to use if you wish to take a close look at your data.
 </strong></p>
