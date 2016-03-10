@@ -204,7 +204,7 @@ This endpoint can be used to import a file into MOLGENIS by providing a URL to t
     Default value is &quot;false&quot;.</p>
 <h2>Response:</h2><p>The service responds with a statuscode <strong>201 CREATED</strong> if the preliminary checks went well and the import run has been started, it also returns a href to the metadata of the importrun.
 The href can be used to poll the status of the import by checking the status field of the importrun, also the message field of the importrun entity gives some basic feedback on what was imported or what went wrong.</p>
-<h2>Examples</h2><h3>importByURL Example:</h3><pre><code>https://molgenis01.gcc.rug.nl/plugin/importwizard/importByURL
+<h2>Examples</h2><h3>importByURL Example:</h3><pre><code>https://molgenis01.gcc.rug.nl/plugin/importwizard/importByUrl
 notify=false&amp;entityName=demo&amp;url=https://raw.githubusercontent.com/bartcharbon/molgenis/feature/importService/
 molgenis-app/src/test/resources/vcf/test.vcf
 </code></pre><h5>Response:</h5><pre><code>201 CREATED
