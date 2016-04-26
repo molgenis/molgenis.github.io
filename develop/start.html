@@ -80,7 +80,8 @@ ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header
 This document explains how to get the code, install the necessary software and compile/run for the first time
 </strong></p>
 <h1>Software needed</h1><p>install java8 JDK (not JRE) from <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a></p>
-<p>install eclipse (we used Luna) from <a href="https://www.eclipse.org/downloads/">https://www.eclipse.org/downloads/</a></p>
+<p>install eclipse (we used Luna) from <a href="https://www.eclipse.org/downloads/">https://www.eclipse.org/downloads/</a>
+(or use <a href="./intellij.html">IntelliJ</a>)</p>
 <p>install mysql from (we used 5.6.23 DMG) <a href="http://dev.mysql.com/downloads/mysql/">http://dev.mysql.com/downloads/mysql/</a></p>
 <p>install git from <a href="http://git-scm.com/download/">http://git-scm.com/download/</a></p>
 <h1>Configure mysql</h1><p>open terminal and start mysql client (command differs in Windows, Linux, Mac): </p>
@@ -116,7 +117,7 @@ git clone http://github.com/[YOURACCOUNT]/molgenis
 <pre><code>git fetch --tags origin
 git checkout -b &lt;tag name: see https://github.com/molgenis/molgenis/releases&gt;
 </code></pre><p>More information about forking can be found here: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a></p>
-<h1>Set admin password</h1><p>Create directory ~/.molgenis/omx/</p>
+<h1>Set admin password<a name="server-props"></a></h1><p>Create directory ~/.molgenis/omx/</p>
 <pre><code>mkdir -p ~/.molgenis/omx/
 </code></pre><p>Create the file ~/.molgenis/omx/molgenis-server.properties </p>
 <pre><code>nano ~/.molgenis/omx/molgenis-server.properties
@@ -126,10 +127,8 @@ db_password=molgenis
 db_uri=jdbc:mysql://localhost/omx
 admin.password=admin
 user.password=admin
-</code></pre><p>If these properties are not present, the MolgenisDatabasePopulator will fail (RuntimeException). This properties-file should be in your home folder, if the file is not there yet, just create it.    </p>
-<p>If you are developing you might want to add the following</p>
-<pre><code>environment=development
-</code></pre><p>This property allows for at runtime javascript editing and makes sure the javascript files do not get minified and bundled.</p>
+</code></pre><p>If these properties are not present, the MolgenisDatabasePopulator will fail (RuntimeException). This properties-file
+should be in your home folder, if the file is not there yet, just create it.</p>
 <h1>Start MOLGENIS</h1><p>In eclipse, if still open, close the &#39;Welcome&#39; screen.</p>
 <p>Choose &#39;File&#39; -&gt; &#39;Import&#39; -&gt; &#39;Import existing Maven projects&#39;</p>
 <p>Browse to your /git/molgenis directory </p>

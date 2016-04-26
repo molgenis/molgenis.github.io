@@ -1,0 +1,157 @@
+<!DOCTYPE html><!--[if lt IE 8]><html lang="en" class="ie"><![endif]--><!--[if gt IE 8]><!--><html lang="en"><!--<![endif]--><head><meta charset="utf-8"><title>MOLGENIS - IntelliJ</title><meta name="description" content="Develop using IntelliJ"><meta name="author" content="MOLGENIS community"><meta name="handheldfriendly" content="true"><meta name="mobileoptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="cleartype" content="on"><script src="/res/js/jquery-1.11.3.min.js"> </script><script src="/res/js/bootstrap.min.js"></script><link rel="stylesheet" href="/res/css/prism.css"><link rel="stylesheet" href="/res/css/application.css" type="text/css"><link rel="shortcut icon" href="/favicon.png" type="image/png"><link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" title="undefined"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)
+[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-2273328-11', 'auto');
+ga('send', 'pageview');</script></head><body><header class="molgenis-docs-header"><div role="navigation" class="navbar navbar-fixed-top"><div class="header-container"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand active"><img src="/res/images/wordmark-blue.png" alt="undefined" class="wordmark"/></a></div><div class="collapse navbar-collapse">              <ul class="nav navbar-nav"><li><a href="/software">TOOLS</a></li><li><a href="/documentation">DOCUMENTATION</a></li><li class="active"><a href="/develop">DEVELOP</a></li><li><a href="/support">SUPPORT</a></li><li><a href="#searchbox" data-toggle="collapse"><i class="glyphicon glyphicon-search"></i></a></li></ul></div></div></div><div id="searchbox" class="collapse"><form role="search" action="/search-results"><input placeholder="Search" name="q" class="form-control"/></form></div><div class="molgenis-docs-titlebar active"><div class="container"> <h1>IntelliJ</h1><p>Develop using IntelliJ   </p></div></div></header><div class="molgenis-docs-body"><div class="container"><div class="row"><div role="complementary" class="col-md-3"><nav id="molgenis-docs-sidebar" class="molgenis-docs-sidebar hidden-print hidden-xs hidden-sm"><ul id="molgenis-docs-sidenav" class="nav molgenis-docs-sidenav"></ul></nav><script>$(function() {
+    var sideNav = $("#molgenis-docs-sidenav");
+    var index = 0;
+    $(".row h1").each(function() {
+        
+        //create id for h1
+        var id = (index++) + $(this).text().replace(/\s/gi,"-").replace(/\W/g,"").toLowerCase();
+        $(this).prepend("<a name=\""+id+"\"></a>");
+        
+        //add h1 to list
+        var li = $("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>")
+        sideNav.append(li);
+        
+        //wrap h1 into section
+        var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+        //wrap parts of h1 into one section
+        $(this).parent().nextUntil("h1").each(function(){            
+            section.append($(this));
+        });
+        
+        //repeat for h2
+        if($("h2",$(this).parent()).length > 0) {
+            var ul = $("<ul class=\"nav\"></ul>");
+            li.append(ul);
+            
+            $("h2",$(this).parent()).each(function(){
+            
+                //create id for h2
+                var id = (index++) + $(this).text().replace(/\s/gi,"-").replace(/\W/g,"").toLowerCase();
+                $(this).prepend("<a name=\""+id+"\"></a>");
+        
+                //wrap h2 into section
+                var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+                ul.append($("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>"));
+        
+                //wrap parts of h2 into one section
+                $(this).parent().nextUntil("h2").each(function(){            
+                    section.append($(this));
+                });
+            
+
+            });
+        }
+    });    
+    
+    //add "back to top"
+    sideNav.append("<li><a href=\"#top\" style=\"font-size:smaller\">Back to top</a></li>");
+    var $body   = $(document.body);
+    
+    //enable the 'active' highlighting using scrollspy plugin
+    $('body').scrollspy({
+        target: '#molgenis-docs-sidebar'
+    });
+    $('#molgenis-docs-sidebar').width($('#molgenis-docs-sidebar').parent().width());
+    
+    //enable affix
+    $('#molgenis-docs-sidebar').affix({
+        offset: {
+            top: $('#molgenis-docs-sidebar').offset().top,
+            bottom: $('.molgenis-docs-footer').outerHeight(true) + 10
+        }
+    });
+    
+    //resize affix box when window resizes
+    $(window).resize(function () {
+            $('.molgenis-docs-sidebar').width($('#molgenis-docs-sidebar').parent().width());
+        });
+    
+    $("table").addClass("table table-bordered");
+});</script></div><div role="main" class="col-md-9 contents"><h1>IntelliJ</h1><p>A rough guide on how to develop molgenis in IntelliJ IDEA.
+This was created using IntelliJ IDEA 2016.1 Ultimate, courteously provided to us by
+JetBrains on an open source license.</p>
+<h2>Middleware</h2><p>Before you start, make sure the following middleware is installed on your system.</p>
+<ul>
+<li>MySQL server.<ul>
+<li>Create a database called omx with a user molgenis that has full permissions on the database.</li>
+</ul>
+</li>
+<li>Java 8 JDK (latest version available from Oracle)</li>
+<li>Maven &gt;= 3.1.0 (The built-in maven version of IntelliJ is too old to compile molgenis.)</li>
+<li>Apache Tomcat 7 or 8</li>
+<li>MySQL JDBC driver. Put it in the lib/ext dir of your Tomcat installation.</li>
+</ul>
+<h2>Molgenis settings</h2><p>You&#39;ll need a molgenis-server.properties file. In your home dir, create a folder
+<code>.molgenis</code>. In it create a folder called <code>omx</code>.
+Put a file in there called <code>molgenis-server.properties</code> and fill it with the
+JDBC url and molgenis user credentials for your MySQL molgenis database.
+See <a href="./start.html#server-props">the start documentation</a> for the contents of this file.</p>
+<h2>Set the maven home dir in IntelliJ</h2><ul>
+<li>Open Preferences, Build Execution Deployment, Maven</li>
+<li>Set the home dir to where your &gt;= 3.1.0 maven installation lives.</li>
+</ul>
+<h2>Creating the molgenis project</h2><ul>
+<li>File, New, Project from version control, Git (or Github)</li>
+<li>Pick <code>https://github.com/molgenis/molgenis.git</code> for the repository URL.</li>
+<li>In the Event log: Non-managed pom.xml file found. Choose &quot;Add as Maven Project&quot;. (You&#39;ll also see &#39;JPA framework is detected&#39;. Ignore that.)</li>
+</ul>
+<p>You now should have a Project called molgenis with a module for each maven module.</p>
+<h2>Set the project JDK</h2><p>Open File, Project Structure. For the entire project:</p>
+<ul>
+<li>(Add and) select Java 8 JDK.</li>
+<li>Set language level to Java 8.</li>
+</ul>
+<h2>Create maven run configuration</h2><p>For normal operation, IntelliJ can compile the sources for you. But some classes get
+generated so you&#39;ll need to run the maven build at least once.</p>
+<ul>
+<li>Run, Edit Configurations...</li>
+<li>Press <code>+</code>, add new maven run config, call it <code>molgenis [clean install]</code></li>
+<li>Set the project location as run directory</li>
+<li>Command line is <code>clean install</code></li>
+<li>In the tool bar, select the <code>molgenis[clean install]</code> configuration and press the play button.
+Molgenis now should compile and test. In particular the molgenis-core-ui module may take a while the first time it is run.</li>
+</ul>
+<h2>Build in IntelliJ</h2><p>Build, Make project should work fine now and spew out no errors, only warnings.</p>
+<h2>Java Code Style settings</h2><ul>
+<li>In the root folder of the molgenis project, you&#39;ll find eclipse-java-molgenis-style.xml.
+Open Settings, Editor, Code Style, and import it as the molgenis profile.
+Select it for the molgenis project.</li>
+<li>TODO: Other settings (Dennis)</li>
+</ul>
+<h2>Deploy / Run in Tomcat server</h2><ul>
+<li>Run, Edit configurations..., <code>+</code>, Tomcat, Local.</li>
+<li>Call it <code>molgenis-app [exploded]</code></li>
+<li>(Add and) select your Tomcat installation</li>
+<li>VM options: <code>-Dmolgenis.home=&lt;path to dir containing molgenis-server.properties&gt;</code></li>
+<li>Deployment: Select <code>molgenis-app:war exploded</code></li>
+<li>Application context: Select <code>/</code></li>
+<li>Go back to the first tab, you should now have more options in the update and frame deactivation pulldowns.</li>
+<li>Select On Update: Redeploy, don&#39;t ask (This is the action that will triggered when you press the blue reload button in the run view)</li>
+<li>Select On frame deactivation: Update resources (This is the action that will be triggered whenever you tab out of IntelliJ)
+(If you get update classes and resources to work, let us know!!)</li>
+<li>Select your favorite browser in the pulldown.</li>
+<li>Save the configuration</li>
+<li>In the tool bar, select the <code>molgenis-app [exploded]</code> configuration and press the play button.</li>
+</ul>
+<p>This&#39;ll build and deploy molgenis to tomcat and open it in the browser.
+Whenever you tab from molgenis to the browser, all modified resources will be copied to the deployed exploded war.
+A browser reload should display the changes.</p>
+<h2>Webpack watch run configuration</h2><p>(TODO: I just noticed that IntelliJ has webpack support so I suspect there&#39;s a better way to do this.)</p>
+<ul>
+<li>Open molgenis-core-ui/package.json</li>
+<li>Select the scripts / watch key in the json configuration</li>
+<li>Right-click it and select the NPM <code>create watch</code> option from the menu.</li>
+<li>SaveIn the tool bar, select the npm <code>watch</code> configuration and press the play button to start webpack watch.</li>
+</ul>
+<p>Somehow, getting your javascript/webpack changes to show in the browser requires tabbing from IntelliJ to the browser
+and back again twice. But then it works!
+Let us know if you find out how to improve this.</p><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/develop/intellij.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="about/team">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation contents under <a href="/LICENSE-CC">CC BY 3.0</a>, and MOLGENIS software code under the <a href="/LICENSE-LGPLv3">LGPLv3 License</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">MOLGENIS Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">MOLGENIS Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer><script src="/res/js/prism.js"></script></body></html>
