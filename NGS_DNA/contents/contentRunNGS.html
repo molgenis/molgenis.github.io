@@ -1,0 +1,51 @@
+<h1>
+    3) Preparing and running NGS_DNA pipeline
+</h1>
+<p>
+  <h3>  1) Copy rawdata to rawdata ngs folder</h3>
+<p>
+  <code>  scp –r 198210_SEQ_RUNTEST_FLOWCELLXX  username@yourcluster:${root}/groups/$groupname/${tmpDir}/rawdata/ngs/ </code>
+</p>
+<p>
+ <h3>   2) Create a folder in the generatedscripts folder </h3>
+    <br/>
+  <code>  mkdir ${root}/groups/$groupname/${tmpDir}/generatedscripts/TestRun </code>
+</p>
+
+<p>
+ <h3>   3) Copy samplesheet to generatedscripts folder </h3>
+    <br/>
+ <code>   scp –r TestRun username@yourcluster:/groups/$groupname/${tmpDir}/generatedscripts/ </code>
+</p>
+<p>
+    <mark>Note: the name of the folder should be the same as csv file</mark>
+</p>
+<p>
+   <h3> 4) Run the generate script</h3>
+ <code>   
+	module load NGS_DNA
+	<br />
+  	cd ${root}/groups/$groupname/${tmpDir}/generatedscripts/TestRun 
+	<br />
+    	cp $EBROOTNGS_DNA/generate_template.sh . 
+	<br />
+	sh generate_template.sh
+    	<br/>
+    	cd scripts</code>
+    <br/>
+    <br/>
+    <mark>Note:</mark> if you want to run locally, you should change in the CreateInhouseProjects.sh script the backend (this can be done almost at the end of the script
+    where you have something like:
+    <br />
+    sh ${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh
+    <br/>
+    <u>search for –b slurm and change it into –b localhost</u>
+    <br/>
+    <br/>
+    <code>sh submit.sh</code>
+</p>
+<p>
+<h3>   5) Submit jobs </h3>
+    navigate to jobs folder (this will be outputted at the step before this one).<br />
+    <code>sh submit.sh</code>
+</p>

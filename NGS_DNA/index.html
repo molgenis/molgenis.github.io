@@ -10,7 +10,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	<script> 
     $(function(){
-      	$("#includedContent").load("https://molgenis.github.io/NGS_DNA/content.html"); 
+      	$("#includedContentMenu").load("https://molgenis.github.io/NGS_DNA/contents/contentmenu.html"); 
+    $(function(){
+      	$("#includedContentHome").load("https://molgenis.github.io/NGS_DNA/contents/contentHome.html"); 
     });
     </script> 
 
@@ -30,13 +32,9 @@
     </div>
 <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
     <!-- MAIN CONTENT -->
-<div id="includedContent"></div>
-<h3>Welcome to the NGS_DNA pipeline website :)</h3>
-<p>
-
-</p>
+<div id="includedContentMenu"></div>
+<div id="includedContentHome"></div>
 </div>
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">

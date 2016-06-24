@@ -11,7 +11,14 @@
         <script>
     $(function(){
         $("#includedContentMenu").load("https://molgenis.github.io/NGS_DNA/contents/contentmenu.html");
-    $(function(){
+    });
+	$(function(){
+        $("#includedContentEnv").load("https://molgenis.github.io/NGS_DNA/contents/contentEnv.html");
+    });
+$(function(){
+        $("#includedContentNGS").load("https://molgenis.github.io/NGS_DNA/contents/contentNGS.html");
+    });
+$(function(){
         $("#includedContentRunNGS").load("https://molgenis.github.io/NGS_DNA/contents/contentRunNGS.html");
     });
     </script>
@@ -19,22 +26,13 @@
   </head>
 
   <body>
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/molgenis/NGS_DNA">View on GitHub</a>
-
-          <h1 id="project_title">molgenis.github.io/NGS_DNA/</h1>
-          <h2 id="project_tagline"></h2>
-
-        </header>
-    </div>
-<div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <!-- MAIN CONTENT -->
 <div id="includedContentMenu"></div>
+<div id="includedContentEnv"></div>
+<br />
+<div id="includedContentNGS"></div>
+<br />
 <div id="includedContentRunNGS"></div>
-
 </div>
   </body>
 </html>
+
