@@ -506,32 +506,165 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 <li>validationExpression : javascript validation expression that must return a bool. Must return true if valid and false if invalid. See for a syntax description the section [[Javascript Expressions]]</li>
 <li>defaultValue: value that will be filled in in the forms when a new entity instance is created. Not yet supported for mref and xref values. For categorical_mref, should be a comma separated list of ids. For xref should be the of the refEntity. For bool should be true or false. For datetime should be a string in the format YYYY-MM-DDTHH:mm:ssZZ. For date should be a string in the format YYYY-MM-DD.</li>
 <li>partOfAttribute: is used to group attributes into a compound attribute. Put here the name of the compound attribute.</li>
-<li><p>expression:</p>
-<p>  &quot;Computed string&quot;:</p>
-<pre><code>1. Create a new target attribute into the &quot;myEntity&quot; entity, that will become the new computed attribute (in the example: &quot;myLabel&quot;)
-2. Add in the expression column of the new attribute &quot;myLabel&quot;: &quot;the name of attribute to convert from&quot; (in example: expression -&gt; &quot;myXref&quot;)
-</code></pre><p>  <strong>Example (Computed string): &quot;xref as label attribute&quot; (config attributes table)</strong></p>
-<p>  | name    | entity      | label           | dataType    | idAttribute    | refEntity      | nillable    | visible    | labelAttribute    | expression |
-  |---------|----------|--------------|----------|-------------|-------------|----------|---------|----------------|------------|
-  | id      | myEntity | Id              | int         | TRUE           |             |FALSE           | FALSE      | FALSE          |            |
-  | myXref     | myEntity | Other Entity    | xref        | FALSE          | otherEntity |TRUE      | TRUE    | FALSE             |            |
-  | myLabel | myEntity | Label           | string      | FALSE          |             |TRUE            | FALSE      | TRUE           | myXref     |</p>
-<p>  &quot;Computed object&quot;: </p>
-<pre><code>1. Create a two new target attributes (attr1, attr2) in a new entity (newEntity).
-2. Create a xref attribute (myXref) to contain the computed entity.
-3. Add in the expression column of new xref attribute (myXref) the next script: &quot;{attr1: myAttr1, attr2: myAttr2}&quot;
-4. The name of the attributes to convert from should be in the same entity as the new xref attribute (myEntity).
-</code></pre><p>  <strong>Example (Computed object): &quot;computed myXref&quot; (config attributes table)</strong></p>
-<p>  | name    | entity       | label           | dataType    | idAttribute    | refEntity      | nillable    | visible    | labelAttribute    | expression |
-  |---------|-----------|--------------|----------|-------------|-------------|----------|---------|----------------|------------|
-  | id      | myEntity  | Id              | int         | TRUE           |             |FALSE           | FALSE      | FALSE          |            |
-  | myXref     | myEntity  | New Entity      | xref        | FALSE          | newEntity   |TRUE      | TRUE    | FALSE             |{attr1: myAttr1, attr2: myAttr2}|
-  | myAttr1 | myEntity  | My Attr 1    | date        | FALSE          |             |TRUE            | FALSE      | TRUE           |            |
-  | myAttr2 | myEntity  | My Attr 2    | int      | FALSE          |             |TRUE            | FALSE      | TRUE           |            |
-  | attr1   | newEntity |    Attr 1    | string   | FALSE          |             |TRUE            | FALSE      | TRUE           |            |
-  | attr2   | newEntity |    Attr 2    | string   | TRUE           |             |TRUE            | FALSE      | TRUE           |            |</p>
-</li>
+<li>expression:</li>
 </ul>
+<p>&quot;Computed string&quot;:</p>
+<ol>
+<li>Create a new target attribute into the &quot;myEntity&quot; entity, that will become the new computed attribute (in the example: &quot;myLabel&quot;)</li>
+<li>Add in the expression column of the new attribute &quot;myLabel&quot;: &quot;the name of attribute to convert from&quot; (in example: expression -&gt; &quot;myXref&quot;)</li>
+</ol>
+<p><strong>Example (Computed string): &quot;xref as label attribute&quot; (config attributes table)</strong></p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>entity</th>
+<th>label</th>
+<th>dataType</th>
+<th>idAttribute</th>
+<th>refEntity</th>
+<th>nillable</th>
+<th>visible</th>
+<th>labelAttribute</th>
+<th>expression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>myEntity</td>
+<td>Id</td>
+<td>int</td>
+<td>TRUE</td>
+<td></td>
+<td>FALSE</td>
+<td>FALSE</td>
+<td>FALSE</td>
+<td></td>
+</tr>
+<tr>
+<td>myXref</td>
+<td>myEntity</td>
+<td>Other Entity</td>
+<td>xref</td>
+<td>FALSE</td>
+<td>otherEntity</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>FALSE</td>
+<td></td>
+</tr>
+<tr>
+<td>myLabel</td>
+<td>myEntity</td>
+<td>Label</td>
+<td>string</td>
+<td>FALSE</td>
+<td></td>
+<td>TRUE</td>
+<td>FALSE</td>
+<td>TRUE</td>
+<td>myXref</td>
+</tr>
+</tbody>
+</table>
+<p>&quot;Computed object&quot;: </p>
+<ol>
+<li>Create a two new target attributes (attr1, attr2) in a new entity (newEntity).</li>
+<li>Create a xref attribute (myXref) to contain the computed entity.</li>
+<li>Add in the expression column of new xref attribute (myXref) the next script: &quot;{attr1: myAttr1, attr2: myAttr2}&quot;</li>
+<li>The name of the attributes to convert from should be in the same entity as the new xref attribute (myEntity).</li>
+</ol>
+<p><strong>Example (Computed object): &quot;computed myXref&quot; (config attributes table)</strong></p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>entity</th>
+<th>label</th>
+<th>dataType</th>
+<th>idAttribute</th>
+<th>refEntity</th>
+<th>nillable</th>
+<th>visible</th>
+<th>labelAttribute</th>
+<th>expression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>myEntity</td>
+<td>Id</td>
+<td>int</td>
+<td>TRUE</td>
+<td></td>
+<td>FALSE</td>
+<td>FALSE</td>
+<td>FALSE</td>
+<td></td>
+</tr>
+<tr>
+<td>myXref</td>
+<td>myEntity</td>
+<td>New Entity</td>
+<td>xref</td>
+<td>FALSE</td>
+<td>newEntity</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>FALSE</td>
+<td>{attr1: myAttr1, attr2: myAttr2}</td>
+</tr>
+<tr>
+<td>myAttr1</td>
+<td>myEntity</td>
+<td>My Attr 1</td>
+<td>date</td>
+<td>FALSE</td>
+<td></td>
+<td>TRUE</td>
+<td>FALSE</td>
+<td>TRUE</td>
+<td></td>
+</tr>
+<tr>
+<td>myAttr2</td>
+<td>myEntity</td>
+<td>My Attr 2</td>
+<td>int</td>
+<td>FALSE</td>
+<td></td>
+<td>TRUE</td>
+<td>FALSE</td>
+<td>TRUE</td>
+<td></td>
+</tr>
+<tr>
+<td>attr1</td>
+<td>newEntity</td>
+<td>Attr 1</td>
+<td>string</td>
+<td>FALSE</td>
+<td></td>
+<td>TRUE</td>
+<td>FALSE</td>
+<td>TRUE</td>
+<td></td>
+</tr>
+<tr>
+<td>attr2</td>
+<td>newEntity</td>
+<td>Attr 2</td>
+<td>string</td>
+<td>TRUE</td>
+<td></td>
+<td>TRUE</td>
+<td>FALSE</td>
+<td>TRUE</td>
+</tr>
+</tbody>
+</table>
 <h1>Entities options</h1><p>Required columns:</p>
 <ul>
 <li>entity : unique name of the entity. If packages are provided, name must be unique within a package.</li>
