@@ -572,10 +572,10 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 </table>
 <p>&quot;Computed object&quot;: </p>
 <ol>
-<li>Create a two new target attribute in a new entity.</li>
-<li>Create a xref attribute to contain the computed entity.</li>
-<li>Add in the expression column of new xref attribute the next script: ({&quot;name of target attribute 1&quot; : &quot;name of attribute to convert from&quot;, &quot;name of target attribute 2&quot; : &quot;name of attribute to convert from&quot;})</li>
-<li>The name of attribute to convert from should be in the same entity as the new xref attribute.</li>
+<li>Create a two new target attributes (attr1, attr2) in a new entity (newEntity).</li>
+<li>Create a xref attribute (myXref) to contain the computed entity.</li>
+<li>Add in the expression column of new xref attribute (myXref) the next script: &quot;{attr1: myAttr1, attr2: myAttr2}&quot;</li>
+<li>The name of the attributes to convert from should be in the same entity as the new xref attribute (myEntity).</li>
 </ol>
 <p><strong>Example (Computed object): &quot;computed myXref&quot; (config attributes table)</strong></p>
 <table>
