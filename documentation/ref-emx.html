@@ -506,14 +506,63 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 <li>validationExpression : javascript validation expression that must return a bool. Must return true if valid and false if invalid. See for a syntax description the section [[Javascript Expressions]]</li>
 <li>defaultValue: value that will be filled in in the forms when a new entity instance is created. Not yet supported for mref and xref values. For categorical_mref, should be a comma separated list of ids. For xref should be the of the refEntity. For bool should be true or false. For datetime should be a string in the format YYYY-MM-DDTHH:mm:ssZZ. For date should be a string in the format YYYY-MM-DD.</li>
 <li>partOfAttribute: is used to group attributes into a compound attribute. Put here the name of the compound attribute.</li>
-<li>expression: 
-<strong> Example: &quot;xref as label attribute&quot; (config attributes table)</strong>
-| name    | entity      | label           | dataType    | idAttribute    | refEntity      | nillable    | visible    | labelAttribute    | expression |
-|---------|----------|--------------|----------|-------------|-------------|----------|---------|----------------|------------|
-| id      | myEntity | Id              | int         | TRUE           |             |FALSE           | FALSE      | FALSE          |            |
-| myXref     | myEntity | Other Entity    | xref        | FALSE          | otherEntity |TRUE      | TRUE    | FALSE             |            |
-| myLabel | myEntity | Label           | string      | FALSE          |             |TRUE            | FALSE      | TRUE           | myXref     |</li>
+<li>expression</li>
 </ul>
+<p><strong> Example: &quot;xref as label attribute&quot; (config attributes table)</strong></p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>entity</th>
+<th>label</th>
+<th>dataType</th>
+<th>idAttribute</th>
+<th>refEntity</th>
+<th>nillable</th>
+<th>visible</th>
+<th>labelAttribute</th>
+<th>expression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>myEntity</td>
+<td>Id</td>
+<td>int</td>
+<td>TRUE</td>
+<td></td>
+<td>FALSE</td>
+<td>FALSE</td>
+<td>FALSE</td>
+<td></td>
+</tr>
+<tr>
+<td>myXref</td>
+<td>myEntity</td>
+<td>Other Entity</td>
+<td>xref</td>
+<td>FALSE</td>
+<td>otherEntity</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>FALSE</td>
+<td></td>
+</tr>
+<tr>
+<td>myLabel</td>
+<td>myEntity</td>
+<td>Label</td>
+<td>string</td>
+<td>FALSE</td>
+<td></td>
+<td>TRUE</td>
+<td>FALSE</td>
+<td>TRUE</td>
+<td>myXref</td>
+</tr>
+</tbody>
+</table>
 <h1>Entities options</h1><p>Required columns:</p>
 <ul>
 <li>entity : unique name of the entity. If packages are provided, name must be unique within a package.</li>
