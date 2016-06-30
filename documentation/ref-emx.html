@@ -506,14 +506,13 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 <li>validationExpression : javascript validation expression that must return a bool. Must return true if valid and false if invalid. See for a syntax description the section [[Javascript Expressions]]</li>
 <li>defaultValue: value that will be filled in in the forms when a new entity instance is created. Not yet supported for mref and xref values. For categorical_mref, should be a comma separated list of ids. For xref should be the of the refEntity. For bool should be true or false. For datetime should be a string in the format YYYY-MM-DDTHH:mm:ssZZ. For date should be a string in the format YYYY-MM-DD.</li>
 <li>partOfAttribute: is used to group attributes into a compound attribute. Put here the name of the compound attribute.</li>
-<li>expression:</li>
+<li>expression: is used to create computed attributes.</li>
 </ul>
-<p>&quot;Computed string&quot;:</p>
+<p><strong>Computed string example: &quot;xref as label attribute&quot; (config attributes table)</strong></p>
 <ol>
 <li>Create a new target attribute into the &quot;myEntity&quot; entity, that will become the new computed attribute (in the example: &quot;myLabel&quot;)</li>
 <li>Add in the expression column of the new attribute &quot;myLabel&quot;: &quot;the name of attribute to convert from&quot; (in example: expression -&gt; &quot;myXref&quot;)</li>
 </ol>
-<p><strong>Example (Computed string): &quot;xref as label attribute&quot; (config attributes table)</strong></p>
 <table>
 <thead>
 <tr>
@@ -568,14 +567,13 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 </tr>
 </tbody>
 </table>
-<p>&quot;Computed object&quot;: </p>
+<p><strong>Computed object example: &quot;computed myXref&quot; (config attributes table)</strong></p>
 <ol>
 <li>Create a two new target attributes (attr1, attr2) in a new entity (newEntity).</li>
 <li>Create a xref attribute (myXref) to contain the computed entity.</li>
 <li>Add in the expression column of new xref attribute (myXref) the next script: &quot;{attr1: myAttr1, attr2: myAttr2}&quot;</li>
 <li>The name of the attributes to convert from should be in the same entity as the new xref attribute (myEntity).</li>
 </ol>
-<p><strong>Example (Computed object): &quot;computed myXref&quot; (config attributes table)</strong></p>
 <table>
 <thead>
 <tr>
