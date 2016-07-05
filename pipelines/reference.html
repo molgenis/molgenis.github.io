@@ -1,0 +1,181 @@
+<!DOCTYPE html><!--[if lt IE 8]><html lang="en" class="ie"><![endif]--><!--[if gt IE 8]><!--><html lang="en"><!--<![endif]--><head><meta charset="utf-8"><title>MOLGENIS - Reference</title><meta name="description" content="Compute reference documentation"><meta name="author" content="MOLGENIS community"><meta name="handheldfriendly" content="true"><meta name="mobileoptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="cleartype" content="on"><script src="/res/js/jquery-1.11.3.min.js"> </script><script src="/res/js/bootstrap.min.js"></script><link rel="stylesheet" href="/res/css/prism.css"><link rel="stylesheet" href="/res/css/application.css" type="text/css"><link rel="shortcut icon" href="/favicon.png" type="image/png"><link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" title="undefined"></head><body><header class="molgenis-docs-header"><div role="navigation" class="navbar navbar-fixed-top"><div class="header-container"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand active"><img src="/res/images/wordmark-blue.png" alt="undefined" class="wordmark"/></a></div><div class="collapse navbar-collapse">              <ul class="nav navbar-nav"><li><a href="/software">TOOLS</a></li><li><a href="/documentation">DOCUMENTATION</a></li><li class="active"><a href="/pipelines">PIPELINES</a></li><li><a href="/develop">DEVELOP</a></li><li><a href="/support">SUPPORT</a></li><li><a href="#searchbox" data-toggle="collapse"><i class="glyphicon glyphicon-search"></i></a></li></ul></div></div></div><div id="searchbox" class="collapse"><form role="search" action="/search-results"><input placeholder="Search" name="q" class="form-control"/></form></div><div class="molgenis-docs-titlebar active"><div class="container"> <h1>Reference</h1><p>Compute reference documentation   </p></div></div></header><div class="molgenis-docs-body"><div class="container"><div class="row"><div role="complementary" class="col-md-3"><nav id="molgenis-docs-sidebar" class="molgenis-docs-sidebar hidden-print hidden-xs hidden-sm"><ul id="molgenis-docs-sidenav" class="nav molgenis-docs-sidenav"></ul></nav><script>$(function() {
+    var sideNav = $("#molgenis-docs-sidenav");
+    var index = 0;
+    $(".row h1").each(function() {
+        
+        //create id for h1
+        var id = (index++) + $(this).text().replace(/\s/gi,"-").replace(/\W/g,"").toLowerCase();
+        $(this).prepend("<a name=\""+id+"\"></a>");
+        
+        //add h1 to list
+        var li = $("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>")
+        sideNav.append(li);
+        
+        //wrap h1 into section
+        var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+        //wrap parts of h1 into one section
+        $(this).parent().nextUntil("h1").each(function(){            
+            section.append($(this));
+        });
+        
+        //repeat for h2
+        if($("h2",$(this).parent()).length > 0) {
+            var ul = $("<ul class=\"nav\"></ul>");
+            li.append(ul);
+            
+            $("h2",$(this).parent()).each(function(){
+            
+                //create id for h2
+                var id = (index++) + $(this).text().replace(/\s/gi,"-").replace(/\W/g,"").toLowerCase();
+                $(this).prepend("<a name=\""+id+"\"></a>");
+        
+                //wrap h2 into section
+                var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+                ul.append($("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>"));
+        
+                //wrap parts of h2 into one section
+                $(this).parent().nextUntil("h2").each(function(){            
+                    section.append($(this));
+                });
+            
+
+            });
+        }
+    });    
+    
+    //add "back to top"
+    sideNav.append("<li><a href=\"#top\" style=\"font-size:smaller\">Back to top</a></li>");
+    var $body   = $(document.body);
+    
+    //enable the 'active' highlighting using scrollspy plugin
+    $('body').scrollspy({
+        target: '#molgenis-docs-sidebar'
+    });
+    $('#molgenis-docs-sidebar').width($('#molgenis-docs-sidebar').parent().width());
+    
+    //enable affix
+    $('#molgenis-docs-sidebar').affix({
+        offset: {
+            top: $('#molgenis-docs-sidebar').offset().top,
+            bottom: $('.molgenis-docs-footer').outerHeight(true) + 10
+        }
+    });
+    
+    //resize affix box when window resizes
+    $(window).resize(function () {
+            $('.molgenis-docs-sidebar').width($('#molgenis-docs-sidebar').parent().width());
+        });
+    
+    $("table").addClass("table table-bordered");
+});</script></div><div role="main" class="col-md-9 contents"><h1>Command-line options</h1><p>Molgenis Compute has the following command-line options:</p>
+<pre><code class="language-bash">  Version: development
+  usage: sh molgenis-compute.sh -p parameters.csv
+  -b,--backend &lt;arg&gt;                 Backend for which you generate.
+                                     Default: localhost
+  -bp,--backendpassword &lt;arg&gt;        Supply user pass to login to execution
+                                     backend. Default is not saved.
+  -bu,--backenduser &lt;arg&gt;            Supply user name to login to execution
+                                     backend. Default is your own user
+                                     name.
+  -clear,--clear                     Clear properties file
+  -create &lt;arg&gt;                      Creates empty workflow. Default name:
+                                     myworkflow
+  -d,--database &lt;arg&gt;                Host, location of database. Default:
+                                     none
+  -dbe,--database-end                End the database
+  -dbs,--database-start              Starts the database
+  -defaults,--defaults &lt;arg&gt;         Path to your workflow-defaults file.
+                                     Default: defaults.csv
+  -footer &lt;arg&gt;                      Adds a custom footer. Default:
+                                     footer.ftl
+  -g,--generate                      Generate jobs
+  -h,--help                          Shows this help.
+  -header &lt;arg&gt;                      Adds a custom header. Default:
+                                     header.ftl
+  -l,--list                          List jobs, generated, queued, running,
+                                     completed, failed
+  -mpass,--molgenispassword &lt;arg&gt;    Supply user pass to login to molgenis.
+                                     Default is not saved.
+  -mu,--molgenisuser &lt;arg&gt;           Supply user name to login to molgenis
+                                     database. Default is your own user
+                                     name.
+  -o,--overwrite &lt;arg&gt;               Parameters and values, which will
+                                     overwritten in the parameters file.
+                                     Parameters should be placed into
+                                     brackets and listed using equality
+                                     sign, e.g. &quot;mem=6GB;queue=long&quot;
+  -p,--parameters &lt;parameters.csv&gt;   Path to parameter.csv file(s).
+                                     Default: parameters.csv
+  -path,--path                       Path to directory this generates to.
+                                     Default: &lt;current dir&gt;.
+  -port,--port &lt;arg&gt;                 Port used to connect to databasae.
+                                     Default: 8080
+  -r,--run                           Run jobs from current directory on
+                                     current backend. When using --database
+                                     this will return a &#39;id&#39; for --pilot.
+  -rundir &lt;arg&gt;                      Directory where jobs are stored
+  -runid,--runid &lt;arg&gt;               Id of the task set which you generate.
+                                     Default: null
+  -submit &lt;arg&gt;                      Set a custom submit.sh template.
+                                     Default: submit.sh.ftl
+  -w,--workflow &lt;workflow.csv&gt;       Path to your workflow file. Default:
+                                     workflow.csv
+  -weave,--weave                     Weave parameters to the actual script
+  -web,--web &lt;arg&gt;                   Location of the workflow in the public
+                                     github repository. The other
+                                     parameters should be specified
+                                     relatively to specified github root.
+</code></pre>
+<h1>Reserved words</h1><p>Molgenis Compute has a list of reserved words, which cannot be used in compute to name 
+parameters, workflow steps, etc. These words are listed below:</p>
+<p>reserved words</p>
+<pre><code>  port            interval
+  workflow        path
+  defaults        parameters
+  rundir        runid
+  backend        database
+  walltime        nodes
+  ppn            queue
+  mem            _NA
+  password        molgenisuser
+  backenduser        header
+  footer        submit
+  autoid
+</code></pre><p>The reserved words are used in the compute.properties file. This file is created to save the latest compute configuration and discuss further.</p>
+<h1>Script generation for PBS cluster and other back-ends</h1><p>To generate for pbs, the next options should be added to the command line</p>
+<pre><code class="language-bash">--backend pbs
+</code></pre>
+<p>When generating script for computational clusters or grid, some additional parameters, such as execution wall-time, memory requirement, etc. should be specified. This can be done in the parameters file</p>
+<p>parameters.csv</p>
+<pre><code>  workflowName,creationDate,queue,mem,walltime,nodes,ppn
+  myFirstWorkflow,today,short_queue,4GB,05:59:00,1,1
+</code></pre><p>Options:</p>
+<ul>
+<li>queue - cluster/grid queue</li>
+<li>mem - memory required</li>
+<li>walltime - execution wall time</li>
+<li>nodes - number of nodes needed</li>
+<li>ppn - number of cores needed</li>
+</ul>
+<p>Or also it can be specified in the molgenis header in protocols</p>
+<p>step1.ftl</p>
+<pre><code class="language-bash">  #MOLGENIS queue=short_queue mem=4gb walltime=05:59:00 nodes=1 ppn=1
+  #string in
+  #output out
+  # Let&#39;s do something with string &#39;in&#39;
+  out=${in}_hasBeenInStep1
+</code></pre>
+<p>The specification in protocols has priority over specification in parameter files.</p>
+<p>In the command-line distribution, users can add a new back-end by adding a new directory, that contains header/footer and submit templates for that backend.</p>
+<h1>Switching to a different workflow</h1><p>It is very advisable to start working with a new workflow with running </p>
+<pre><code class="language-bash">sh molgenis_compute.sh --clear
+</code></pre>
+<p>This command clears the <code>.compute.properties</code> file, which contains previous generation and running options.</p>
+<h1>Commenting in workflow specification</h1><p>User can want to run only one or several steps of the workflow, when the rest of workflow can be commented out using &#39;#&#39; sign. In this example &#39;step2&#39; is commented out.</p>
+<p>workflow.csv</p>
+<pre><code>  step,protocol,dependencies
+  step1,protocols/step1.sh,
+  #step2,protocols/step2.sh,step1
+</code></pre><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/pipelines/reference.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="about/team">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation contents under <a href="/LICENSE-CC">CC BY 3.0</a>, and MOLGENIS software code under the <a href="/LICENSE-LGPLv3">LGPLv3 License</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">MOLGENIS Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">MOLGENIS Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer><script src="/res/js/prism.js"></script></body></html>
