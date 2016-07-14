@@ -1,0 +1,437 @@
+<!DOCTYPE html><!--[if lt IE 8]><html lang="en" class="ie"><![endif]--><!--[if gt IE 8]><!--><html lang="en"><!--<![endif]--><head><meta charset="utf-8"><title>MOLGENIS - Protocols</title><meta name="description" content="Steps explained"><meta name="author" content="MOLGENIS community"><meta name="handheldfriendly" content="true"><meta name="mobileoptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="cleartype" content="on"><script src="/res/js/jquery-1.11.3.min.js"> </script><script src="/res/js/bootstrap.min.js"></script><link rel="stylesheet" href="/res/css/prism.css"><link rel="stylesheet" href="/res/css/application.css" type="text/css"><link rel="shortcut icon" href="/favicon.png" type="image/png"><link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" title="undefined"></head><body><header class="molgenis-docs-header"><div role="navigation" class="navbar navbar-fixed-top"><div class="header-container"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand active"><img src="/res/images/wordmark-blue.png" alt="undefined" class="wordmark"/></a></div><div class="collapse navbar-collapse">              <ul class="nav navbar-nav"><li><a href="/software">TOOLS</a></li><li><a href="/documentation">DOCUMENTATION</a></li><li class="active"><a href="/pipelines">PIPELINES</a></li><li><a href="/develop">DEVELOP</a></li><li><a href="/support">SUPPORT</a></li><li><a href="#searchbox" data-toggle="collapse"><i class="glyphicon glyphicon-search"></i></a></li></ul></div></div></div><div id="searchbox" class="collapse"><form role="search" action="/search-results"><input placeholder="Search" name="q" class="form-control"/></form></div><div class="molgenis-docs-titlebar active"><div class="container"> <h1>Protocols</h1><p>Steps explained   </p></div></div></header><div class="molgenis-docs-body"><div class="container"><div class="row"><div role="complementary" class="col-md-3"><nav id="molgenis-docs-sidebar" class="molgenis-docs-sidebar hidden-print hidden-xs hidden-sm"><ul id="molgenis-docs-sidenav" class="nav molgenis-docs-sidenav"></ul></nav><script>$(function() {
+    var sideNav = $("#molgenis-docs-sidenav");
+    var index = 0;
+    $(".row h1").each(function() {
+        
+        //create id for h1
+        var id = (index++) + $(this).text().replace(/\s/gi,"-").replace(/\W/g,"").toLowerCase();
+        $(this).prepend("<a name=\""+id+"\"></a>");
+        
+        //add h1 to list
+        var li = $("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>")
+        sideNav.append(li);
+        
+        //wrap h1 into section
+        var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+        //wrap parts of h1 into one section
+        $(this).parent().nextUntil("h1").each(function(){            
+            section.append($(this));
+        });
+        
+        //repeat for h2
+        if($("h2",$(this).parent()).length > 0) {
+            var ul = $("<ul class=\"nav\"></ul>");
+            li.append(ul);
+            
+            $("h2",$(this).parent()).each(function(){
+            
+                //create id for h2
+                var id = (index++) + $(this).text().replace(/\s/gi,"-").replace(/\W/g,"").toLowerCase();
+                $(this).prepend("<a name=\""+id+"\"></a>");
+        
+                //wrap h2 into section
+                var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+                ul.append($("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>"));
+        
+                //wrap parts of h2 into one section
+                $(this).parent().nextUntil("h2").each(function(){            
+                    section.append($(this));
+                });
+            
+
+            });
+        }
+    });    
+    
+    //add "back to top"
+    sideNav.append("<li><a href=\"#top\" style=\"font-size:smaller\">Back to top</a></li>");
+    var $body   = $(document.body);
+    
+    //enable the 'active' highlighting using scrollspy plugin
+    $('body').scrollspy({
+        target: '#molgenis-docs-sidebar'
+    });
+    $('#molgenis-docs-sidebar').width($('#molgenis-docs-sidebar').parent().width());
+    
+    //enable affix
+    $('#molgenis-docs-sidebar').affix({
+        offset: {
+            top: $('#molgenis-docs-sidebar').offset().top,
+            bottom: $('.molgenis-docs-footer').outerHeight(true) + 10
+        }
+    });
+    
+    //resize affix box when window resizes
+    $(window).resize(function () {
+            $('.molgenis-docs-sidebar').width($('#molgenis-docs-sidebar').parent().width());
+        });
+    
+    $("table").addClass("table table-bordered");
+});</script></div><div role="main" class="col-md-9 contents"><h1>Preprocessing (aligning --&gt; bam )</h1><h3>Step 1: Spike in the PhiX reads</h3><p>To see whether the pipeline ran correctly. The reads will be inserted in each sample. Later on (step 23) of the pipeline there will be a concordance check to see if the SNPs that are put in, will be found.</p>
+<p>Scriptname: SpikePhiX</p>
+<p>Input: raw sequence file in the form of a gzipped fastq file</p>
+<p>Output: FastQ files (${filePrefix}<em>${lane}</em>${barcode}.fq.gz)*</p>
+<h3>Step 2: Check the Illumina encoding</h3><p>In this step the encoding of the FastQ files will be checked. Older (2012 and older) sequence data contains the old Phred+64 encoding (this is called Illumina 1.5 encoding), new sequence data is encoded in Illumina 1.8 or 1.9 (Phred+33). If the data is 1.5, it will be converted to 1.9 encoding</p>
+<p>Scriptname: CheckIlluminaEncoding
+Input:. FastQ files (${filePrefix}<em>${lane}</em>${barcode}.fq.gz)*</p>
+<h3>Step 3: Calculate QC metrics on raw data</h3><p>In this step, Fastqc, quality control (QC) metrics are calculated for the raw sequencing data. This is done using the tool FastQC. This tool will run a series of tests on the input file. The output is a text file containing the output data which is used to create a summary in the form of several HTML pages with graphs for each test. Both the text file and the HTML document provide a flag for each test: pass, warning or fail. This flag is based on criteria set by the makers of this tool. Warnings or even failures do not necessarily mean that there is a problem with the data, only that it is unusual compared to the used criteria. It is possible that the biological nature of the sample means that this particular bias is to be expected.</p>
+<p>Toolname: FastQC</p>
+<p>Scriptname: Fastqc</p>
+<p>Input: FastQ files (${filePrefix}<em>${lane}</em>${barcode}.fq.gz)</p>
+<p>Output: ${filePrefix}.fastqc.zip archive containing amongst others the HTML document and the text file</p>
+<pre><code>fastqc \
+    fastq1.gz \
+    fastq2.gz \
+    -o outputDirectory
+</code></pre><h3>Step 4: Read alignment against reference sequence</h3><p>In this step, the Burrows-Wheeler Aligner (BWA) is used to align the (mostly paired end) sequencing data to the reference genome. The method that is used is BWA mem. The output is a SAM file.</p>
+<p>Scriptname: BwaAlign</p>
+<p>Input: raw sequence file in the form of a gzipped fastq file (${filePrefix}.fq.gz)
+Output: SAM formatted file (${filePrefix}.sam)</p>
+<p>Toolname: BWA</p>
+<pre><code>bwa mem \
+    -M \
+    -R $READGROUPLINE \
+    -t 8 \
+    -human_g1k_v37.fasta \
+    -fastq1.gz \
+    -fastq2.gz \
+    &gt; output.sam
+</code></pre><h3>Step 5: Convert SAM to BAM</h3><p>Using the Picard SamFormatConverter the SAM file generated by the previous step is converted to a compressed binary format (BAM).</p>
+<p>Toolname: Picard SamFormatConverter</p>
+<p>Scriptname: SamToBam</p>
+<p>Input: SAM file generated in step 4 (${filePrefix}.sam)</p>
+<p>Output: compressed binary (BAM) format (${filePrefix}.bam)</p>
+<pre><code>java -jar -Xmx3g picard.jar SamFormatConverter \
+    INPUT= input.sam \
+    OUTPUT= output.bam \
+    VALIDATION_STRINGENCY=LENIENT \
+    MAX_RECORDS_IN_RAM=2000000
+</code></pre><h3>Step 6: Sort BAM and build index</h3><p>The reads in the BAM file are sorted (coordinate based) using Sambamba sort . An index file is generated automatically, this allows for efficient random access to the BAM file and is used by many tools to speed up reading from a BAM file.</p>
+<p>Toolname: Sambamba sort</p>
+<p>Scriptname: SortBam</p>
+<p>Input: BAM file from step 5</p>
+<p>Output:</p>
+<ul>
+<li>Sorted BAM file (${sample}.sorted.bam)</li>
+<li>Index file (${sample}.sorted.bai)</li>
+</ul>
+<pre><code>sambamba sort \
+    -t 10 \
+    -m 4GB \
+    -o output.bam \
+    input.bam
+</code></pre><h3>Step 7: Merge BAMs and build index</h3><p>To improve the coverage of sequence alignments, a sample can be sequenced on multiple lanes and/or flowcells. If this is the case for the sample(s) being analyzed, this step merges all BAM files of one sample and indexes this new file. If there is just one BAM file for a sample, nothing happens.</p>
+<p>Toolname: Sambamba merge</p>
+<p>Scriptname: SambambaMerge</p>
+<p>Input: BAM files from step 6 (${sample}.sorted.bam)</p>
+<p>Output: merged BAM file (${sample}.merged.bam)</p>
+<pre><code>sambamba merge \
+    output.bam \
+    ${ARRAYOFINPUTBAMS[@]}
+</code></pre><h3>Step 8: Mark duplicates + creating dedup metrics</h3><p>In this step, the BAM file is examined to locate duplicate reads, using Sambamba markdup. A mapped read is considered to be duplicate if the start and end base of two or more reads are located at the same chromosomal position in comparison to the reference genome. For paired-end data the start and end locations for both ends need to be the same to be called duplicate. One read pair of these duplicates is kept, the remaining ones are flagged as being duplicate.</p>
+<p>Toolname: Sambamba markdup &amp; Sambamba flagstat</p>
+<p>Scriptname: MarkDuplicates</p>
+<p>Input: Merged BAM file from generated in step 7 (${sample}.merged.bam)</p>
+<p>Output:</p>
+<ul>
+<li>BAM file with duplicates flagged (${sample}.dedup.bam)</li>
+<li>BAM index file (${sample}.dedup.bam.bai)</li>
+<li>Dedup metrics file (${sample}.merged.dedup.metrics)</li>
+</ul>
+<p>Mark duplicates:</p>
+<pre><code>sambamba markdup \
+    --nthreads=4 \
+    --overflow-list-size 1000000 \
+    --hash-table-size 1000000 \
+    -p \
+    input.bam \
+    output.bam
+</code></pre><p>dedup metrics:</p>
+<pre><code>sambamba flagstat \
+    --nthreads=4 \
+    input.bam \
+    &gt; output.flagstat
+</code></pre><h1>Indel calling with Delly</h1><h3>Step 09a: Calling big deletions with Delly</h3><p>In this step, the progam Delly calls deletions from the merged BAM file. The deletions are written to a VCF file, along with information such as difference in length between REF and ALT alleles, type of structural variant end information about allele depth.</p>
+<p>Toolname: Delly</p>
+<p>Scriptname: Delly</p>
+<p>Input: merged BAM file from step 7 (${sample}.merged.bam)
+Output: indels in VCF (${sample}.delly.vcf)</p>
+<pre><code>delly \
+    -n \
+    -t DEL \
+    -x human.hg19.excl.tsv \
+    -o outputDelly.vcf \
+    -g human_g1k_v37.fa \
+    input.bam
+</code></pre><h3>Step 09b. Delly annotator</h3><p>There will be some annotation to the produced vcf by Delly. This step will add hpo terms and snpEff annotation</p>
+<p>Toolname: CmdAnnotator</p>
+<p>Scriptname: DellyAnnotator</p>
+<p>Input: indels in VCF (${sample}.delly.vcf)</p>
+<p>Output:</p>
+<ul>
+<li>${sample}.delly.snpeff.vcf</li>
+<li>${sample}.snpeff.hpo.vcf</li>
+</ul>
+<p>snpEff:</p>
+<pre><code>java -Xmx10g -jar CmdLineAnnotator-1.9.0.jar \
+    snpEff \
+    snpEff.jar \
+    outputDelly.vcf \
+    snpEffAnnotatedoutputDelly.vcf
+</code></pre><p>HPO:</p>
+<pre><code>java -Xmx10g -jar CmdLineAnnotator-1.9.0.jar \
+    hpo \
+    ALL_SOURCES_TYPICAL_FEATURES_diseases_to_genes_to_phenotypes.txt \
+    snpEffoutputDelly.vcf \
+    snpEff_and_HPO_AnnotatedoutputDelly.vcf
+</code></pre><h1>Determine gender</h1><h3>Step 10a: GenderCalculate</h3><p>Due to the fact a male has only one X chromosome it is important to know if the sample is male or female. Calculating the coverage on the non pseudo autosomal region and compare this to the average coverage on the complete genome predicts male or female well.</p>
+<p>Toolname: Picard CalculateHSMetrics
+Scriptname: GenderCalculate</p>
+<p>Input: dedup BAM file (${sample}.dedup.bam)</p>
+<p>Output: ${dedupBam}.nonAutosomalRegionChrX_hs_metrics</p>
+<pre><code>java -jar -Xmx4g picard.jar CalculateHsMetrics \
+    INPUT=input.bam \
+    TARGET_INTERVALS=input.nonAutosomalChrX.interval_list \
+    BAIT_INTERVALS=input.nonAutosomalChrX.interval_list \
+    OUTPUT=output.nonAutosomalRegionChrX_hs_metrics
+</code></pre><h1>Side steps (Cram conversion and concordance check)</h1><h3>Step 10b: CramConversion</h3><p>Producing more compressed bam files, decreasing size with 40%</p>
+<p>Scriptname: CramConversion
+Toolname: Scramble</p>
+<p>Input: dedup BAM file (${sample}.dedup.bam)</p>
+<p>Output: dedup CRAM file (${sample}.dedup.bam.cram)</p>
+<pre><code>scramble \
+    -I bam \
+    -O cram \
+    -r human_g1k_v37.fa \
+    -m \
+    -t 8 \
+    input.bam \
+    output.cram
+</code></pre><h3>Step 11: Make md5’s for the realigned bams</h3><p>Small step to create md5sums for the realigned bams created in step 9</p>
+<p>Input: realigned BAM file (.realigned.bam)</p>
+<p>Output: md5sums (.realigned.bam.md5)</p>
+<h3>Step 12: SequonomConcordance Check</h3><p>Scriptname: SequenomConcordanceCheck</p>
+<p>As a last measure of quality of the SNPs reported in the previous steps, the concordance between the SNPs and the SNPs called using a Sequenom of the same sample is checked. If at least … SNPs overlap and the concordance is around 97% or higher, the SNPs reported in the previous steps are accepted as being of reliable quality and exclude a potential sample swap.</p>
+<p>The concordance check is done in several steps (provided Sequenom report is present):</p>
+<p>● sed, awk, uniq, sort, grep to convert the Sequenom report of an analyzed sample into map, lgen and fam files (plink long-format fileset)</p>
+<p>● plink-1.07 recode which is used for creating a *.bed file</p>
+<p>● plink 1.08 unpublished development version recode which is used to create a genotype in *.vcf format</p>
+<p>● command line Perl to change the header</p>
+<p>● sed and awk to convert from vcf to bed</p>
+<p>● fastaFromBed from BEDTools-Version-2.11.2 to create a uscs style tab elimited fasta file from the bed file, using reference sequence build 37</p>
+<p>● align-vcf-to-ref.pl from inhouse_scripts</p>
+<p>● head, sed, cat to change header</p>
+<p>● iChip_pos_to_interval_list.pl from inhouse_scripts is used to create an interval list of Sequenom SNPs which is used to call inhouse SNPs</p>
+<p>● GATK-1.2-1-g33967a4 UnifiedGenotyper which is used for calling SNPs on all positions known to be on array and VCF and calculating the concordance between array SNPs and inhouse pipeline SNPs</p>
+<p>● change_vcf_filter.pl from inhouse scripts is used to change the FILTER column from GATK &quot;called SNPs&quot;. All SNPs having Q20 &amp; DP10 change to &quot;PASS&quot;, all other SNPs are &quot;filtered&quot; (not used in concordance check)</p>
+<p>● GATK-1.2-1-g33967a4 VariantEval to calculate condordance between Sequenom SNPs and GATK &quot;called SNPs&quot;</p>
+<p>● echo to prepare the header of the output concordance file</p>
+<p>● R script extract_info_GATK_variantEval_V3.R (using library from GATK-1.3-24-gc8b1c92) from inhouse scripts to format the concordance output file.</p>
+<p>When the Sequenom report is not present no concordance can be calculated, an empty concordance output file with a header and one row of NAs is created on the fly.</p>
+<p>Toolname: BASH programs (sed, awk, uniq, sort, grep, head, cat, echo), plink-1.07, plink 1.08, fastaFromBed (BEDTools-Version-2.11.2), align-vcf-to-ref.pl from inhouse_scripts, iChip_pos_to_interval_list.pl from inhouse_scripts, GATK-1.2-1-g33967a4 UnifiedGenotyper, change_vcf_filter.pl from inhouse scripts,</p>
+<p>GATK-1.2-1-g33967a4 VariantEval, extract_info_GATK_variantEval_V3.R (using library from GATK-1.3-24-gc8b1c92) from inhouse scripts.</p>
+<p>Scriptname: ConcordanceCheck</p>
+<p>Input: SNP file generated with a Sequenom.</p>
+<p>Output: concordance file (.concordance.ngsVSSequenom.txt)</p>
+<h1>Coverage calculations (Diagnostics only)</h1><h3>Step 13: Calculate coverage per base and per target</h3><p>Calculates coverage per base and per target, the output will contain chromosomal position, coverage per base and gene annotation</p>
+<p>Toolname: GATK DepthOfCoverage</p>
+<p>Scriptname: CoverageCalculations</p>
+<p>Input: dedup BAM file (.merged.dedup.bam)</p>
+<p>Output: tab delimeted file containing chromosomal position, coverage per base and Gene annotation name (.coveragePerBase.txt)</p>
+<p>Per base:</p>
+<pre><code>java -Xmx10g -jar GenomeAnalysisTK.jar \
+    -R human_g1k_v37.fa \
+    -T DepthOfCoverage \
+    -o region.coveragePerBase \
+    --omitLocusTable \
+    -I input.bam \
+    -L region.bed
+</code></pre><p>Per target:</p>
+<pre><code>java -Xmx10g -jar GenomeAnalysisTK.jar \
+    -R human_g1k_v37.fa \
+    -T DepthOfCoverage \
+    -o region.coveragePerTarget \
+    --omitDepthOutputAtEachBase \
+    -I input.bam \
+    -L region.bed
+</code></pre><h1>Metrics calculations</h1><h3>Step 14 (a,b,c,d): Calculate alignment QC metrics</h3><p>In this step, QC metrics are calculated for the alignment created in the previous steps. This is done using several QC related Picard tools:</p>
+<p>● CollectAlignmentSummaryMetrics
+● CollectGcBiasMetrics
+● CollectInsertSizeMetrics
+● MeanQualityByCycle (machine cycle)
+● QualityScoreDistribution
+● CalculateHsMetrics (hybrid selection)
+● BamIndexStats</p>
+<p>These metrics are later used to create tables and graphs (step 24). The Picard tools also output a PDF version of the data themselves, containing graphs.</p>
+<p>Toolname: several Picard QC tools</p>
+<p>Scriptname: Collect metrics</p>
+<p>Input: dedup BAM file (.merged.dedup.bam)</p>
+<p>Output: alignmentmetrics, gcbiasmetrics, insertsizemetrics, meanqualitybycycle, qualityscoredistribution, hsmetrics, bamindexstats (text files and matching PDF files)</p>
+<h1>Determine Gender</h1><h3>Step 15: Gender check</h3><p>Due to the fact a male has only one X chromosome it is important to know if the sample is male or female. Calculating the coverage on the non pseudo autosomal region and compare this to the average coverage on the complete genome predicts male or female well.</p>
+<p>Scriptname: GenderCheck
+Input: ${dedupBam}.hs_metrics (step 14 &amp; ${dedupBam}.nonAutosomalRegionChrX_hs_metrics (step 10a)</p>
+<p>Output: ${sample}.chosenSex.txt</p>
+<h1>Variant discovery</h1><h3>Step 16a: Call variants (VariantCalling)</h3><p>The GATK HaplotypeCaller estimates the most likely genotypes and allele frequencies in an alignment using a Bayesian likelihood model for every position of the genome regardless of whether a variant was detected at that site or not. This information can later be used in the project based genotyping step.</p>
+<p>Toolname: GATK HaplotypeCaller</p>
+<p>Scriptname: VariantGVCFCalling</p>
+<p>Input: merged BAM files
+Output: gVCF file (${sample}.${batchBed}.variant.calls.g.vcf)</p>
+<pre><code>java -Xmx12g -jar GenomeAnalysisTK.jar \
+    -T HaplotypeCaller \
+    -R human_g1k_v37.fa \
+    -I inputBam.bam \
+    -dontUseSoftClippedBases \
+    --dbsnp dbsnp_137.b37.vcf \
+    -stand_emit_conf 20.0 \
+    -stand_call_conf 10.0 \
+    -o output.g.vcf \
+    -L captured.bed \
+    --emitRefConfidence GVCF \
+    -ploidy 2  ##ploidy 1 in non autosomal chr X region in male##
+</code></pre><h3>Step 16b: Combine variants</h3><p>When there 200 or more samples the gVCF files should be combined into batches of equal size. (NB: These batches are different then the ${batchBed}.) The batches will be calculated and created in this step. If there are less then 200, this step will automatically be skipped.</p>
+<p>Toolname: GATK CombineGVCFs</p>
+<p>Scriptname: VariantGVCFCombine</p>
+<p>Input: gVCF file (from step 16a)</p>
+<p>Output: Multiple combined gVCF files (${project}.${batchBed}.variant.calls.combined.g.vcf{batch}</p>
+<pre><code>java -Xmx30g -jar GenomeAnalysisTK.jar \
+    -T CombineGVCFs \
+    -R human_g1k_v37.fa \
+    -o batch_output.g.vcf \
+    ${ArrayWithgVCF[@]}
+</code></pre><h3>Step 16c: Genotype variants</h3><p>In this step there will be a joint analysis over all the samples in the project. This leads to a posterior probability of a variant allele at a site. SNPs and small Indels are written to a VCF file, along with information such as genotype quality, allele frequency, strand bias and read depth for that SNP/Indel.</p>
+<p>Toolname: GATK GenotypeGVCFs</p>
+<p>Scriptname: VariantGVCFGenotype</p>
+<p>Input: gVCF files from step 16a <strong>or</strong> combined gVCF files from step 16b</p>
+<p>Output: VCF file for all the samples in the project (${project}.${batchBed}.variant.calls.genotyped.vcf)</p>
+<pre><code>java -Xmx16g -jar GenomeAnalysisTK.jar \
+    -T GenotypeGVCFs \
+    -R human_g1k_v37.fa \
+    -L captured.bed \
+    --dbsnp dbsnp_137.b37.vcf \
+    -o output.vcf \
+    ${ArrayWithgVCF[@]}
+</code></pre><h3>Step 17: Merge batches</h3><p>Running GATK CatVariants to merge all the files created in the genotype variants step (Step 16c) into one.</p>
+<p>Tools: GATK CatVariants</p>
+<p>Scriptname: MergeChrAndSplitVariants</p>
+<p>Input: files created in step 16 (${project}.{batchBed}.variant.calls.vcf)</p>
+<p>Output: merged snp and indel file (${project}.variant.calls.GATK.sorted.vcf)</p>
+<h3>Step 18: VariantAnnotator</h3><p>An HTML file with some statistics and a text file with SNPs per gene and region are produced.</p>
+<p>Toolname: GATK VariantAnnotator</p>
+<p>Scriptname: StructuralVariantAnnotator</p>
+<p>Input: VCF file (.calls.vcf)</p>
+<p>Output: SNPeff VCF file (.annotated.vcf)</p>
+<pre><code>java -Xmx8g -jar GenomeAnalysisTK.jar \
+-T VariantAnnotator \
+-R human_g1k_v37.fa \
+-I input.bam \
+-A AlleleBalance \
+-A BaseCounts \
+-A BaseQualityRankSumTest \
+-A ChromosomeCounts \
+-A Coverage \
+-A FisherStrand \
+-A LikelihoodRankSumTest \
+-A MappingQualityRankSumTest \
+-A MappingQualityZeroBySample \
+-A ReadPosRankSumTest \
+-A RMSMappingQuality \
+-A QualByDepth \
+-A VariantType \
+-A AlleleBalanceBySample \
+-A DepthPerAlleleBySample \
+-A SpanningDeletions \
+--disable_auto_index_creation_and_locking_when_reading_rods \
+-D dbsnp_137.b37.vcf \
+--variant input.vcf \
+-L captured.bed \
+-o output.vcf \
+-nt 8
+</code></pre><h3>Step 19: Split indels and SNPs</h3><p>This step is necessary because the filtering of the vcf needs to be done seperately.</p>
+<p>Toolname: GATK SelectVariants</p>
+<p>Scriptname: SplitIndelsAndSNPs</p>
+<p>Input: VCF file (.annotated.vcf)</p>
+<p>Output: .annotated.indels.vcf and .annotated.snps.vcf</p>
+<h3>Step 20: (a) SNP and (b) Indel filtration</h3><p>Based on certain quality thresholds (based on GATK best practices) the SNPs and indels are filtered, and marked as Lowqual or Pass.</p>
+<p>Toolname: GATK VariantFiltration</p>
+<p>Scriptname: VariantFiltration</p>
+<p>Input:</p>
+<ul>
+<li>20a (.snpEff.annotated.snps.vcf)</li>
+<li>20b (.snpEff.annotated.indels.vcf)</li>
+</ul>
+<p>Output:</p>
+<ul>
+<li>20a filtered snp vcf file (.snpEff.annotated.filtered.snps.vcf)</li>
+<li>20b filtered indel vcf file (.snpEff.annotated.filtered.indels.vcf)</li>
+</ul>
+<p>SNP:</p>
+<pre><code>java-Xmx8g -Xms6g -jar GenomeAnalysisTK.jar \
+-T VariantFiltration \
+-R human_g1k_v37.fa\
+-o output.vcf \
+--variant inputSNP.vcf \
+--filterExpression &quot;QD &lt; 2.0&quot; \
+--filterName &quot;filterQD&quot; \
+--filterExpression &quot;MQ &lt; 25.0&quot; \
+--filterName &quot;filterMQ&quot; \
+--filterExpression &quot;FS &gt; 60.0&quot; \
+--filterName &quot;filterFS&quot; \
+--filterExpression &quot;MQRankSum &lt; -12.5&quot; \
+--filterName &quot;filterMQRankSum&quot; \
+--filterExpression &quot;ReadPosRankSum &lt; -8.0&quot; \
+--filterName &quot;filterReadPosRankSum&quot;
+</code></pre><p>Indel:</p>
+<pre><code>java-Xmx8g -Xms6g -jar GenomeAnalysisTK.jar \
+-T VariantFiltration \
+-R human_g1k_v37.fa\
+-o output.vcf \
+--variant inputIndel.vcf \
+--filterExpression &quot;QD &lt; 2.0&quot; \
+--filterName &quot;filterQD&quot; \
+--filterExpression &quot;FS &gt; 200.0&quot; \
+--filterName &quot;filterFS&quot; \
+--filterExpression &quot;ReadPosRankSum &lt; -20.0&quot; \
+--filterName &quot;filterReadPosRankSum&quot;
+</code></pre><h3>Step 21: Merge indels and SNPs</h3><p>Merge all the SNPs and indels into one file (per project) and merge SNPs and indels per sample.</p>
+<p>Toolname: GATK CombineVariants</p>
+<p>Scriptname: MergeIndelsAndSnps</p>
+<p>Input: .annotated.filtered.indels.vcf and .annotated.snps.vcf</p>
+<p>Output:</p>
+<ul>
+<li>${sample}.final.vcf</li>
+<li>${project}.final.vcf</li>
+</ul>
+<h3>Step 22: Convert structural variants VCF to table</h3><p>In this step the indels in VCF format are converted into a tabular format using Perlscript vcf2tab by F. Van Dijk.</p>
+<p>Toolname: vcf2tab.pl</p>
+<p>Scriptname: IndelVcfToTable</p>
+<p>Input: (${sample}.final.vcf)</p>
+<p>Output: (${sample}.final.vcf.table)</p>
+<h1>QC-ing</h1><h3>Step 23: In silico concordance check</h3><p>The reads that are inserted contain SNPs that are handmade. To see whether the pipeline ran correctly at least these SNPs should be found.</p>
+<p>Input: InSilicoData.chrNC_001422.1.variant.calls.vcf and ${sample}.variant.calls.GATK.sorted.vcf</p>
+<p>Output: inSilicoConcordance.txt</p>
+<h3>Step 24a: Prepare QC Report, collecting metrics</h3><p>Combining all the statistics which are used in the QC report.</p>
+<p>Scriptname:QCStats</p>
+<p>Toolname: pull_DNA_Seq_Stats.py</p>
+<p>Input: metrics files from steps 14a/b/c/d (<em>.hsmetrics, </em>.alignmentmetrics, <em>.insertsizemetrics), flagstat file and concordance file (</em>.dedup.metrics.concordance.ngsVSarray.txt)</p>
+<p>Output: ${sample}.total.qc.metrics.table</p>
+<h3>Step 24b: Generate quality control report</h3><p>The step in the inhouse sequence analysis pipeline is to output the statistics and metrics from each step that produced such data that was collected in the QCStats step before. From these, tables and graphs are produced. Reports are then created and written to a separate quality control (QC) directory, located IN RunNr/Results/qc/statistics. This report will be outputted in html and pdf. Converting html to pdf the tool wkhtmltopdf is used.</p>
+<p>Toolname: wkhtmltopdf</p>
+<p>Scriptname: QCReport</p>
+<p>Input: ${sample}.total.qc.metrics.table</p>
+<p>Output: A quality control report html(<em>_QCReport.html) and pdf (</em>_QCReport.html)</p>
+<h3>Step 25: Check if all files are finished</h3><p>This step is checking if all the steps in the pipeline are actually finished. It sometimes happens that a job is not submitted to the scheduler. If everything is finished than it will write a file called CountAllFinishedFiles_CORRECT, if not it will make CountAllFinishedFiles_INCORRECT. When it is not all finished it will show in the CountAllFinishedFiles_INCORRECT file which files are not finished yet.</p>
+<p>Scriptname: CountAllFinishedFiles</p>
+<p>Input: all .sh scripts + all .sh.finished files in the jobs folder</p>
+<p>Output: CountAllFinishedFiles_CORRECT or CountAllFinishedFiles_INCORRECT</p>
+<h3>Step 26: Prepare data to ship to the customer</h3><p>In this last step the final results of the inhouse sequence analysis pipeline are gathered and prepared to be shipped to the customer. The pipeline tools and scripts write intermediate results to a temporary directory. From these, a selection is copied to a results directory. This directory has five subdirectories:</p>
+<p>o alignment: the merged BAM file with index
+o coverage: coverage statistics and plots
+o coverage_visualization: coverage BEDfiles
+o qc: all QC files, from which the QC report is made
+o rawdata/ngs: symbolic links to the raw sequence files and their md5 sum
+o snps: all SNP calls in VCF format and in tab-delimited format
+o structural_variants: all SVs calls in VCF and in tab-delimited format
+Additionally, the results directory contains the final QC report, the worksheet which was the basis for this analysis (see 4.2) and a zipped archive with the data that will be shipped to the client (see: GCC_P0006_Datashipment.docx). The archive is accompanied by an md5 sum and README file explaining the contents.</p>
+<p>Scriptname: CopyToResultsDir</p><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/pipelines/ngs-protocols.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="about/team">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation contents under <a href="/LICENSE-CC">CC BY 3.0</a>, and MOLGENIS software code under the <a href="/LICENSE-LGPLv3">LGPLv3 License</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">MOLGENIS Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">MOLGENIS Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer><script src="/res/js/prism.js"></script></body></html>
