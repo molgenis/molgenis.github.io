@@ -87,6 +87,9 @@ You can download, install and use MOLGENIS for free under license <a href="">LGP
     admin.password=admin  
     user.password=admin
 </code></pre><p>Remember the <em>omx</em> specified in your db_uri, because this will be the name of the database you will create later on in MySQL. This effectively means that whatever you call your database, your db_uri should point to it.</p>
+<p>To make it clear to tomcat where to find your properties file, you have to edit the setenv.sh file in the apache-tomcat folder. The additional options tell tomcat to use specific settings.</p>
+<pre><code>echo &#39;CATALINA_OPTS=&quot;-Xmx2g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Dmolgenis.home=${molgenis_home_folder}&quot;&#39; &gt; ${apache-tomcat_folder}/bin/setenv.sh
+</code></pre><p>The -Dmolgenis.home property tells tomcat where to find your properties file. Note that you should <strong>NOT</strong> use relative paths in your apache-tomcat configuration. Always use absolute paths to point to your molgenis-server.properties.</p>
 <p><strong>Setting up your MySQL</strong><br>If you are unfamiliar with MySQL, follow one of their <a href="http://dev.mysql.com/doc/refman/5.7/en/windows-installation.html">MySQL installation guides</a>. Once you have a MySQL server running, login as admin user and type the following commands:</p>
 <pre><code class="language-sql">    create database omx;  
     grant all privileges on omx.* to molgenis@localhost identified by &#39;molgenis&#39;;  
