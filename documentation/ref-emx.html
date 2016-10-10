@@ -72,7 +72,7 @@
 });</script></div><div role="main" class="col-md-9 contents"><p><strong>
 EMX (entity model extensible) is a flexible spreadsheet format to easily upload any tabular data using Excel or a zipfile of tab-delimited *.tsv files. This works because you can tell MOLGENIS the &#39;model&#39; of your data via a special sheet named &#39;attributes&#39;. Optionally, you can also add metadata on entities (i.e., classes, tables), and packages (i.e, models and submodels)
 </strong></p>
-<h1>Minimal example</h1><p>(<a href="/data/example1.xlsx">download</a>)</p>
+<h1>Minimal example</h1><p>(<a href="/data/simple_data_example_v20160915.xlsx">download</a>)</p>
 <p>For example, if you want to upload an Excel with sheet &#39;patients&#39;:</p>
 <table>
 <thead>
@@ -165,7 +165,7 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 </table>
 <p>&#39;entity&#39; should show the name of your data sheet. Each attribute the column headers in your data. Default dataType is &#39;string&#39; so you only need to provide non-string values (int, date, decimal, etc). And you must always provide one idAttribute that has &#39;nillable&#39; = &#39;FALSE&#39;.</p>
 <p>You can first upload the &#39;model&#39; and then the &#39;data&#39;. Or you can put the both into one file and upload in one go. What you prefer :-) [todo: provide example files for download]</p>
-<h1>Advanced example</h1><p>(<a href="/data/example2.xlsx">download</a>)</p>
+<h1>Advanced example</h1><p>(<a href="/data/advanced_data_example_v20151104.xlsx">download</a>)</p>
 <p>Lets assume we want to upload multiple data sheets, with relations between them:</p>
 <p>Cities:</p>
 <table>
@@ -484,10 +484,10 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 <h3>description-{languageCode}</h3><p>Description for specified language (can be multiple languages, example: description-nl)</p>
 <h3>rangeMin</h3><p>Used to set range in case of int attributes</p>
 <h3>rangeMax</h3><p>Used to set range in case of int attributes</p>
-<h3>lookupAttribute</h3><p>true/false, default false
-Indicates if this attribute should appear in the xref/mref search dropdown in the dataexplorer.
-An entity inherits the lookupAttributes from the entity it extends.
-If an entity has no lookupAttributes, the labelAttribute is used in the dropdown.</p>
+<h3>lookupAttribute</h3><p>true/false, default false</p>
+<p>Indicates if this attribute should appear in the xref/mref search dropdown in the dataexplorer.</p>
+<p>An entity inherits the lookupAttributes from the entity it extends.</p>
+<p>If an entity has no lookupAttributes, the labelAttribute is used in the dropdown.</p>
 <h3>label</h3><p>optional human readable name of the attribute</p>
 <h3>label-{languageCode}</h3><p>label for specified language (can be multiple languages, example: label-nl)</p>
 <h3>aggregateable</h3><p>true/false to indicate if the user can use this atrribute in an aggregate query</p>

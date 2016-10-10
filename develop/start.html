@@ -130,13 +130,19 @@ should be in your home folder, if the file is not there yet, just create it.</p>
 <p>Right mouse &#39;molgenis&#39; -&gt; Run as -&gt; Maven build ... 
     In Goals type: clean install. 
     Under Goals check Update Snapshots and Resolve Workspace artifacts. 
-    In the JRE tab, add the VM argument; -Xmx2g
-    Click run</p>
-<p>Right mouse &#39;molgenis-app&#39; -&gt; Run as -&gt; Maven build ... 
+    In the JRE tab, add the VM arguments: </p>
+<pre><code>```
+-Xmx2g -Des.discovery.zen.ping.multicast.enabled=false -Des.network.host=localhost
+```
+Click run
+</code></pre><p>Right mouse &#39;molgenis-app&#39; -&gt; Run as -&gt; Maven build ... 
     in goals type &#39;jetty:run&#39; 
-    In the JRE tab, add the VM argument; -Xmx2g
-    Click run</p>
-<p>Open your browser at <a href="http://localhost:8080/">http://localhost:8080/</a></p>
+    In the JRE tab, add the VM arguments:</p>
+<pre><code>```
+-Xmx2g -Des.discovery.zen.ping.multicast.enabled=false -Des.network.host=localhost
+```
+Click run
+</code></pre><p>Open your browser at <a href="http://localhost:8080/">http://localhost:8080/</a></p>
 <p>You should see the application. Login as &#39;admin&#39;, &#39;admin&#39; to be able to upload and view data, create users, etc etc.</p>
 <h1>Update your code</h1><p>Add the original molgenis repository as a remote location.</p>
 <pre><code>cd ~/git/molgenis
@@ -145,7 +151,8 @@ git remote add blessed https://github.com/molgenis/molgenis.git
 <pre><code>git pull blessed master
 </code></pre><p>And push back any merges or commits of your own to your online fork.</p>
 <pre><code>git push origin master
-</code></pre><h1>Troubleshooting</h1><h2>When I build I get maven build error &#39;env not available&#39;.</h2><p>Solution: start Eclipse from commandline.</p>
+</code></pre><h2>Security</h2><p>See also the <a href="./security">MOLGENIS Security settings</a></p>
+<h1>Troubleshooting</h1><h2>When I build I get maven build error &#39;env not available&#39;.</h2><p>Solution: start Eclipse from commandline.</p>
 <h2>When I try to start an application, the console tells me &#39;Address already in use&#39;!</h2><p>Run the Maven target &#39;jetty:stop&#39;. If that does not help, use your operating systems process manager to kill anything running on port 8080. For example:</p>
 <pre><code>kill -9 `lsof -i :8080 -t`
 </code></pre><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/develop/start.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="http://www.gccgroningen.nl/about-us/people-at-the-gcc/">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation contents under <a href="/LICENSE-CC">CC BY 3.0</a>, and MOLGENIS software code under the <a href="/LICENSE-LGPLv3">LGPLv3 License</a>.<ul class="text-muted"><li>Version 1.8.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">MOLGENIS Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">MOLGENIS Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer><script src="/res/js/prism.js"></script></body></html>

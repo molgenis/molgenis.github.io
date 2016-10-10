@@ -145,6 +145,8 @@ So either run this example locally on your own MOLGENIS instance or Sign Up on o
 </li>
 </ul>
 <pre><code>library(&#39;RCurl&#39;)
+library(&#39;methods&#39;)
+library(&#39;bitops&#39;)
 eval(expr = parse(text = getURL(&quot;https://molgenis56.target.rug.nl/molgenis.R&quot;)))
 
 samples &lt;- molgenis.get(&quot;SampleAse&quot;, q=&quot;SNP_ID==${snp_id}&quot;)
@@ -154,7 +156,13 @@ max &lt;- max(samples$Ref_Counts, samples$Alt_Counts)
 
 plot(samples$Ref_Counts, samples$Alt_Counts, xlim = c(0, max), ylim = c(0, max), xlab=&#39;Reference Allele&#39;, ylab=&#39;Alternative Allele&#39;, main = &#39;Allele-Specific Expression for ${snp_id}&#39;)
 lines(c(0,max), c(0, max))
-</code></pre><p>Let&#39;s take a closer look at what happens here.</p>
+</code></pre><p>Note: If you are running this on localhost you might have to install the following packages through Rstudio/R command line;</p>
+<ul>
+<li>install.packages(&#39;rjson&#39;);</li>
+<li>install.packages(&#39;RCurl&#39;);</li>
+<li>install.packages(&#39;methods&#39;);</li>
+</ul>
+<p>Let&#39;s take a closer look at what happens here.</p>
 <p>First we fetch and source the MOLGENIS R API from molgenis56.
 This means it&#39;ll be set up to retrieve its data from molgenis56.</p>
 <p>Then we retrieve the samples using <code>molgenis.get</code>.</p>
