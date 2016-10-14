@@ -86,21 +86,21 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 </thead>
 <tbody>
 <tr>
-<td>john doe</td>
+<td>john_doe</td>
 <td>john</td>
 <td>doe</td>
 <td>1976-03-13</td>
 <td>new york</td>
 </tr>
 <tr>
-<td>jane doe</td>
+<td>jane_doe</td>
 <td>jane</td>
 <td>doe</td>
 <td></td>
 <td>metropolis</td>
 </tr>
 <tr>
-<td>papa doe</td>
+<td>papa_doe</td>
 <td>papa</td>
 <td>doe</td>
 <td></td>
@@ -178,7 +178,7 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 </thead>
 <tbody>
 <tr>
-<td>new york</td>
+<td>new_york</td>
 <td>40,712784</td>
 <td>-74,005941</td>
 </tr>
@@ -204,16 +204,16 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 </thead>
 <tbody>
 <tr>
-<td>john doe</td>
+<td>john_doe</td>
 <td>john</td>
 <td>doe</td>
 <td>1976-13-03</td>
-<td>new york</td>
+<td>new_york</td>
 <td></td>
 <td>none</td>
 </tr>
 <tr>
-<td>jane doe</td>
+<td>jane_doe</td>
 <td>jane</td>
 <td>doe</td>
 <td></td>
@@ -222,17 +222,18 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 <td>none</td>
 </tr>
 <tr>
-<td>pape doe</td>
+<td>papa_doe</td>
 <td>papa</td>
 <td>doe</td>
 <td></td>
-<td>new york</td>
-<td>john doe, jane doe</td>
+<td>new_york</td>
+<td>john_doe, jane_doe</td>
 <td>cardio</td>
 </tr>
 </tbody>
 </table>
-<p>Notes: birthplace refers to elements in the cityName values in the cities table. children contains comma separated values referring to another patient via displayName (trailing spaces will be removed).</p>
+<p>Notes: birthplace refers to elements in the cityName values in the cities table. children contains comma separated values referring to another patient via displayName (trailing spaces will be removed).
+Warning: when using excel, be sure your decimal separator is a &quot;.&quot;, instead of &quot;,&quot;, otherwise mrefs might be seen as decimals when their id is a number, this causes molgenis to see a dot between your references and the importer to fail when uploading.</p>
 <p>Users:</p>
 <table>
 <thead>
@@ -248,21 +249,21 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 <tr>
 <td>jdoe</td>
 <td>TRUE</td>
-<td>john doe</td>
+<td>john_doe</td>
 <td>john</td>
 <td>doe</td>
 </tr>
 <tr>
 <td>jdoe2</td>
 <td></td>
-<td>jane doe</td>
+<td>jane_doe</td>
 <td>jane</td>
 <td>doe</td>
 </tr>
 <tr>
 <td>pdoe</td>
 <td></td>
-<td>papa doe</td>
+<td>papa_doe</td>
 <td>papa</td>
 <td>doe</td>
 </tr>
@@ -313,7 +314,7 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 </tr>
 <tr>
 <td>displayName</td>
-<td>persons</td>
+<td>patients</td>
 <td></td>
 <td>FALSE</td>
 <td></td>
@@ -337,6 +338,15 @@ EMX (entity model extensible) is a flexible spreadsheet format to easily upload 
 <td></td>
 <td></td>
 <td>family name</td>
+</tr>
+<tr>
+<td>children</td>
+<td>patients</td>
+<td>mref</td>
+<td></td>
+<td>patients</td>
+<td></td>
+<td>children of a patient</td>
 </tr>
 <tr>
 <td>birthdate</td>
