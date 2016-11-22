@@ -486,6 +486,11 @@ Warning: when using excel, be sure your decimal separator is a &quot;.&quot;, in
 <li>categorical_mref : many-to-many relation to another entity; requires refEntity to be provided. Forms will display a complete list of options.</li>
 <li>compound : A way to assemble complex entities from building blocks (will be shown as tree in user interface); Don&#39;t forget to fill in the partOfAttribute configuration of the attributes that are grouped under this attribute. The partOfAttribute must contain the name of this new created compound attribute.</li>
 <li>file: <a href="https://github.com/molgenis/molgenis/wiki/File-datatype">create a column of the &#39;file&#39; data type</a> requires refEntity FileMeta.</li>
+<li>categorical: cross reference to another entity; requires refEntity to be provided (typically used when options are fixed, like &quot;Yes&quot;, &quot;No&quot;, &quot;Unknown&quot;). </li>
+<li>categorical mref: many-to-many relation to another entity; requires refEntity to be provided. Forms will display a complete list of options (typically used when options are fixed).</li>
+<li>e-mail: an email adres</li>
+<li>enum: a fixed list of options can be selected for this type. These options cannot be updated without editing meta-data. </li>
+<li>hyperlink: a link to a website </li>
 </ul>
 <h3>refEntity</h3><p>Used in combination with xref, mref or categorical. Should refer to an entity.</p>
 <h3>nillable</h3><p>Whether the column may be left empty. Default: false</p>
