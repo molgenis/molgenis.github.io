@@ -75,27 +75,44 @@ You can download, install and use MOLGENIS for free under license <a href="">LGP
 <h1>Using apache-tomcat</h1><p>The three components needed to run MOLGENIS locally or on a server are:</p>
 <ul>
 <li><a href="http://tomcat.apache.org/">apache-tomcat</a> </li>
-<li><a href="https://www.mysql.com/downloads/">MySQL</a></li>
+<li>MOLGENIS v1.21.5 or lower: <a href="https://www.mysql.com/downloads/">MySQL</a></li>
+<li>MOLGENIS v2.0 or higher: <a href="https://www.postgresql.org/download/">PostGreSQL</a></li>
 <li>The WAR for the <a href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.molgenis%22%20AND%20a%3A%22molgenis-app%22">latest molgenis-app release</a> from maven central.</li>
 </ul>
 <p>Deploy apache-tomcat, and place the molgenis-app WAR as the ROOT.war in your apache-tomcat/webapps folder. If you are unfamiliar with apache-tomcat, follow one of their <a href="https://tomcat.apache.org/tomcat-7.0-doc/deployer-howto.html">apache-tomcat installation guides</a>.</p>
-<p>Now that your apache-tomcat is running and MOLGENIS is deployed, you will notice it will not work yet. This is because your MySQL needs to be configured, and a single properties file needs to be set.</p>
-<p><strong>Setting your molgenis-server.properties</strong><br>MOLGENIS will try to find its property file at <em><user_home>/.molgenis/omx/</user_home></em>. Create this folder, and create the molgenis-server.properties file. Open the file and write the following lines:</p>
+<p>Now that your apache-tomcat is running and MOLGENIS is deployed, you will notice it will not work yet. This is because your database needs to be configured, and a single properties file needs to be set.</p>
+<p><strong>Setting your molgenis-server.properties</strong><br>The properties file supplies information to the application regarding the database URL, and the initial administrator password. To make it clear to tomcat where to find your properties file, you have to edit the setenv.sh file in the apache-tomcat folder.</p>
+<pre><code>echo &#39;CATALINA_OPTS=&quot;-Xmx2g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Dmolgenis.home=${molgenis_home_folder}&quot;&#39; &gt; ${apache-tomcat_folder}/bin/setenv.sh
+</code></pre><p>The <strong>-Dmolgenis.home</strong> property tells tomcat where to find your properties file. Replace the ${molgenis_home_folder} with the location of your molgenis home. Note that you should <strong>NOT</strong> use relative paths in your apache-tomcat configuration. Always use absolute paths to point to your molgenis-server.properties.</p>
+<p>Inside the specified molgenis home folder, create a file called <em>molgenis-server.properties</em>, and depending on the version of your MOLGENIS, write the following:</p>
+<p><strong>MOLGENIS v1.21.5 or lower</strong></p>
 <pre><code>    db_user=molgenis  
     db_password=molgenis  
-    db_uri=jdbc:mysql://localhost/omx  
+    db_uri=jdbc:mysql://localhost/molgenis  
     admin.password=admin  
     user.password=admin
-</code></pre><p>Remember the <em>omx</em> specified in your db_uri, because this will be the name of the database you will create later on in MySQL. This effectively means that whatever you call your database, your db_uri should point to it.</p>
-<p>To make it clear to tomcat where to find your properties file, you have to edit the setenv.sh file in the apache-tomcat folder. The additional options tell tomcat to use specific settings.</p>
-<pre><code>echo &#39;CATALINA_OPTS=&quot;-Xmx2g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Dmolgenis.home=${molgenis_home_folder}&quot;&#39; &gt; ${apache-tomcat_folder}/bin/setenv.sh
-</code></pre><p>The -Dmolgenis.home property tells tomcat where to find your properties file. Replace the ${molgenis_home_folder} with the location of your molgenis home. Note that you should <strong>NOT</strong> use relative paths in your apache-tomcat configuration. Always use absolute paths to point to your molgenis-server.properties.</p>
+</code></pre><p><strong>MOLGENIS v2.0 or higher</strong></p>
+<pre><code>    db_user=molgenis  
+    db_password=molgenis  
+    db_driver=org.postgresql.Driver
+    db_uri=jdbc\:postgresql\://localhost/molgenis?reWriteBatchedInserts=true&amp;autosave=CONSERVATIVE
+    admin.password=admin  
+    user.password=admin
+</code></pre><p>Remember the <em>molgenis</em> specified in your db_uri, because this will be the name of the database you will create later on in either MySQL or PostGreSQL. This effectively means that whatever you call your database, your db_uri should point to it.</p>
 <p><strong>Setting up your MySQL</strong><br>If you are unfamiliar with MySQL, follow one of their <a href="http://dev.mysql.com/doc/refman/5.7/en/windows-installation.html">MySQL installation guides</a>. Once you have a MySQL server running, login as admin user and type the following commands:</p>
-<pre><code class="language-sql">    create database omx;  
-    grant all privileges on omx.* to molgenis@localhost identified by &#39;molgenis&#39;;  
+<pre><code>    create database molgenis;  
+    grant all privileges on molgenis.* to molgenis@localhost identified by &#39;molgenis&#39;;  
     flush privileges;
-</code></pre>
-<p>Now that your MySQL server and properties file have been configured, restart the apache tomcat server.
+</code></pre><p>To allow MOLGENIS to connect to MySQL, you also need to add a MySQL connector to your apache-tomcat lib folder.</p>
+<pre><code>cd ${apache-tomcat_folder}/lib/
+wget http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.28/mysql-connector-java-5.1.28.jar
+</code></pre><p><strong>Setting up your PostGreSQL</strong><br>If you are unfamiliar with PostGreSQL, follow one of their <a href="https://www.postgresql.org/docs/9.6/static/index.html">PostGreSQL installation guides</a>. Once you have a PostGreSQL server running, open up the included pgAdmin application that is supplied with most PostGreSQL installations, and perform the following actions:</p>
+<ul>
+<li>Add a database &#39;molgenis&#39;</li>
+<li>Add a user &#39;molgenis&#39; (password &#39;molgenis&#39;) under Login Roles</li>
+<li>Add &#39;can create databases&#39; privilege to user &#39;molgenis&#39;</li>
+</ul>
+<p>Now that your database server and properties file have been configured, restart the apache tomcat server.
 If you open up a web browser and navigate to where your apache-tomcat applications are deployed (often this is localhost:8080) you should see the following:  </p>
 <p><img src="../res/images/molgenis_home_logged_out.png?raw=true," alt="" title="molgenis home page">  </p>
 <p>Congratulations! You now have your MOLGENIS application up and running. Remember the admin.password you set in the molgenis-server.properties file? Use that password to login as the admin user. The next section will take you through the different modules MOLGENIS has to offer.</p>
