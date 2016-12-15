@@ -73,22 +73,33 @@
 This was created using IntelliJ IDEA 2016.1 Ultimate, courteously provided to us by
 JetBrains on an open source license.</p>
 <h2>Middleware</h2><p>Before you start, make sure the following middleware is installed on your system.</p>
-<ul>
-<li>MySQL server.<ul>
-<li>Create a database called omx with a user molgenis that has full permissions on the database.</li>
-</ul>
-</li>
+<pre><code>* Create a database called omx with a user molgenis that has full permissions on the database.
+</code></pre><ul>
 <li>Java 8 JDK (latest version available from Oracle)</li>
 <li>Maven &gt;= 3.1.0 (The built-in maven version of IntelliJ is too old to compile molgenis.)</li>
-<li>Apache Tomcat 7 or 8</li>
-<li>MySQL JDBC driver. Put it in the lib/ext dir of your Tomcat installation.</li>
+<li>Apache Tomcat 7 or 8
+For MOlGENIS 1.x:</li>
+<li>MySQL server.</li>
+<li>MySQL JDBC driver. Put it in the lib/ext dir of your Tomcat installation.
+For MOLGENIS 2.x:</li>
+<li>PostGreSQL server. ([How to set up])</li>
 </ul>
 <h2>Molgenis settings</h2><p>You&#39;ll need a molgenis-server.properties file. In your home dir, create a folder
 <code>.molgenis</code>. In it create a folder called <code>omx</code>.
-Put a file in there called <code>molgenis-server.properties</code> and fill it with the
-JDBC url and molgenis user credentials for your MySQL molgenis database.
-See <a href="./start.html#server-props">the start documentation</a> for the contents of this file.</p>
-<h2>Set the maven home dir in IntelliJ</h2><ul>
+Put a file in there called <code>molgenis-server.properties</code> and fill it with this information:
+<strong>MOLGENIS v1.21.5 or lower</strong></p>
+<pre><code>    db_user=molgenis  
+    db_password=molgenis  
+    db_uri=jdbc:mysql://localhost/molgenis  
+    admin.password=admin  
+    user.password=admin
+</code></pre><p><strong>MOLGENIS v2.0 or higher</strong></p>
+<pre><code>    db_user=molgenis  
+    db_password=molgenis  
+    db_uri=jdbc\:postgresql\://localhost/molgenis?reWriteBatchedInserts=true&amp;autosave=CONSERVATIVE
+    admin.password=admin  
+    user.password=admin
+</code></pre><h2>Set the maven home dir in IntelliJ</h2><ul>
 <li>Open Preferences, Build Execution Deployment, Maven</li>
 <li>Set the home dir to where your &gt;= 3.1.0 maven installation lives.</li>
 </ul>

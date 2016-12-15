@@ -75,7 +75,8 @@ This document explains how to get the code, install the necessary software and c
 <h1>Software needed</h1><p>install java8 JDK (not JRE) from <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a></p>
 <p>install eclipse (we used Luna) from <a href="https://www.eclipse.org/downloads/">https://www.eclipse.org/downloads/</a>
 (or use <a href="./intellij.html">IntelliJ</a>)</p>
-<p>install mysql from (we used 5.6.23 DMG) <a href="http://dev.mysql.com/downloads/mysql/">http://dev.mysql.com/downloads/mysql/</a></p>
+<p>MOLGENIS v1.21.5 or lower: <a href="https://www.mysql.com/downloads/">install MySQL</a> (we used 5.6.23 DMG)
+MOLGENIS v2.0 or higher: <a href="https://www.postgresql.org/download/">install PostGreSQL</a></p>
 <p>install git from <a href="http://git-scm.com/download/">http://git-scm.com/download/</a></p>
 <h1>Configure mysql</h1><p>open terminal and start mysql client (command differs in Windows, Linux, Mac): </p>
 <pre><code>/usr/local/mysql/bin/mysql -u root
@@ -84,7 +85,14 @@ This document explains how to get the code, install the necessary software and c
 <pre><code>create database omx;
 grant all privileges on omx.* to molgenis@localhost identified by &#39;molgenis&#39;;
 flush privileges;
-</code></pre><h1>Configure Eclipse</h1><p>start Eclipse</p>
+</code></pre><h1>Configure postgresql</h1><p>If you are unfamiliar with PostGreSQL, follow one of their <a href="https://www.postgresql.org/docs/9.6/static/index.html">PostGreSQL installation guides</a>. Once you have a PostGreSQL server running, open up the included pgAdmin application that is supplied with most PostGreSQL installations, and perform the following actions:</p>
+<ul>
+<li>Add a database &#39;molgenis&#39;</li>
+<li>Add a user &#39;molgenis&#39; (password &#39;molgenis&#39;) under Login Roles</li>
+<li>Add &#39;can create databases&#39; privilege to user &#39;molgenis&#39;</li>
+</ul>
+<p>Now that your database server and properties file have been configured. </p>
+<h1>Configure Eclipse</h1><p>start Eclipse</p>
 <p>when asked, create fresh workspace folder (not same folder as git!)</p>
 <p>go to &#39;Help&#39; -&gt; &#39;Eclipse market place&#39;</p>
 <p>find and install plugins:</p>
@@ -114,12 +122,18 @@ git checkout -b &lt;tag name: see https://github.com/molgenis/molgenis/releases&
 <pre><code>mkdir -p ~/.molgenis/omx/
 </code></pre><p>Create the file ~/.molgenis/omx/molgenis-server.properties </p>
 <pre><code>nano ~/.molgenis/omx/molgenis-server.properties
-</code></pre><p>... and add user and database properties to this file:</p>
-<pre><code>db_user=molgenis
-db_password=molgenis
-db_uri=jdbc:mysql://localhost/omx
-admin.password=admin
-user.password=admin
+</code></pre><p>... and add user and database properties to this file when using MOLGENIS 1.21.5 or lower:</p>
+<pre><code>    db_user=molgenis  
+    db_password=molgenis  
+    db_uri=jdbc:mysql://localhost/molgenis  
+    admin.password=admin  
+    user.password=admin
+</code></pre><p>... or add user and database properties to this file when using MOLGENIS 2.0 or higher:</p>
+<pre><code>    db_user=molgenis  
+    db_password=molgenis  
+    db_uri=jdbc\:postgresql\://localhost/molgenis?reWriteBatchedInserts=true&amp;autosave=CONSERVATIVE
+    admin.password=admin  
+    user.password=admin
 </code></pre><p>If these properties are not present, the MolgenisDatabasePopulator will fail (RuntimeException). This properties-file
 should be in your home folder, if the file is not there yet, just create it.</p>
 <h1>Start MOLGENIS</h1><p>In eclipse, if still open, close the &#39;Welcome&#39; screen.</p>
