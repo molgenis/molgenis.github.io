@@ -1,0 +1,97 @@
+<!DOCTYPE html><!--[if lt IE 8]><html lang="en" class="ie"><![endif]--><!--[if gt IE 8]><!--><html lang="en"><!--<![endif]--><head><meta charset="utf-8"><title>MOLGENIS - Install pipeline</title><meta name="description" content="Installing NGS pipeline"><meta name="author" content="MOLGENIS community"><meta name="handheldfriendly" content="true"><meta name="mobileoptimized" content="320"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="cleartype" content="on"><script src="/res/js/jquery-1.11.3.min.js"> </script><script src="/res/js/bootstrap.min.js"></script><link rel="stylesheet" href="/res/css/prism.css"><link rel="stylesheet" href="/res/css/application.css" type="text/css"><link rel="shortcut icon" href="/favicon.png" type="image/png"><link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" title="undefined"></head><body><header class="molgenis-docs-header"><div role="navigation" class="navbar navbar-fixed-top"><div class="header-container"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand active"><img src="/res/images/wordmark-blue.png" alt="undefined" class="wordmark"/></a></div><div class="collapse navbar-collapse">              <ul class="nav navbar-nav"><li><a href="/software">TOOLS</a></li><li><a href="/documentation">DOCUMENTATION</a></li><li class="active"><a href="/pipelines">PIPELINES</a></li><li><a href="/develop">DEVELOP</a></li><li><a href="/support">SUPPORT</a></li><li><a href="#searchbox" data-toggle="collapse"><i class="glyphicon glyphicon-search"></i></a></li></ul></div></div></div><div id="searchbox" class="collapse"><form role="search" action="/search-results"><input placeholder="Search" name="q" class="form-control"/></form></div><div class="molgenis-docs-titlebar active"><div class="container"> <h1>Install pipeline</h1><p>Installing NGS pipeline   </p></div></div></header><div class="molgenis-docs-body"><div class="container"><div class="row"><div role="complementary" class="col-md-3"><nav id="molgenis-docs-sidebar" class="molgenis-docs-sidebar hidden-print hidden-xs hidden-sm"><ul id="molgenis-docs-sidenav" class="nav molgenis-docs-sidenav"></ul></nav><script>$(function() {
+    var sideNav = $("#molgenis-docs-sidenav");
+    var index = 0;
+    $(".row h1").each(function() {
+        
+        //create id for h1
+        var id = (index++) + $(this).text().replace(/\s/gi,"-").replace(/\W/g,"").toLowerCase();
+        $(this).prepend("<a name=\""+id+"\"></a>");
+        
+        //add h1 to list
+        var li = $("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>")
+        sideNav.append(li);
+        
+        //wrap h1 into section
+        var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+        //wrap parts of h1 into one section
+        $(this).parent().nextUntil("h1").each(function(){            
+            section.append($(this));
+        });
+        
+        //repeat for h2
+        if($("h2",$(this).parent()).length > 0) {
+            var ul = $("<ul class=\"nav\"></ul>");
+            li.append(ul);
+            
+            $("h2",$(this).parent()).each(function(){
+            
+                //create id for h2
+                var id = (index++) + $(this).text().replace(/\s/gi,"-").replace(/\W/g,"").toLowerCase();
+                $(this).prepend("<a name=\""+id+"\"></a>");
+        
+                //wrap h2 into section
+                var section = $(this).wrap("<section id=\""+id+"\"></section>").parent();
+        
+                ul.append($("<li><a href=\"#"+id+"\">"+$(this).text()+"</a></li>"));
+        
+                //wrap parts of h2 into one section
+                $(this).parent().nextUntil("h2").each(function(){            
+                    section.append($(this));
+                });
+            
+
+            });
+        }
+    });    
+    
+    //add "back to top"
+    sideNav.append("<li><a href=\"#top\" style=\"font-size:smaller\">Back to top</a></li>");
+    var $body   = $(document.body);
+    
+    //enable the 'active' highlighting using scrollspy plugin
+    $('body').scrollspy({
+        target: '#molgenis-docs-sidebar'
+    });
+    $('#molgenis-docs-sidebar').width($('#molgenis-docs-sidebar').parent().width());
+    
+    //enable affix
+    $('#molgenis-docs-sidebar').affix({
+        offset: {
+            top: $('#molgenis-docs-sidebar').offset().top,
+            bottom: $('.molgenis-docs-footer').outerHeight(true) + 10
+        }
+    });
+    
+    //resize affix box when window resizes
+    $(window).resize(function () {
+            $('.molgenis-docs-sidebar').width($('#molgenis-docs-sidebar').parent().width());
+        });
+    
+    $("table").addClass("table table-bordered");
+});</script></div><div role="main" class="col-md-9 contents"><h3>1) Installing NGS_RNA</h3><p>We first have to load EasyBuild, this can be done with this command</p>
+<pre><code class="language-bash">module load EasyBuild
+</code></pre>
+<p>The NGS_RNA pipeline has a lot of dependencies, these are handled by easybuild when the --robot command is executed (all the dependencies can be found <a href="rna-dependencies">here</a>). Since we have also our own repo we have to give the path to that also. There can be multiple paths to easybuild configs, just separate them by colon.</p>
+<p><strong><em>Note:</em></strong> the order in which you give the paths are important! To original easybuild path can be left empty (just a colon is enough)</p>
+<pre><code class="language-bash">eb NGS_RNA-3.2.4.eb --robot --robot-paths=${pathToMYeasybuild}/easybuild-easyconfigs/easybuild/easyconfigs/:
+</code></pre>
+<p><strong><em>Note:</em></strong> some software cannot be downloaded automagically due to for example licensing or technical issues and the build will fail initially.
+In these cases you will have to download manually and copy the sources to
+${HPC_ENV_PREFIX}/sources/[a-z]/NameOfTheSoftwarePackage/
+This is the case for example for Java. Therefore:</p>
+<pre><code class="language-bash">scp jdk-7u80-linux-x64.tar.gz your_account@yourcluster.nl:${root}/apps/sources/j/Java/
+scp jdk-8u45-linux-x64.tar.gz your_account@yourcluster.nl:${root}/apps/sources/j/Java/
+</code></pre>
+<p>but also tools as GATK, Tabix and snpEff should be download manually:</p>
+<pre><code class="language-bash">scp GATK-3.5.tar.gz your_account@yourcluster.nl: ${root}/apps/sources/g/GATK/
+scp tabix.0.18.6.tar.gz your_account@yourcluster.nl: ${root}/apps/sources/t/tabix
+</code></pre>
+<h3>2) Installing the necessary resources (reference genome, dbSNP etc)</h3><p>Logout and login again.
+Run the script RNA_resources to install the required resources, you can download the scripts <a href="attachments/scripts.tar.gz">here</a></p>
+<pre><code class="language-bash">sh NGS_RNA-resources.sh
+</code></pre>
+<p>This script will download parts of the 2.8 bundle from the GATK server</p>
+<p><strong><em>Note:</em></strong> Sometimes the GATK ftp server can be down/instable, try it a couple of times</p>
+<h3>3) Creating workdir structure</h3><pre><code class="language-bash">sh makestructure.sh
+</code></pre><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/pipelines/rna-install.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="http://www.gccgroningen.nl/about-us/people-at-the-gcc/">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation contents under <a href="/LICENSE-CC">CC BY 3.0</a>, and MOLGENIS software code under the <a href="/LICENSE-LGPLv3">LGPLv3 License</a>.<ul class="text-muted"><li>Version 2.0.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">MOLGENIS Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">MOLGENIS Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer><script src="/res/js/prism.js"></script></body></html>
