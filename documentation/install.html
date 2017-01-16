@@ -74,10 +74,11 @@ You can download, install and use MOLGENIS for free under license <a href="">LGP
 </strong></p>
 <h1>Using apache-tomcat</h1><p>The three components needed to run MOLGENIS locally or on a server are:</p>
 <ul>
-<li><a href="http://tomcat.apache.org/">apache-tomcat</a> </li>
-<li>MOLGENIS v1.21.5 or lower: <a href="https://www.mysql.com/downloads/">MySQL</a></li>
-<li>MOLGENIS v2.0 or higher: <a href="https://www.postgresql.org/download/">PostGreSQL</a></li>
+<li><a href="http://tomcat.apache.org/">apache-tomcat</a>, v7 (latest release) </li>
+<li>MOLGENIS v1.21.5 or lower: <a href="https://www.mysql.com/downloads/">MySQL</a>, v5.1</li>
+<li>MOLGENIS v2.0 or higher: <a href="https://www.postgresql.org/download/">PostGreSQL</a>, v9.6</li>
 <li>The WAR for the <a href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.molgenis%22%20AND%20a%3A%22molgenis-app%22">latest molgenis-app release</a> from maven central.</li>
+<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">Java</a>, v8 (latest release)</li>
 </ul>
 <p>Deploy apache-tomcat, and place the molgenis-app WAR as the ROOT.war in your apache-tomcat/webapps folder. If you are unfamiliar with apache-tomcat, follow one of their <a href="https://tomcat.apache.org/tomcat-7.0-doc/deployer-howto.html">apache-tomcat installation guides</a>.</p>
 <p>Now that your apache-tomcat is running and MOLGENIS is deployed, you will notice it will not work yet. This is because your database needs to be configured, and a single properties file needs to be set.</p>
