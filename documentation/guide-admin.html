@@ -72,6 +72,25 @@
 });</script></div><div role="main" class="col-md-9 contents"><p><strong>
 Once you have a server running and data loaded, you are probably eager to share your data with the world. However, you might want to only show your data to a select few. In the following paragraphs we explain on how to define groups and permissions.
 </strong></p>
+<h1>Mail settings</h1><p>You should configure an email server to interact with your users for things like lost password recovery.
+You can find the mail settings in the Admin menu, under Settings.
+At the top of the page, type &quot;Mail settings&quot; into the selection box.</p>
+<p>For backwards compatability, the default settings are filled with the values provided in <code>molgenis-server.properties</code> 
+under the keys <code>mail.user</code> and <code>mail.password</code>, but the values provided here will override those settings.</p>
+<p>For basic configuration, you only need to provide the username and password fields with a valid Gmail username and password.
+But you may also specify a different (non-Gmail) SMTP server.</p>
+<p>If you&#39;ve filled in a username and password, the settings will be validated when you save them, by making a connection
+with the mail server. If you do not want the settings to be tested at all, you can set <code>testConnection</code> to false.</p>
+<h3>JavaMail properties</h3><p>By default, the following low-level JavaMail properties, needed to interact with the Gmail SMTP server, are set:</p>
+<pre><code>mail.smtp.starttls.enable=true
+mail.smtp.quitwait=false
+mail.smtp.auth=true
+</code></pre><p>You may override these properties or add additional properties and override these defaults by adding entities to the 
+<code>JavaMailProperty</code> repository in the Data Explorer. Each key may be provided at most once.
+For a list of valid keys, check <a href="https://javamail.java.net/nonav/docs/api/">https://javamail.java.net/nonav/docs/api/</a></p>
+<blockquote>
+<p>E.g. Add an entity with key <code>mail.debug</code> and value <code>true</code> if you&#39;d like to debug the mail dialog with the server.</p>
+</blockquote>
 <h1>User management</h1><p>User management is crucial for keeping an overview of people visiting your online database, but it is also important for security reasons. MOLGENIS has an extensive user management system, allowing people to register themselves, or be registered by an administrator. MOLGENIS uses groups and users to efficiently control permissions. Groups and users can both have individual permissions on certain data sets for example. But users can also be part of a group, automatically inheriting the permissions set for that group. You can find the User manager module under the Admin menu:</p>
 <p><img src="../res/images/user_manager.png?raw=true," alt="Menu manager screen" title="user manager"></p>
 <p>The user management menu allows you to create new users and groups. But also lets you edit existing users, or add users to certain groups. The users <em>admin</em> and <em>anonymous</em> always exist. The admin user, as the name suggests, is the administrator user. The anonymous user is used for people navigating to your website. This means that giving rights to the anonymous user will give permissions for everyone, also those that are not registered in your system. Note that it is not possible to delete users! You can only set them to inactive, which will prevent him or her from logging in.</p>
