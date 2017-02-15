@@ -186,7 +186,7 @@ GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?aggs=x==attr0;y==attr1
 GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?aggs=x==attr0;y==attr1;distinct=attr2
 GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;?aggs=x==attr0;y==attr1;distinct=attr2&amp;q=attr4==val
 </code></pre><h1>Batch</h1><p>When working with larger datasets the RESTv2 api provides batching via the &#39;entities&#39; parameter:</p>
-<h2>create</h2><p>To create/add a list of entities into a collection you can POST the &#39;entities&#39; parameter to a collection:</p>
+<h2>Create</h2><p>To create/add a list of entities into a collection you can POST the &#39;entities&#39; parameter to a collection:</p>
 <p><em>Request</em></p>
 <pre><code>POST http://your.molgenis.url/api/v2/person
 Content-Type: application/json
@@ -235,12 +235,35 @@ Content-Type: application/json
 ]}
 </code></pre><p><em>Response</em></p>
 <pre><code>204 No Content
-</code></pre><h2>One value</h2><p>If you only want to change one attribute without needing to provide all other attributes:</p>
+</code></pre><h2>Delete (since v3.0.0)</h2><p>To delete a list of entities of a collection you can DELETE the &#39;entityIds&#39; parameter to a collection:</p>
 <p><em>Request</em></p>
-<pre><code>PUT http://your.molgenis.url/api/v2/person/age
+<pre><code>DELETE http://your.molgenis.url/api/v2/person
 Content-Type: application/json
 
-{entities: [
+{
+    entityIds: [&quot;person0&quot;, &quot;person1&quot;]
+}
+</code></pre><p><em>Response</em></p>
+<pre><code>204 No Content
+</code></pre><p>Body</p>
+<pre><code>{
+    location: &quot;/api/v2/Person?q=id=in=(&quot;1&quot;,&quot;2&quot;)&quot;
+    resources: [{
+        href: &quot;/api/v2/Person/1&quot;
+    },
+    {
+        href: &quot;/api/v2/Person/2&quot;
+    }]
+}
+
+## One value
+
+If you only want to change one attribute without needing to provide all other attributes:
+
+*Request*
+</code></pre><p>PUT <a href="http://your.molgenis.url/api/v2/person/age">http://your.molgenis.url/api/v2/person/age</a>
+Content-Type: application/json</p>
+<p>{entities: [
 {
     &quot;id&quot;: 1,
     &quot;age&quot;: &quot;1&quot;
@@ -249,7 +272,7 @@ Content-Type: application/json
     &quot;id&quot;: 2,
     &quot;age&quot;: &quot;2&quot;
 }
-]}
-</code></pre><p><em>Response</em></p>
-<pre><code>204 No Content
-</code></pre><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/documentation/ref-rest2.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="http://www.gccgroningen.nl/about-us/people-at-the-gcc/">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation contents under <a href="/LICENSE-CC">CC BY 3.0</a>, and MOLGENIS software code under the <a href="/LICENSE-LGPLv3">LGPLv3 License</a>.<ul class="text-muted"><li>Version 2.0.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">MOLGENIS Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">MOLGENIS Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer><script src="/res/js/prism.js"></script></body></html>
+]}</p>
+<pre><code>*Response*
+</code></pre><p>204 No Content
+```</p><center><br><i>See something that could be better? <a href="https://github.com/molgenis/molgenis.org/tree/master/public/documentation/ref-rest2.md">Edit this page at Github</a></i><br></center></div></div></div></div><footer class="molgenis-docs-footer"><p>MOLGENIS and these docs are maintained by the <a href="http://www.gccgroningen.nl/about-us/people-at-the-gcc/">MOLGENIS team and collaborators</a>. <br/> Documentation source code released under the <a href="/LICENSE-MIT">MIT License</a>, documentation contents under <a href="/LICENSE-CC">CC BY 3.0</a>, and MOLGENIS software code under the <a href="/LICENSE-LGPLv3">LGPLv3 License</a>.<ul class="text-muted"><li>Version 2.0.0</li><li>·</li><li><a href="https://github.com/molgenis/molgenis">MOLGENIS Github</a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis/issues">MOLGENIS Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis.org/tree/master/public">Docs Github    </a></li><li>·</li><li><a href="http://github.com/molgenis/molgenis.org/issues">Docs Issues</a></li><li>·</li><li><a href="https://github.com/molgenis/molgenis/releases">Releases</a></li></ul></p></footer><script src="/res/js/prism.js"></script></body></html>
