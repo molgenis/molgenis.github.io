@@ -100,7 +100,10 @@ GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;?attrs=
 GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;?attrs=attr0,attr1
 GET http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;?attrs=attr0(subattr0,subattr1),attr1(*)
 </code></pre><pre><code>POST http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;?_method=GET
-</code></pre><pre><code>POST http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;?_method=GET
+</code></pre><p>When not logged in, the molgenis-token has to be added to your URL:</p>
+<pre><code>POST http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;?_method=GET&amp;molgenis-token=YOURTOKEN
+</code></pre><p>You can get a token using the <a href="http://molgenis.github.io/documentation/ref-rest#14authentication">REST api V1 login</a>.</p>
+<pre><code>POST http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;?_method=GET
 attrs=attr0(subattr0,subattr1),attr1(*)
 </code></pre><h2>Delete instance</h2><p><em>Request</em></p>
 <pre><code>DELETE http://your.molgenis.url/api/v2/&lt;entity_name&gt;/&lt;entity_id&gt;
